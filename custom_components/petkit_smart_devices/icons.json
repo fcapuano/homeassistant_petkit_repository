@@ -1,0 +1,99 @@
+{
+  "entity": {
+    "binary_sensor": {
+      "food_level_2": {
+        "default": "mdi:food-drumstick",
+        "state": {
+          "food1_empty": "mdi:food-drumstick-off",
+          "food1": "mdi:food-drumstick"
+        }
+      },
+      "camera_status": {
+        "default": "mdi:cctv",
+        "state": {
+          "camera_on": "mdi:cctv",
+          "camera_off": "mdi:cctv-off"
+        }
+      },
+      "care_plus_subscription": {
+        "default": "mdi:check-circle",
+        "state": {
+          "subscribed": "mdi:check-circle",
+          "not_subscribed": "mdi:cancel"
+        }
+      },
+      "liquid_empty": {
+        "default": "mdi:water-check",
+        "state": {
+          "empty": "mdi:water-remove",
+          "not_empty": "mdi:water-check"
+        }
+      },
+      "liquid_lack": {
+        "default": "mdi:water-check",
+        "state": {
+          "lack": "mdi:water-alert",
+          "no_lack": "mdi:water-check"
+        }
+      },
+      "sand_lack": {
+        "default": "mdi:check-circle",
+        "state": {
+          "lack": "mdi:wave-arrow-down",
+          "no_lack": "mdi:check-circle"
+        }
+      },
+      "low_power": {
+        "default": "mdi:battery",
+        "state": {
+          "low": "mdi:battery-alert",
+          "normal": "mdi:battery"
+        }
+      },
+      "power": {
+        "default": "mdi:power",
+        "state": {
+          "on": "mdi:power",
+          "off": "mdi:power-off"
+        }
+      },
+      "waste_bin": {
+        "default": "mdi:delete",
+        "state": {
+          "full": "mdi:delete-empty",
+          "not_full": "mdi:delete"
+        }
+      },
+      "waste_bin_presence": {
+        "default": "mdi:delete",
+        "state": {
+          "present": "mdi:delete",
+          "absent": "mdi:delete-forever"
+        }
+      }
+    },
+    "sensor": {
+      "no_disturbing_switch": {
+        "default": "mdi:bell",
+        "state": {
+          "on": "mdi:bell-off",
+          "off": "mdi:bell"
+        }
+      },
+      "lack_warning": {
+        "default": "mdi:alert",
+        "state": {
+          "warning": "mdi:alert",
+          "no_warning": "mdi:check-circle"
+        }
+      },
+      "low_battery": {
+        "default": "mdi:battery",
+        "state": {
+          "low": "mdi:battery-alert",
+          "normal": "mdi:battery"
+        }
+      }
+    }
+  }
+}
