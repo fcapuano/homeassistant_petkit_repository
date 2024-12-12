@@ -1,6 +1,6 @@
 {
-  "domain": "petkit_smart_devices",
-  "name": "Petkit smart devices",
+  "domain": "petkit",
+  "name": "Petkit Smart Devices",
   "codeowners": [
     "@Jezza34000"
   ],
@@ -9,7 +9,7 @@
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/Jezza34000/homeassistant_petkit/issues",
     "loggers": [
-    "petkit_smart_devices"
+    "petkit"
   ],
   "requirements": [
     "pypetkitapi==0.2.0"

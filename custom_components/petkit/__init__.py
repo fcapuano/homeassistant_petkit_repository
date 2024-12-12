@@ -1,5 +1,5 @@
 """
-Custom integration to integrate petkit_smart_devices with Home Assistant.
+Custom integration to integrate Petkit Smart Devices with Home Assistant.
 """
 
 from __future__ import annotations

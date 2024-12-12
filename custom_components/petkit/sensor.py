@@ -1,4 +1,4 @@
-"""Sensor platform for petkit_smart_devices."""
+"""Sensor platform for Petkit Smart Devices integration."""
 
 from __future__ import annotations
 
@@ -385,7 +385,7 @@ async def async_setup_entry(
 
 
 class PetkitSensor(PetkitEntity, SensorEntity):
-    """petkit_smart_devices Sensor class."""
+    """Petkit Smart Devices Sensor class."""
 
     def __init__(
         self,

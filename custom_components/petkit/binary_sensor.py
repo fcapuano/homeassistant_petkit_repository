@@ -1,4 +1,4 @@
-"""Binary sensor platform for petkit_smart_devices."""
+"""Binary sensor platform for Petkit Smart Devices integration."""
 
 from __future__ import annotations
 
@@ -209,7 +209,7 @@ async def async_setup_entry(
 
 
 class PetkitBinarySensor(PetkitEntity, BinarySensorEntity):
-    """petkit_smart_devices binary_sensor class."""
+    """Petkit Smart Devices BinarySensor class."""
 
     def __init__(
         self,

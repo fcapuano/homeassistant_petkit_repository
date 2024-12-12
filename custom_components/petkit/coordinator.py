@@ -1,4 +1,4 @@
-"""DataUpdateCoordinator for petkit_smart_devices."""
+"""DataUpdateCoordinator for Petkit Smart Devices."""
 
 from __future__ import annotations
 

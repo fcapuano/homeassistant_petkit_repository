@@ -1,12 +1,13 @@
-"""Constants for petkit_smart_devices."""
+"""Constants for Petkit Smart Devices integration."""
 
 from logging import Logger, getLogger
 
 
 LOGGER: Logger = getLogger(__package__)
 
-DOMAIN = "petkit_smart_devices"
-ATTRIBUTION = "Data provided by http://jsonplaceholder.typicode.com/"
+DOMAIN = "petkit"
+# TODO : What is the purpose of this ATTRIBUTION constant?
+ATTRIBUTION = "Data provided by http://api.petkt.com"
 
 # Data mapping for petkit devices
 DEVICE_STATUS_MAP = {

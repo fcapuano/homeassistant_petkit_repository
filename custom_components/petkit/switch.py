@@ -1,4 +1,4 @@
-"""Switch platform for petkit_smart_devices."""
+"""Switch platform for Petkit Smart Devices integration."""
 
 from __future__ import annotations
 
@@ -80,7 +80,7 @@ async def async_setup_entry(
 
 
 class PetkitSwitch(PetkitEntity, SwitchEntity):
-    """petkit_smart_devices switch class."""
+    """Petkit Smart Devices Switch class."""
 
     def __init__(
         self,

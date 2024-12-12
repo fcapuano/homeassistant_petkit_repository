@@ -1,4 +1,4 @@
-"""Custom types for petkit_smart_devices."""
+"""Custom types for Petkit Smart Devices integration."""
 
 from __future__ import annotations
 
