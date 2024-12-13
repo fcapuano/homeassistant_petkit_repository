@@ -3,14 +3,15 @@
 from __future__ import annotations
 
 from datetime import timedelta
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
-from homeassistant.exceptions import ConfigEntryAuthFailed
+from pypetkitapi.exceptions import PypetkitError
+from pypetkitapi.feeder_container import Feeder
+from pypetkitapi.litter_container import Litter
+from pypetkitapi.water_fountain_container import WaterFountain
+
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from pypetkitapi.exceptions import (
-    PypetkitError,
-)
 from .const import DOMAIN, LOGGER
 
 if TYPE_CHECKING:
@@ -34,12 +35,14 @@ class PetkitDataUpdateCoordinator(DataUpdateCoordinator):
             logger=LOGGER,
             name=DOMAIN,
             update_interval=timedelta(seconds=30),
+            always_update=True,
         )
 
-    async def _async_update_data(self) -> Any:
+    async def _async_update_data(self) -> dict[int, Feeder | Litter | WaterFountain]:
         """Update data via library."""
         try:
-            return await self.config_entry.runtime_data.client.get_devices_data()
+            await self.config_entry.runtime_data.client.get_devices_data()
+            return self.config_entry.runtime_data.client.device_list
         except PypetkitError as exception:
             raise UpdateFailed(exception) from exception
         # TODO : Add more exception to catch

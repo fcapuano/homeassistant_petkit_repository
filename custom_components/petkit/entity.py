@@ -2,15 +2,15 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import TypeVar, Generic, Callable, Any
+from typing import Any, Callable, Generic, TypeVar
+
+from pypetkitapi.feeder_container import Feeder
+from pypetkitapi.litter_container import Litter
+from pypetkitapi.water_fountain_container import WaterFountain
 
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import EntityDescription
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
-from pypetkitapi.feeder_container import Feeder
-from pypetkitapi.litter_container import Litter
-from pypetkitapi.water_fountain_container import WaterFountain
 
 from .const import ATTRIBUTION, DOMAIN, LOGGER
 from .coordinator import PetkitDataUpdateCoordinator
@@ -18,7 +18,6 @@ from .coordinator import PetkitDataUpdateCoordinator
 _DevicesT = TypeVar("_DevicesT", bound=Feeder | Litter | WaterFountain)
 
 
-@dataclass
 class PetKitDescSensorBase(EntityDescription):
     """A class that describes sensor entities."""
 
@@ -27,11 +26,9 @@ class PetKitDescSensorBase(EntityDescription):
     only_for_types: list[str] | None = (
         None  # Optional device types to filter the sensors
     )
-    icon: Callable[[Feeder | Litter | WaterFountain], str] = (
-        lambda device: "mdi:select"
-    )  # Default icon
 
     def __post_init__(self):
+        """Post init."""
         if self.translation_key is None:
             self.translation_key = self.key
 
@@ -49,13 +46,14 @@ class PetKitDescSensorBase(EntityDescription):
                 LOGGER.debug(f"{device.device_type} is NOT COMPATIBLE with {self.key}")
                 return False
 
-        try:
-            self.value(device)
-            LOGGER.debug(f"{device.device_type} support {self.key}")
-            return True
-        except AttributeError:
-            LOGGER.debug(f"{device.device_type} DOES NOT support {self.key}")
-            return False
+        if self.value is not None:
+            try:
+                self.value(device)
+                LOGGER.debug(f"{device.device_type} support {self.key}")
+            except AttributeError:
+                LOGGER.debug(f"{device.device_type} DOES NOT support {self.key}")
+                return False
+        return True
 
 
 class PetkitEntity(CoordinatorEntity[PetkitDataUpdateCoordinator], Generic[_DevicesT]):

@@ -1,16 +1,15 @@
-"""
-Custom integration to integrate Petkit Smart Devices with Home Assistant.
-"""
+"""Custom integration to integrate Petkit Smart Devices with Home Assistant."""
 
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from pypetkitapi.client import PetKitClient
+
 from homeassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.loader import async_get_loaded_integration
 
-from pypetkitapi.client import PetKitClient
 from .coordinator import PetkitDataUpdateCoordinator
 from .data import PetkitData
 
@@ -23,6 +22,7 @@ PLATFORMS: list[Platform] = [
     Platform.SENSOR,
     Platform.BINARY_SENSOR,
     Platform.SWITCH,
+    Platform.TEXT,
 ]
 
 

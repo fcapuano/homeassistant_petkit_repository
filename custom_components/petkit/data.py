@@ -6,10 +6,11 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from pypetkitapi.client import PetKitClient
+
     from homeassistant.config_entries import ConfigEntry
     from homeassistant.loader import Integration
 
-    from pypetkitapi.client import PetKitClient
     from .coordinator import PetkitDataUpdateCoordinator
 
 
