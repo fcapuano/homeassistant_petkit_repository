@@ -1,16 +1,16 @@
 """Switch platform for Petkit Smart Devices integration."""
-
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Callable
+from collections.abc import Callable
+from typing import TYPE_CHECKING, Any
 
+from homeassistant.components.switch import (SwitchEntity,
+                                             SwitchEntityDescription)
+from homeassistant.const import EntityCategory
 from pypetkitapi.command import DeviceCommand, LitterBoxCommand
 from pypetkitapi.feeder_container import Feeder
 from pypetkitapi.litter_container import Litter
 from pypetkitapi.water_fountain_container import WaterFountain
-
-from homeassistant.components.switch import SwitchEntity, SwitchEntityDescription
-from homeassistant.const import EntityCategory
 
 from .const import LOGGER
 from .entity import PetKitDescSensorBase, PetkitEntity

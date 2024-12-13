@@ -1,16 +1,15 @@
 """BlueprintEntity class."""
-
 from __future__ import annotations
 
-from typing import Any, Callable, Generic, TypeVar
-
-from pypetkitapi.feeder_container import Feeder
-from pypetkitapi.litter_container import Litter
-from pypetkitapi.water_fountain_container import WaterFountain
+from collections.abc import Callable
+from typing import Any, Generic, TypeVar
 
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import EntityDescription
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
+from pypetkitapi.feeder_container import Feeder
+from pypetkitapi.litter_container import Litter
+from pypetkitapi.water_fountain_container import WaterFountain
 
 from .const import ATTRIBUTION, DOMAIN, LOGGER
 from .coordinator import PetkitDataUpdateCoordinator
