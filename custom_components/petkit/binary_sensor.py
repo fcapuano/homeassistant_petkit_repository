@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
+from pypetkitapi.const import D4SH, D4S, D4H
 from pypetkitapi.feeder_container import Feeder
 from pypetkitapi.litter_container import Litter
 from pypetkitapi.water_fountain_container import WaterFountain
@@ -65,16 +66,25 @@ BINARY_SENSOR_MAPPING: dict[
             value=lambda device: device.state.eating,
         ),
         PetKitBinarySensorDesc(
+            key="Food level",
+            translation_key="food_level",
+            device_class=BinarySensorDeviceClass.PROBLEM,
+            value=lambda device: device.state.food == 0,
+            ignore_types=[D4S, D4SH]
+        ),
+        PetKitBinarySensorDesc(
             key="Food level 1",
             translation_key="food_level_1",
             device_class=BinarySensorDeviceClass.PROBLEM,
-            value=lambda device: device.state.food1 < 1,
+            value=lambda device: device.state.food1 == 0,
+            only_for_types=[D4S, D4SH]
         ),
         PetKitBinarySensorDesc(
             key="Food level 2",
             translation_key="food_level_2",
             device_class=BinarySensorDeviceClass.PROBLEM,
-            value=lambda device: device.state.food2 < 1,
+            value=lambda device: device.state.food2 == 0,
+            only_for_types=[D4S, D4SH]
         ),
     ],
     Litter: [

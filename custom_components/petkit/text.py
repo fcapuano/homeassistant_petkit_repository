@@ -41,9 +41,8 @@ TEXT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitTextDesc]] 
             key="Manual feed single",
             translation_key="manual_feed_single",
             value=lambda device: device.settings.light_mode,
-            entity_category=EntityCategory.CONFIG,
-            native_min=3,
-            native_max=5,
+            native_min=1,
+            native_max=2,
             pattern="^([0-9]|10)$",
             native_value="0",
             action=lambda api, device, amount_value: api.config_entry.runtime_data.client.send_api_request(

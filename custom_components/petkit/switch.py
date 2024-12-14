@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any
 
 from homeassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from homeassistant.const import EntityCategory
-from pypetkitapi.command import DeviceCommand, LitterBoxCommand
+from pypetkitapi.command import DeviceCommand, LitterCommand, LBAction
 from pypetkitapi.feeder_container import Feeder
 from pypetkitapi.litter_container import Litter
 from pypetkitapi.water_fountain_container import WaterFountain
@@ -362,12 +362,11 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             key="Power",
             translation_key="power",
             value=lambda device: device.state.power,
-            entity_category=EntityCategory.CONFIG,
-            turn_on=lambda api, device: api.config_entry.runtime_data.client.control_litter_box(
-                device.id, LitterBoxCommand.POWER
+            turn_on=lambda api, device: api.config_entry.runtime_data.client.send_api_request(
+                device.id, LitterCommand.CONTROL_DEVICE, {LBAction.POWER: 1}
             ),
-            turn_off=lambda api, device: api.config_entry.runtime_data.client.control_litter_box(
-                device.id, LitterBoxCommand.POWER
+            turn_off=lambda api, device: api.config_entry.runtime_data.client.send_api_request(
+                device.id, LitterCommand.CONTROL_DEVICE, {LBAction.POWER: 0}
             ),
         ),
         PetKitSwitchDesc(
@@ -375,10 +374,10 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             translation_key="cont_rotation",
             value=lambda device: device.settings.downpos,
             entity_category=EntityCategory.CONFIG,
-            turn_on=lambda api, device: api.config_entry.runtime_data.client.update_litter_box_settings(
+            turn_on=lambda api, device: api.config_entry.runtime_data.client.send_api_request(
                 device.id, DeviceCommand.UPDATE_SETTING, {"downpos": 1}
             ),
-            turn_off=lambda api, device: api.config_entry.runtime_data.client.update_litter_box_settings(
+            turn_off=lambda api, device: api.config_entry.runtime_data.client.send_api_request(
                 device.id, DeviceCommand.UPDATE_SETTING, {"downpos": 0}
             ),
         ),
@@ -387,10 +386,10 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             translation_key="deep_cleaning",
             value=lambda device: device.settings.deep_clean,
             entity_category=EntityCategory.CONFIG,
-            turn_on=lambda api, device: api.config_entry.runtime_data.client.update_litter_box_settings(
+            turn_on=lambda api, device: api.config_entry.runtime_data.client.send_api_request(
                 device.id, DeviceCommand.UPDATE_SETTING, {"deepClean": 1}
             ),
-            turn_off=lambda api, device: api.config_entry.runtime_data.client.update_litter_box_settings(
+            turn_off=lambda api, device: api.config_entry.runtime_data.client.send_api_request(
                 device.id, DeviceCommand.UPDATE_SETTING, {"deepClean": 0}
             ),
         ),
@@ -399,10 +398,10 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             translation_key="deep_deodor",
             value=lambda device: device.settings.deep_refresh,
             entity_category=EntityCategory.CONFIG,
-            turn_on=lambda api, device: api.config_entry.runtime_data.client.update_litter_box_settings(
+            turn_on=lambda api, device: api.config_entry.runtime_data.client.send_api_request(
                 device.id, DeviceCommand.UPDATE_SETTING, {"deepRefresh": 1}
             ),
-            turn_off=lambda api, device: api.config_entry.runtime_data.client.update_litter_box_settings(
+            turn_off=lambda api, device: api.config_entry.runtime_data.client.send_api_request(
                 device.id, DeviceCommand.UPDATE_SETTING, {"deepRefresh": 0}
             ),
         ),

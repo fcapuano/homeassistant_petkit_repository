@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import TYPE_CHECKING, Any, Callable
 
-from pypetkitapi.const import D3, D4S
+from pypetkitapi.const import D3, D4S, DEVICES_LITTER_BOX, D4SH
 from pypetkitapi.feeder_container import Feeder
 from pypetkitapi.litter_container import Litter
 from pypetkitapi.water_fountain_container import WaterFountain
@@ -28,6 +28,7 @@ from homeassistant.const import (
 
 from .const import BATTERY_LEVEL_MAP, DEVICE_STATUS_MAP, LOGGER
 from .entity import PetKitDescSensorBase, PetkitEntity
+from .utils import map_work_state
 
 if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
@@ -40,6 +41,7 @@ if TYPE_CHECKING:
 @dataclass(frozen=True, kw_only=True)
 class PetKitSensorDesc(PetKitDescSensorBase, SensorEntityDescription):
     """A class that describes sensor entities."""
+
 
 
 SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDesc]] = {
@@ -65,7 +67,7 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
             entity_category=EntityCategory.DIAGNOSTIC,
             value=lambda device: (
                 BATTERY_LEVEL_MAP.get(
-                    device.state.battery_status, "Unknown Battery Status"
+                    device.state.battery_status, "Unknown"
                 )
                 if device.state.pim == 2
                 else "Not in use"
@@ -110,7 +112,7 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
             entity_category=EntityCategory.DIAGNOSTIC,
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=UnitOfMass.GRAMS,
-            value=lambda device: device.state.feedState.plan_amount_total,
+            value=lambda device: device.state.feed_state.plan_amount_total,
         ),
         PetKitSensorDesc(
             key="Planned dispensed",
@@ -118,7 +120,7 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
             entity_category=EntityCategory.DIAGNOSTIC,
             state_class=SensorStateClass.TOTAL_INCREASING,
             native_unit_of_measurement=UnitOfMass.GRAMS,
-            value=lambda device: device.state.feedState.plan_real_amountTotal,
+            value=lambda device: device.state.feed_state.plan_real_amountTotal,
         ),
         PetKitSensorDesc(
             key="Total dispensed",
@@ -126,7 +128,7 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
             entity_category=EntityCategory.DIAGNOSTIC,
             state_class=SensorStateClass.TOTAL_INCREASING,
             native_unit_of_measurement=UnitOfMass.GRAMS,
-            value=lambda device: device.state.feedState.real_amount_total,
+            value=lambda device: device.state.feed_state.real_amount_total,
         ),
         PetKitSensorDesc(
             key="Manual dispensed",
@@ -134,7 +136,7 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
             entity_category=EntityCategory.DIAGNOSTIC,
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=UnitOfMass.GRAMS,
-            value=lambda device: device.state.feedState.add_amount_total,
+            value=lambda device: device.state.feed_state.add_amount_total,
         ),
         PetKitSensorDesc(
             key="Amount eaten",
@@ -152,7 +154,7 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
             value=lambda device: (
                 device.state.feed_state.eat_count
                 if device.device_type == D4S
-                else len(device.state.feedState.eat_times)
+                else len(device.state.feed_state.eat_times)
             ),
         ),
         PetKitSensorDesc(
@@ -177,6 +179,7 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
             entity_category=EntityCategory.DIAGNOSTIC,
             state_class=SensorStateClass.MEASUREMENT,
             value=lambda device: device.state.feed_state.add_amount_total1,
+            only_for_types=[D4S, D4SH],
         ),
         PetKitSensorDesc(
             key="Manual dispensed hopper 2",
@@ -184,6 +187,7 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
             entity_category=EntityCategory.DIAGNOSTIC,
             state_class=SensorStateClass.MEASUREMENT,
             value=lambda device: device.state.feed_state.add_amount_total2,
+            only_for_types=[D4S, D4SH],
         ),
         PetKitSensorDesc(
             key="Total planned hopper 1",
@@ -191,6 +195,7 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
             entity_category=EntityCategory.DIAGNOSTIC,
             state_class=SensorStateClass.MEASUREMENT,
             value=lambda device: device.state.feed_state.plan_amount_total1,
+            only_for_types=[D4S, D4SH],
         ),
         PetKitSensorDesc(
             key="Total planned hopper 2",
@@ -198,6 +203,7 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
             entity_category=EntityCategory.DIAGNOSTIC,
             state_class=SensorStateClass.MEASUREMENT,
             value=lambda device: device.state.feed_state.plan_amount_total2,
+            only_for_types=[D4S, D4SH],
         ),
         PetKitSensorDesc(
             key="Planned dispensed hopper 1",
@@ -205,6 +211,7 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
             entity_category=EntityCategory.DIAGNOSTIC,
             state_class=SensorStateClass.TOTAL_INCREASING,
             value=lambda device: device.state.feed_state.plan_real_amount_total1,
+            only_for_types=[D4S, D4SH],
         ),
         PetKitSensorDesc(
             key="Planned dispensed hopper 2",
@@ -212,6 +219,7 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
             entity_category=EntityCategory.DIAGNOSTIC,
             state_class=SensorStateClass.TOTAL_INCREASING,
             value=lambda device: device.state.feed_state.plan_real_amount_total2,
+            only_for_types=[D4S, D4SH],
         ),
         PetKitSensorDesc(
             key="Total dispensed hopper 1",
@@ -219,6 +227,7 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
             entity_category=EntityCategory.DIAGNOSTIC,
             state_class=SensorStateClass.TOTAL_INCREASING,
             value=lambda device: device.state.feed_state.real_amount_total1,
+            only_for_types=[D4S, D4SH],
         ),
         PetKitSensorDesc(
             key="Total dispensed hopper 2",
@@ -226,6 +235,7 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
             entity_category=EntityCategory.DIAGNOSTIC,
             state_class=SensorStateClass.TOTAL_INCREASING,
             value=lambda device: device.state.feed_state.real_amount_total2,
+            only_for_types=[D4S, D4SH],
         ),
         PetKitSensorDesc(
             key="Food bowl percentage",
@@ -252,6 +262,14 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
         ),
     ],
     Litter: [
+        PetKitSensorDesc(
+            key="Device status",
+            translation_key="device_status",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            value=lambda device: DEVICE_STATUS_MAP.get(
+                device.state.pim, "Unknown Status"
+            ),
+        ),
         PetKitSensorDesc(
             key="Litter level",
             translation_key="litter_level",
@@ -283,6 +301,11 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
             value=lambda device: (
                 device.state.error_msg if "error_msg" in device.state else "no_error"
             ),
+        ),
+        PetKitSensorDesc(
+            key="State",
+            translation_key="litter_state",
+            value=lambda device: map_work_state(device.state.work_state),
         ),
     ],
     WaterFountain: [
