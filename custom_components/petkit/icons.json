@@ -1,5 +1,28 @@
 {
   "entity": {
+    "button":{
+      "dump_litter": {
+        "default": "mdi:delete-circle-outline"
+      },
+      "action_pause": {
+        "default": "mdi:pause-box"
+      },
+      "action_continue": {
+        "default": "mdi:play-box"
+      },
+      "action_reset": {
+        "default": "mdi:refresh-circle"
+      },
+      "start_maintenance": {
+        "default": "mdi:progress-wrench"
+      },
+      "exit_maintenance": {
+        "default": "mdi:location-exit"
+      },
+      "start_scoop": {
+        "default": "mdi:broom"
+      }
+    },
     "switch": {
       "auto_odor": {
         "default": "mdi:air-filter",
@@ -222,18 +245,25 @@
           "Off": "mdi:battery-remove"
         }
       },
-      "food_level_1": {
-        "default": "mdi:food-drumstick",
+      "food_level": {
+        "default": "mdi:gauge",
         "state": {
-          "on": "mdi:food-drumstick-off",
-          "off": "mdi:food-drumstick"
+          "on": "mdi:gauge-empty",
+          "off": "mdi:gauge"
+        }
+      },
+      "food_level_1": {
+        "default": "mdi:gauge",
+        "state": {
+          "on": "mdi:gauge-empty",
+          "off": "mdi:gauge"
         }
       },
       "food_level_2": {
-        "default": "mdi:food-drumstick",
+        "default": "mdi:gauge",
         "state": {
-          "on": "mdi:food-drumstick-off",
-          "off": "mdi:food-drumstick"
+          "on": "mdi:gauge-empty",
+          "off": "mdi:gauge"
         }
       },
       "camera_status": {
@@ -244,10 +274,10 @@
         }
       },
       "care_plus_subscription": {
-        "default": "mdi:check-circle",
+        "default": "mdi:cloud-outline",
         "state": {
-          "subscribed": "mdi:check-circle",
-          "not_subscribed": "mdi:cancel"
+          "on": "mdi:cloud-check",
+          "off": "mdi:cloud-cancel"
         }
       },
       "feeding": {
@@ -316,10 +346,10 @@
         }
       },
       "device_status": {
-        "default": "mdi:cloud-outline",
+        "default": "mdi:lan-pending",
         "state": {
-          "Online": "mdi:cloud",
-          "Offline": "mdi:cloud-off"
+          "Online": "mdi:lan-connect",
+          "Offline": "mdi:lan-disconnect"
         }
       },
       "battery_power": {
@@ -429,6 +459,9 @@
       },
       "total_planned": {
         "default": "mdi:food-drumstick"
+      },
+      "litter_state": {
+        "default": "mdi:code-greater-than"
       }
     },
     "text": {

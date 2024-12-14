@@ -74,7 +74,7 @@
         "name": "Deodorizer liquid lack"
       },
       "sand_lack": {
-        "name": "Litter sand lack"
+        "name": "Sand lack"
       },
       "lack_warning": {
         "name": "Water lack warning"
@@ -151,22 +151,37 @@
         "name": "Care+ end subscription"
       },
       "food_left": {
-        "name": "Food Left"
+        "name": "Food left"
       },
       "deodorizer_level": {
-        "name": "Deodorizer Level"
+        "name": "Deodorizer level"
       },
       "litter_level": {
-        "name": "Litter Level"
+        "name": "Litter level"
       },
       "litter_weight": {
-        "name": "Litter Weight"
+        "name": "Litter weight"
       },
       "rssi": {
         "name": "RSSI"
       },
       "error": {
         "name": "Error"
+      },
+      "litter_state": {
+        "name": "State"
+      },
+      "amount_eaten": {
+        "name": "Amount eaten"
+      },
+      "manual_dispensed": {
+        "name": "Manual dispensed"
+      },
+      "total_dispensed": {
+        "name": "Total dispensed"
+      },
+      "planned_dispensed": {
+        "name": "Planned dispensed"
       }
     },
     "switch": {
@@ -271,11 +286,26 @@
       "food_replenished": {
         "name": "Food replenished"
       },
-      "start_cleaning": {
-        "name": "Start cleaning"
+      "dump_litter": {
+        "name": "Dump litter"
       },
-      "pause_cleaning": {
-        "name": "Pause cleaning"
+      "action_pause": {
+        "name": "Action : Pause"
+      },
+      "action_continue": {
+        "name": "Action : Continue"
+      },
+      "action_reset": {
+        "name": "Action : Reset"
+      },
+      "start_maintenance": {
+        "name": "Maintenance : Start"
+      },
+      "exit_maintenance": {
+        "name": "Maintenance : Exit"
+      },
+      "start_scoop": {
+        "name": "Scoop"
       }
     },
     "text": {
