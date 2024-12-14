@@ -13,7 +13,7 @@ from pypetkitapi.feeder_container import Feeder
 from pypetkitapi.litter_container import Litter
 from pypetkitapi.water_fountain_container import WaterFountain
 
-from .const import ATTRIBUTION, DOMAIN, LOGGER
+from .const import ATTRIBUTION, DOMAIN, LOGGER, PETKIT_DEVICES_MAPPING
 from .coordinator import PetkitDataUpdateCoordinator
 
 _DevicesT = TypeVar("_DevicesT", bound=Feeder | Litter | WaterFountain)
@@ -26,9 +26,18 @@ class PetKitDescSensorBase(EntityDescription):
     value: Callable[[Feeder | Litter | WaterFountain], Any] = None
     ignore_types: list[str] | None = None  # List of device types to ignore
     only_for_types: list[str] | None = None  # List of device types to support
+    force_add: list[str] | None = (
+        None  # List of device types to force ever if not detected
+    )
 
     def is_supported(self, device: Feeder | Litter | WaterFountain) -> bool:
         """Check if the entity is supported by trying to execute the value lambda."""
+
+        if self.force_add:
+            for force_device in self.force_add:
+                if device.device_type.lower() == force_device:
+                    LOGGER.debug(f"{device.device_type} force add for '{self.key}'")
+                    return True
 
         if self.ignore_types:
             for ignore_device in self.ignore_types:
@@ -76,12 +85,12 @@ class PetkitEntity(CoordinatorEntity[PetkitDataUpdateCoordinator], Generic[_Devi
         )
 
     @property
-    def device_info(self) -> DeviceInfo:
+    def device_info(self, ) -> DeviceInfo:
         """Return the device information for a Litter-Robot."""
         return DeviceInfo(
             identifiers={(DOMAIN, self.device.sn)},
             manufacturer="Petkit",
-            model=self.device.device_type,
+            model=f"{PETKIT_DEVICES_MAPPING.get(self.device.device_type.lower(), 'Unknown Device')} ({self.device.device_type})",
             name=self.device.name,
             sw_version=str(self.device.firmware),
         )
