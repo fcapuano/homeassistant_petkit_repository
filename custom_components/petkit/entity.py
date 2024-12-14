@@ -1,4 +1,5 @@
 """BlueprintEntity class."""
+
 from __future__ import annotations
 
 from collections.abc import Callable
@@ -17,14 +18,14 @@ from .coordinator import PetkitDataUpdateCoordinator
 
 _DevicesT = TypeVar("_DevicesT", bound=Feeder | Litter | WaterFountain)
 
+
 @dataclass(frozen=True, kw_only=True)
 class PetKitDescSensorBase(EntityDescription):
     """A class that describes sensor entities."""
 
     value: Callable[[Feeder | Litter | WaterFountain], Any] = None
     ignore_types: list[str] | None = None  # List of device types to ignore
-    only_for_types: list[str] | None = None # List of device types to support
-
+    only_for_types: list[str] | None = None  # List of device types to support
 
     def is_supported(self, device: Feeder | Litter | WaterFountain) -> bool:
         """Check if the entity is supported by trying to execute the value lambda."""
@@ -32,20 +33,22 @@ class PetKitDescSensorBase(EntityDescription):
         if self.ignore_types:
             for ignore_device in self.ignore_types:
                 if device.device_type.lower() == ignore_device:
-                    LOGGER.debug(f"{device.device_type} force ignore for {self.key}")
+                    LOGGER.debug(f"{device.device_type} force ignore for '{self.key}'")
                     return False
 
         if self.only_for_types:
             if device.device_type.lower() not in self.only_for_types:
-                LOGGER.debug(f"{device.device_type} is NOT COMPATIBLE with {self.key}")
+                LOGGER.debug(
+                    f"{device.device_type} is NOT COMPATIBLE with '{self.key}'"
+                )
                 return False
 
         if self.value is not None:
             try:
                 self.value(device)
-                LOGGER.debug(f"{device.device_type} support {self.key}")
+                LOGGER.debug(f"{device.device_type} support '{self.key}'")
             except AttributeError:
-                LOGGER.debug(f"{device.device_type} DOES NOT support {self.key}")
+                LOGGER.debug(f"{device.device_type} DOES NOT support '{self.key}'")
                 return False
         return True
 
@@ -80,5 +83,5 @@ class PetkitEntity(CoordinatorEntity[PetkitDataUpdateCoordinator], Generic[_Devi
             manufacturer="Petkit",
             model=self.device.device_type,
             name=self.device.name,
-            sw_version=self.device.firmware,
+            sw_version=str(self.device.firmware),
         )

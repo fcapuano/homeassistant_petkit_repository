@@ -26,7 +26,7 @@ from homeassistant.const import (
     UnitOfTime,
 )
 
-from .const import BATTERY_LEVEL_MAP, DEVICE_STATUS_MAP
+from .const import BATTERY_LEVEL_MAP, DEVICE_STATUS_MAP, LOGGER
 from .entity import PetKitDescSensorBase, PetkitEntity
 
 if TYPE_CHECKING:
@@ -36,10 +36,11 @@ if TYPE_CHECKING:
     from .coordinator import PetkitDataUpdateCoordinator
     from .data import PetkitConfigEntry
 
+
 @dataclass(frozen=True, kw_only=True)
 class PetKitSensorDesc(PetKitDescSensorBase, SensorEntityDescription):
     """A class that describes sensor entities."""
-    pass
+
 
 SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDesc]] = {
     Feeder: [
@@ -59,11 +60,15 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
             value=lambda device: device.state.desiccant_left_days,
         ),
         PetKitSensorDesc(
-            key="Battery power",
-            translation_key="battery_power",
+            key="Battery level",
+            translation_key="battery_level",
             entity_category=EntityCategory.DIAGNOSTIC,
-            value=lambda device: BATTERY_LEVEL_MAP.get(
-                device.state.battery_status, "Unknown Battery Status"
+            value=lambda device: (
+                BATTERY_LEVEL_MAP.get(
+                    device.state.battery_status, "Unknown Battery Status"
+                )
+                if device.state.pim == 2
+                else "Not in use"
             ),
         ),
         PetKitSensorDesc(
@@ -113,7 +118,7 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
             entity_category=EntityCategory.DIAGNOSTIC,
             state_class=SensorStateClass.TOTAL_INCREASING,
             native_unit_of_measurement=UnitOfMass.GRAMS,
-            value=lambda device: device.state.feedState.planRealAmountTotal,
+            value=lambda device: device.state.feedState.plan_real_amountTotal,
         ),
         PetKitSensorDesc(
             key="Total dispensed",
@@ -121,7 +126,7 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
             entity_category=EntityCategory.DIAGNOSTIC,
             state_class=SensorStateClass.TOTAL_INCREASING,
             native_unit_of_measurement=UnitOfMass.GRAMS,
-            value=lambda device: device.state.feedState.realAmountTotal,
+            value=lambda device: device.state.feedState.real_amount_total,
         ),
         PetKitSensorDesc(
             key="Manual dispensed",
@@ -144,7 +149,6 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
             translation_key="times_eaten",
             entity_category=EntityCategory.DIAGNOSTIC,
             state_class=SensorStateClass.MEASUREMENT,
-            native_unit_of_measurement=None,  # No unit of measurement for times eaten
             value=lambda device: (
                 device.state.feed_state.eat_count
                 if device.device_type == D4S
@@ -285,6 +289,7 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
         PetKitSensorDesc(
             key="Today pump run time",
             translation_key="today_pump_run_time",
+            entity_category=EntityCategory.DIAGNOSTIC,
             device_class=SensorDeviceClass.ENERGY,
             native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
             value=lambda device: round(
@@ -320,17 +325,16 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
     ],
 }
 
+
 async def async_setup_entry(
     hass: HomeAssistant,
     entry: PetkitConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Set up sensors using config entry."""
-    devices = (
-        entry.runtime_data.client.device_list
-    )  # Assuming devices are stored in runtime_data
+    """Set up binary_sensors using config entry."""
+    devices = entry.runtime_data.client.device_list.values()
     entities = [
-        PetkitSensor(
+        PetkitBinarySensor(
             coordinator=entry.runtime_data.coordinator,
             entity_description=entity_description,
             device=device,
@@ -344,8 +348,8 @@ async def async_setup_entry(
     async_add_entities(entities)
 
 
-class PetkitSensor(PetkitEntity, SensorEntity):
-    """Petkit Smart Devices Sensor class."""
+class PetkitBinarySensor(PetkitEntity, SensorEntity):
+    """Petkit Smart Devices BinarySensor class."""
 
     entity_description: PetKitSensorDesc
 
@@ -355,26 +359,28 @@ class PetkitSensor(PetkitEntity, SensorEntity):
         entity_description: PetKitSensorDesc,
         device: Feeder | Litter | WaterFountain,
     ) -> None:
-        """Initialize the sensor class."""
+        """Initialize the binary_sensor class."""
         super().__init__(coordinator, device)
+        self.coordinator = coordinator
         self.entity_description = entity_description
-        self._device = device
+        self.device = device
 
     @property
     def native_value(self) -> Any:
-        """Return the native value of the sensor."""
-        if self.entity_description.value:
-            return self.entity_description.value(self._device)
+        """Return the state of the sensor."""
+        updated_device = self.coordinator.data.get(self.device.id)
+        if updated_device:
+            return self.entity_description.value(updated_device)
         return None
 
     @property
     def unique_id(self) -> str:
         """Return a unique ID for the binary_sensor."""
         return (
-            f"{self._device.device_type}_{self.device.sn}_{self.entity_description.key}"
+            f"{self.device.device_type}_{self.device.sn}_{self.entity_description.key}"
         )
 
     @property
     def native_unit_of_measurement(self) -> str | None:
         """Return the unit of measurement."""
-        return self.entity_description.unit_of_measurement
+        return self.entity_description.native_unit_of_measurement

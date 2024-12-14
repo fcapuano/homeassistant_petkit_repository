@@ -25,6 +25,7 @@ if TYPE_CHECKING:
     from .coordinator import PetkitDataUpdateCoordinator
     from .data import PetkitConfigEntry
 
+
 @dataclass(frozen=True, kw_only=True)
 class PetKitBinarySensorDesc(PetKitDescSensorBase, BinarySensorEntityDescription):
     """A class that describes sensor entities."""
@@ -46,8 +47,8 @@ BINARY_SENSOR_MAPPING: dict[
             value=lambda device: device.state.feeding,
         ),
         PetKitBinarySensorDesc(
-            key="Battery power",
-            translation_key="battery_power",
+            key="Battery installed",
+            translation_key="battery_installed",
             entity_category=EntityCategory.DIAGNOSTIC,
             value=lambda device: device.state.battery_power,
         ),
@@ -132,18 +133,15 @@ BINARY_SENSOR_MAPPING: dict[
     ],
     WaterFountain: [
         PetKitBinarySensorDesc(
-            key="No disturbing switch",
-            translation_key="no_disturbing_switch",
-            value=lambda device: device.settings.no_disturbing_switch,
-        ),
-        PetKitBinarySensorDesc(
             key="Lack warning",
             translation_key="lack_warning",
+            device_class=BinarySensorDeviceClass.PROBLEM,
             value=lambda device: device.lack_warning,
         ),
         PetKitBinarySensorDesc(
-            key="Low battery",
+            key="Battery",
             translation_key="low_battery",
+            device_class=BinarySensorDeviceClass.BATTERY,
             value=lambda device: device.lack_warning,
         ),
     ],
@@ -185,6 +183,7 @@ class PetkitBinarySensor(PetkitEntity, BinarySensorEntity):
     ) -> None:
         """Initialize the binary_sensor class."""
         super().__init__(coordinator, device)
+        self.coordinator = coordinator
         self.entity_description = entity_description
         self.device = device
 
@@ -195,9 +194,5 @@ class PetkitBinarySensor(PetkitEntity, BinarySensorEntity):
 
     @property
     def is_on(self) -> bool | None:
-        """Return true if the switch is on."""
-        if (
-            updated_device := self.coordinator.data.get(str(self.device.id))
-        ) and self.entity_description.value:
-            return bool(self.entity_description.value(updated_device))
-        return None
+        """Return the state of the binary sensor."""
+        return self.entity_description.value(self.device)

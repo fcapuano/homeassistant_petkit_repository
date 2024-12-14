@@ -194,11 +194,32 @@
       }
     },
     "binary_sensor": {
-      "battery_power": {
+      "lack_warning": {
+        "default": "mdi:water-outline",
+        "state": {
+          "on": "mdi:water-alert",
+          "off": "mdi:water-check"
+        }
+      },
+      "low_battery": {
+        "default": "mdi:battery-outline",
+        "state": {
+          "on": "mdi:battery-low",
+          "off": "mdi:battery-high"
+        }
+      },
+      "no_disturbing_switch": {
+        "default": "mdi:bell",
+        "state": {
+          "on": "mdi:bell-off",
+          "off": "mdi:bell"
+        }
+      },
+      "battery_installed": {
         "default": "mdi:battery",
         "state": {
-          "on": "mdi:battery-check",
-          "off": "mdi:battery-remove"
+          "On": "mdi:battery-check",
+          "Off": "mdi:battery-remove"
         }
       },
       "food_level_1": {
@@ -286,11 +307,19 @@
       }
     },
     "sensor": {
+      "battery_level": {
+        "default": "mdi:battery",
+        "state": {
+          "Not in use": "mdi:battery-unknown",
+          "Normal": "mdi:battery-high",
+          "Low": "mdi:battery-low"
+        }
+      },
       "device_status": {
         "default": "mdi:cloud-outline",
         "state": {
-          "on": "mdi:cloud",
-          "off": "mdi:cloud-off"
+          "Online": "mdi:cloud",
+          "Offline": "mdi:cloud-off"
         }
       },
       "battery_power": {
@@ -298,13 +327,6 @@
         "state": {
           "0": "mdi:battery-low",
           "1": "mdi:battery-high"
-        }
-      },
-      "no_disturbing_switch": {
-        "default": "mdi:bell",
-        "state": {
-          "on": "mdi:bell-off",
-          "off": "mdi:bell"
         }
       },
       "desiccant_left_days": {
@@ -418,6 +440,28 @@
       },
       "manual_feed_dual_h2": {
         "default": "mdi:shaker-outline"
+      }
+    },
+    "select": {
+      "surplus_level": {
+        "default": "mdi:scale"
+      }
+    },
+    "number": {
+      "volume": {
+        "default": "mdi:volume-high"
+      },
+      "surplus": {
+        "default": "mdi:scale"
+      },
+      "manual_feed": {
+        "default": "mdi:food-drumstick"
+      },
+      "min_eating_duration": {
+        "default": "mdi:timer"
+      },
+      "cleaning_delay": {
+        "default": "mdi:clock"
       }
     }
   }

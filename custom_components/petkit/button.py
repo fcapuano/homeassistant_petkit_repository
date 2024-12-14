@@ -1,14 +1,14 @@
 """Switch platform for Petkit Smart Devices integration."""
+
 from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any
 
-from homeassistant.components.button import (ButtonEntity,
-                                             ButtonEntityDescription)
+from homeassistant.components.button import ButtonEntity, ButtonEntityDescription
 from pypetkitapi.command import FeederCommand, LitterBoxCommand, LitterCommand
-from pypetkitapi.const import D4H, D4S, D4SH, DEVICES_FEEDER
+from pypetkitapi.const import D4H, D4S, D4SH, DEVICES_FEEDER, DEVICES_LITTER_BOX, D3
 from pypetkitapi.feeder_container import Feeder
 from pypetkitapi.litter_container import Litter
 from pypetkitapi.water_fountain_container import WaterFountain
@@ -23,13 +23,15 @@ if TYPE_CHECKING:
     from .coordinator import PetkitDataUpdateCoordinator
     from .data import PetkitConfigEntry
 
+
 @dataclass(frozen=True, kw_only=True)
 class PetKitButtonDesc(PetKitDescSensorBase, ButtonEntityDescription):
     """A class that describes sensor entities."""
 
-    action: Callable[
-        [PetkitDataUpdateCoordinator, Feeder | Litter | WaterFountain], Any
-    ] | None = None
+    action: (
+        Callable[[PetkitDataUpdateCoordinator, Feeder | Litter | WaterFountain], Any]
+        | None
+    ) = None
 
 
 BUTTON_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitButtonDesc]] = {
@@ -37,8 +39,7 @@ BUTTON_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitButtonDes
         PetKitButtonDesc(
             key="Reset desiccant",
             translation_key="reset_desiccant",
-            action=lambda api,
-            device: api.config_entry.runtime_data.client.send_api_request(
+            action=lambda api, device: api.config_entry.runtime_data.client.send_api_request(
                 device.id, FeederCommand.RESET_DESICCANT
             ),
             only_for_types=DEVICES_FEEDER,
@@ -46,8 +47,7 @@ BUTTON_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitButtonDes
         PetKitButtonDesc(
             key="Cancel manual feed",
             translation_key="cancel_manual_feed",
-            action=lambda api,
-            device: api.config_entry.runtime_data.client.send_api_request(
+            action=lambda api, device: api.config_entry.runtime_data.client.send_api_request(
                 device.id, FeederCommand.CANCEL_MANUAL_FEED
             ),
             only_for_types=DEVICES_FEEDER,
@@ -55,17 +55,15 @@ BUTTON_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitButtonDes
         PetKitButtonDesc(
             key="Call pet",
             translation_key="call_pet",
-            action=lambda api,
-            device: api.config_entry.runtime_data.client.send_api_request(
+            action=lambda api, device: api.config_entry.runtime_data.client.send_api_request(
                 device.id, FeederCommand.CALL_PET
             ),
-            only_for_types=DEVICES_FEEDER,
+            only_for_types=[D3],
         ),
         PetKitButtonDesc(
             key="Food replenished",
             translation_key="food_replenished",
-            action=lambda api,
-            device: api.config_entry.runtime_data.client.send_api_request(
+            action=lambda api, device: api.config_entry.runtime_data.client.send_api_request(
                 device.id, FeederCommand.FOOD_REPLENISHED
             ),
             only_for_types=[D4S, D4H, D4SH],
@@ -75,21 +73,18 @@ BUTTON_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitButtonDes
         PetKitButtonDesc(
             key="Start cleaning",
             translation_key="start_cleaning",
-            action=lambda api,
-            device: api.config_entry.runtime_data.client.control_litter_box(
-                device,
-                LitterCommand.CONTROL_DEVICE,
+            action=lambda api, device: api.config_entry.runtime_data.client.send_api_request(
+                device.id, LitterCommand.CONTROL_DEVICE, LitterBoxCommand.START_CLEAN
             ),
-            only_for_types=[Litter],
+            only_for_types=DEVICES_LITTER_BOX,
         ),
         PetKitButtonDesc(
             key="Pause cleaning",
             translation_key="pause_cleaning",
-            action=lambda api,
-            device: api.config_entry.runtime_data.client.control_litter_box(
-                device, LitterBoxCommand.PAUSE_CLEAN
+            action=lambda api, device: api.config_entry.runtime_data.client.send_api_request(
+                device.id, LitterCommand.CONTROL_DEVICE, LitterBoxCommand.PAUSE_CLEAN
             ),
-            only_for_types=[Litter],
+            only_for_types=DEVICES_LITTER_BOX,
         ),
     ],
     WaterFountain: [
@@ -114,7 +109,7 @@ async def async_setup_entry(
     """Set up binary_sensors using config entry."""
     devices = entry.runtime_data.client.device_list.values()
     entities = [
-        PetkitSwitch(
+        PetkitButton(
             coordinator=entry.runtime_data.coordinator,
             entity_description=entity_description,
             device=device,
@@ -128,8 +123,8 @@ async def async_setup_entry(
     async_add_entities(entities)
 
 
-class PetkitSwitch(PetkitEntity, ButtonEntity):
-    """Petkit Smart Devices Switch class."""
+class PetkitButton(PetkitEntity, ButtonEntity):
+    """Petkit Smart Devices Button class."""
 
     entity_description: PetKitButtonDesc
 

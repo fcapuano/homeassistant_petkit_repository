@@ -19,10 +19,30 @@ DEVICE_STATUS_MAP = {
 }
 
 BATTERY_LEVEL_MAP = {
-    0: "Low",
-    1: "Normal",
+    "0": "Low",
+    "1": "Normal",
 }
 
+# Select list mapping
+SURPLUS_FOOD_LEVEL_OPT = {1: "Less", 2: "Moderate", 3: "Full"}
+IA_DETECTION_SENSITIVITY_OPT = {1: "Low", 2: "Mid", 3: "High"}
+LITTER_TYPE_OPT = {1: "Bentonite", 2: "Tofu", 3: "Mixed"}
+
+MANUAL_FEED_OPT = {
+    0: "",
+    5: "5g",
+    10: "10g",
+    15: "15g",
+    20: "20g",
+    25: "25g",
+    30: "30g",
+    35: "35g",
+    40: "40g",
+    45: "45g",
+    50: "50g",
+}
+
+# Country code mapping / Timezone
 
 COUNTRY_CODES = {
     "AD": "Andorra",

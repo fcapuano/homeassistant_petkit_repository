@@ -1,4 +1,5 @@
 """Switch platform for Petkit Smart Devices integration."""
+
 from __future__ import annotations
 
 from collections.abc import Callable
@@ -23,12 +24,15 @@ if TYPE_CHECKING:
     from .coordinator import PetkitDataUpdateCoordinator
     from .data import PetkitConfigEntry
 
+
 @dataclass(frozen=True, kw_only=True)
 class PetKitTextDesc(PetKitDescSensorBase, TextEntityDescription):
     """A class that describes sensor entities."""
 
     native_value: str | None = None
-    action: Callable[[PetkitConfigEntry, Feeder | Litter | WaterFountain, str], Any] | None = None
+    action: (
+        Callable[[PetkitConfigEntry, Feeder | Litter | WaterFountain, str], Any] | None
+    ) = None
 
 
 TEXT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitTextDesc]] = {
@@ -42,9 +46,7 @@ TEXT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitTextDesc]] 
             native_max=5,
             pattern="^([0-9]|10)$",
             native_value="0",
-            action=lambda api,
-            device,
-            amount_value: api.runtime_data.client.send_api_request(
+            action=lambda api, device, amount_value: api.config_entry.runtime_data.client.send_api_request(
                 device.id, FeederCommand.MANUAL_FEED, {"amount": int(amount_value)}
             ),
             only_for_types=[FEEDER, FEEDER_MINI, D3, D4, D4H],
@@ -57,9 +59,7 @@ TEXT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitTextDesc]] 
             native_max=2,
             pattern="^([0-9]|10)$",
             native_value="0",
-            action=lambda api,
-            device,
-            amount_value: api.runtime_data.client.send_api_request(
+            action=lambda api, device, amount_value: api.config_entry.runtime_data.client.send_api_request(
                 device.id,
                 FeederCommand.MANUAL_FEED_DUAL,
                 {"amount1": int(amount_value), "amount2": 0},
@@ -74,9 +74,7 @@ TEXT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitTextDesc]] 
             native_max=2,
             pattern="^([0-9]|10)$",
             native_value="0",
-            action=lambda api,
-            device,
-            amount_value: api.runtime_data.client.send_api_request(
+            action=lambda api, device, amount_value: api.config_entry.runtime_data.client.send_api_request(
                 device.id,
                 FeederCommand.MANUAL_FEED_DUAL,
                 {"amount1": 0, "amount2": int(amount_value)},
@@ -97,7 +95,7 @@ async def async_setup_entry(
     """Set up binary_sensors using config entry."""
     devices = entry.runtime_data.client.device_list.values()
     entities = [
-        PetkitSwitch(
+        PetkitText(
             coordinator=entry.runtime_data.coordinator,
             entity_description=entity_description,
             device=device,
@@ -111,7 +109,7 @@ async def async_setup_entry(
     async_add_entities(entities)
 
 
-class PetkitSwitch(PetkitEntity, TextEntity):
+class PetkitText(PetkitEntity, TextEntity):
     """Petkit Smart Devices Switch class."""
 
     entity_description: PetKitTextDesc

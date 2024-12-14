@@ -19,9 +19,6 @@
   },
   "entity": {
     "binary_sensor": {
-      "battery_power": {
-        "name": "Battery installed"
-      },
       "camera_status": {
         "name": "Camera status"
       },
@@ -78,11 +75,32 @@
       },
       "sand_lack": {
         "name": "Litter sand lack"
+      },
+      "lack_warning": {
+        "name": "Water lack warning"
+      },
+      "low_battery": {
+        "name": "Battery"
       }
     },
     "sensor": {
+      "last_update": {
+        "name": "Last update"
+      },
+      "total_planned": {
+        "name": "Total planned"
+      },
       "purified_water": {
         "name": "Purified water"
+      },
+      "error_message": {
+        "name": "Error"
+      },
+      "times_eaten": {
+        "name": "Times eaten"
+      },
+      "times_dispensed": {
+        "name": "Times dispensed"
       },
       "filter_percent": {
         "name": "Filter remaining"
@@ -90,8 +108,8 @@
       "desiccant_left_days": {
         "name": "Desiccant left days"
       },
-      "battery_power": {
-        "name": "Battery power"
+      "battery_level": {
+        "name": "Battery level"
       },
       "feeder_error": {
         "name": "Feeder error"
@@ -130,7 +148,7 @@
         "name": "Food Bowl Percentage"
       },
       "end_date_care_plus_subscription": {
-        "name": "End Date Care Plus Subscription"
+        "name": "Care+ end subscription"
       },
       "food_left": {
         "name": "Food Left"
@@ -240,6 +258,26 @@
         "name": "Voice dispense"
       }
     },
+    "button": {
+      "reset_desiccant": {
+        "name": "Reset desiccant"
+      },
+      "cancel_manual_feed": {
+        "name": "Cancel manual feed"
+      },
+      "call_pet": {
+        "name": "Call pet"
+      },
+      "food_replenished": {
+        "name": "Food replenished"
+      },
+      "start_cleaning": {
+        "name": "Start cleaning"
+      },
+      "pause_cleaning": {
+        "name": "Pause cleaning"
+      }
+    },
     "text": {
       "manual_feed_single": {
         "name": "Manual feed"
@@ -249,6 +287,28 @@
       },
       "manual_feed_dual_h2": {
         "name": "Manual feed hopper 2"
+      }
+    },
+    "select": {
+      "surplus_level": {
+        "name": "Surplus control level"
+      }
+    },
+    "number": {
+      "volume": {
+        "name": "Volume"
+      },
+      "surplus": {
+        "name": "Surplus"
+      },
+      "manual_feed": {
+        "name": "Manual Feed"
+      },
+      "min_eating_duration": {
+        "name": "Min Eating Duration"
+      },
+      "cleaning_delay": {
+        "name": "Cleaning Delay"
       }
     }
   }
