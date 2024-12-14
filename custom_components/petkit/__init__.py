@@ -10,6 +10,7 @@ from homeassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.loader import async_get_loaded_integration
 
+from .const import REGION, TIMEZONE
 from .coordinator import PetkitDataUpdateCoordinator
 from .data import PetkitData
 
@@ -41,8 +42,8 @@ async def async_setup_entry(
         client=PetKitClient(
             username=entry.data[CONF_USERNAME],
             password=entry.data[CONF_PASSWORD],
-            region="France",  # TODO : Implement region in config
-            timezone="Paris/Europe",  # TODO : Implement timezone in config
+            region=entry.data[REGION],
+            timezone=entry.data[TIMEZONE],
             # session=async_get_clientsession(hass), # TODO : Implement session ???
         ),
         integration=async_get_loaded_integration(hass, entry.domain),
