@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from pypetkitapi.feeder_container import Feeder
@@ -24,7 +25,7 @@ if TYPE_CHECKING:
     from .coordinator import PetkitDataUpdateCoordinator
     from .data import PetkitConfigEntry
 
-
+@dataclass(frozen=True, kw_only=True)
 class PetKitBinarySensorDesc(PetKitDescSensorBase, BinarySensorEntityDescription):
     """A class that describes sensor entities."""
 
@@ -34,100 +35,115 @@ BINARY_SENSOR_MAPPING: dict[
 ] = {
     Feeder: [
         PetKitBinarySensorDesc(
-            key="camera_status",
+            key="Camera status",
+            translation_key="camera_status",
             value=lambda device: device.state.camera_status,
         ),
         PetKitBinarySensorDesc(
-            key="feeding",
+            key="Feeding",
+            translation_key="feeding",
             device_class=BinarySensorDeviceClass.RUNNING,
             value=lambda device: device.state.feeding,
         ),
         PetKitBinarySensorDesc(
-            key="battery_power",
+            key="Battery power",
+            translation_key="battery_power",
             entity_category=EntityCategory.DIAGNOSTIC,
             value=lambda device: device.state.battery_power,
         ),
         PetKitBinarySensorDesc(
-            key="care_plus_subscription",
+            key="Care plus subscription",
+            translation_key="care_plus_subscription",
             entity_category=EntityCategory.DIAGNOSTIC,
             value=lambda device: device.cloud_product.subscribe,
         ),
         PetKitBinarySensorDesc(
-            key="eating",
+            key="Eating",
+            translation_key="eating",
             device_class=BinarySensorDeviceClass.OCCUPANCY,
             value=lambda device: device.state.eating,
         ),
         PetKitBinarySensorDesc(
-            key="food_level_1",
+            key="Food level 1",
+            translation_key="food_level_1",
             device_class=BinarySensorDeviceClass.PROBLEM,
             value=lambda device: device.state.food1 < 1,
         ),
         PetKitBinarySensorDesc(
-            key="food_level_2",
+            key="Food level 2",
+            translation_key="food_level_2",
             device_class=BinarySensorDeviceClass.PROBLEM,
             value=lambda device: device.state.food2 < 1,
         ),
     ],
     Litter: [
         PetKitBinarySensorDesc(
-            key="camera_status",
+            key="Camera status",
+            translation_key="camera_status",
             value=lambda device: device.state.camera,
         ),
         PetKitBinarySensorDesc(
-            key="care_plus_subscription",
+            key="Care plus subscription",
+            translation_key="care_plus_subscription",
             entity_category=EntityCategory.DIAGNOSTIC,
             value=lambda device: device.cloud_product.subscribe,
         ),
         PetKitBinarySensorDesc(
-            key="liquid_empty",
+            key="Liquid empty",
+            translation_key="liquid_empty",
             device_class=BinarySensorDeviceClass.PROBLEM,
             value=lambda device: device.state.liquid_empty,
         ),
         PetKitBinarySensorDesc(
-            key="liquid_lack",
+            key="Liquid lack",
+            translation_key="liquid_lack",
             device_class=BinarySensorDeviceClass.PROBLEM,
             value=lambda device: device.state.liquid_lack,
         ),
         PetKitBinarySensorDesc(
-            key="sand_lack",
+            key="Sand lack",
+            translation_key="sand_lack",
             device_class=BinarySensorDeviceClass.PROBLEM,
             value=lambda device: device.state.sand_lack,
         ),
-        # TODO : Add disabled by default
         PetKitBinarySensorDesc(
-            key="low_power",
+            key="Low power",
+            translation_key="low_power",
             value=lambda device: device.state.low_power,
         ),
         PetKitBinarySensorDesc(
-            key="power",
+            key="Power",
+            translation_key="power",
             device_class=BinarySensorDeviceClass.POWER,
             value=lambda device: device.state.power,
         ),
         PetKitBinarySensorDesc(
-            key="waste_bin",
+            key="Waste bin",
+            translation_key="waste_bin",
             device_class=BinarySensorDeviceClass.PROBLEM,
             value=lambda device: device.state.box_full,
         ),
         PetKitBinarySensorDesc(
-            key="waste_bin_presence",
+            key="Waste bin presence",
+            translation_key="waste_bin_presence",
             device_class=BinarySensorDeviceClass.PROBLEM,
             value=lambda device: not device.state.box_state,
         ),
     ],
     WaterFountain: [
         PetKitBinarySensorDesc(
-            key="no_disturbing_switch",
-            name="no_disturbing_switch",
+            key="No disturbing switch",
+            translation_key="no_disturbing_switch",
             value=lambda device: device.settings.no_disturbing_switch,
         ),
         PetKitBinarySensorDesc(
-            key="lack_warning",
-            name="lack_warning",
+            key="Lack warning",
+            translation_key="lack_warning",
             value=lambda device: device.lack_warning,
         ),
         PetKitBinarySensorDesc(
-            key="low_battery",
-            name="low_battery",
+            key="Low battery",
+            translation_key="low_battery",
             value=lambda device: device.lack_warning,
         ),
     ],

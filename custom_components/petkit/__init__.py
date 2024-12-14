@@ -23,10 +23,10 @@ PLATFORMS: list[Platform] = [
     Platform.BINARY_SENSOR,
     Platform.SWITCH,
     Platform.TEXT,
+    Platform.BUTTON,
 ]
 
 
-# https://developers.home-assistant.io/docs/config_entries_index/#setting-up-an-entry
 async def async_setup_entry(
     hass: HomeAssistant,
     entry: PetkitConfigEntry,

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from dataclasses import dataclass
 from typing import Any, Generic, TypeVar
 
 from homeassistant.helpers.device_registry import DeviceInfo
@@ -16,20 +17,14 @@ from .coordinator import PetkitDataUpdateCoordinator
 
 _DevicesT = TypeVar("_DevicesT", bound=Feeder | Litter | WaterFountain)
 
-
+@dataclass(frozen=True, kw_only=True)
 class PetKitDescSensorBase(EntityDescription):
     """A class that describes sensor entities."""
 
     value: Callable[[Feeder | Litter | WaterFountain], Any] = None
     ignore_types: list[str] | None = None  # List of device types to ignore
-    only_for_types: list[str] | None = (
-        None  # Optional device types to filter the sensors
-    )
+    only_for_types: list[str] | None = None # List of device types to support
 
-    def __post_init__(self):
-        """Post init."""
-        if self.translation_key is None:
-            self.translation_key = self.key
 
     def is_supported(self, device: Feeder | Litter | WaterFountain) -> bool:
         """Check if the entity is supported by trying to execute the value lambda."""

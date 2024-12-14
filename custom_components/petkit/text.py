@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any
 
 from homeassistant.components.text import TextEntity, TextEntityDescription
@@ -22,18 +23,19 @@ if TYPE_CHECKING:
     from .coordinator import PetkitDataUpdateCoordinator
     from .data import PetkitConfigEntry
 
-
+@dataclass(frozen=True, kw_only=True)
 class PetKitTextDesc(PetKitDescSensorBase, TextEntityDescription):
     """A class that describes sensor entities."""
 
-    native_value: str
-    action: Callable[[PetkitConfigEntry, Feeder | Litter | WaterFountain, str], Any]
+    native_value: str | None = None
+    action: Callable[[PetkitConfigEntry, Feeder | Litter | WaterFountain, str], Any] | None = None
 
 
 TEXT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitTextDesc]] = {
     Feeder: [
         PetKitTextDesc(
-            key="manual_feed_single",
+            key="Manual feed single",
+            translation_key="manual_feed_single",
             value=lambda device: device.settings.light_mode,
             entity_category=EntityCategory.CONFIG,
             native_min=3,
@@ -42,13 +44,14 @@ TEXT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitTextDesc]] 
             native_value="0",
             action=lambda api,
             device,
-            amount_value: api.config_entry.runtime_data.client.send_api_request(
+            amount_value: api.runtime_data.client.send_api_request(
                 device.id, FeederCommand.MANUAL_FEED, {"amount": int(amount_value)}
             ),
             only_for_types=[FEEDER, FEEDER_MINI, D3, D4, D4H],
         ),
         PetKitTextDesc(
-            key="manual_feed_dual_h1",
+            key="Manual feed dual h1",
+            translation_key="manual_feed_dual_h1",
             value=lambda device: device.settings.light_mode,
             native_min=1,
             native_max=2,
@@ -56,7 +59,7 @@ TEXT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitTextDesc]] 
             native_value="0",
             action=lambda api,
             device,
-            amount_value: api.config_entry.runtime_data.client.send_api_request(
+            amount_value: api.runtime_data.client.send_api_request(
                 device.id,
                 FeederCommand.MANUAL_FEED_DUAL,
                 {"amount1": int(amount_value), "amount2": 0},
@@ -64,7 +67,8 @@ TEXT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitTextDesc]] 
             only_for_types=[D4S, D4SH],
         ),
         PetKitTextDesc(
-            key="manual_feed_dual_h2",
+            key="Manual feed dual h2",
+            translation_key="manual_feed_dual_h2",
             value=lambda device: device.settings.light_mode,
             native_min=1,
             native_max=2,
@@ -72,7 +76,7 @@ TEXT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitTextDesc]] 
             native_value="0",
             action=lambda api,
             device,
-            amount_value: api.config_entry.runtime_data.client.send_api_request(
+            amount_value: api.runtime_data.client.send_api_request(
                 device.id,
                 FeederCommand.MANUAL_FEED_DUAL,
                 {"amount1": 0, "amount2": int(amount_value)},

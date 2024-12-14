@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any
 
 from homeassistant.components.button import (ButtonEntity,
@@ -22,19 +23,20 @@ if TYPE_CHECKING:
     from .coordinator import PetkitDataUpdateCoordinator
     from .data import PetkitConfigEntry
 
-
+@dataclass(frozen=True, kw_only=True)
 class PetKitButtonDesc(PetKitDescSensorBase, ButtonEntityDescription):
     """A class that describes sensor entities."""
 
     action: Callable[
         [PetkitDataUpdateCoordinator, Feeder | Litter | WaterFountain], Any
-    ]
+    ] | None = None
 
 
-TEXT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitButtonDesc]] = {
+BUTTON_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitButtonDesc]] = {
     Feeder: [
         PetKitButtonDesc(
-            key="reset_desiccant",
+            key="Reset desiccant",
+            translation_key="reset_desiccant",
             action=lambda api,
             device: api.config_entry.runtime_data.client.send_api_request(
                 device.id, FeederCommand.RESET_DESICCANT
@@ -42,7 +44,8 @@ TEXT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitButtonDesc]
             only_for_types=DEVICES_FEEDER,
         ),
         PetKitButtonDesc(
-            key="cancel_manual_feed",
+            key="Cancel manual feed",
+            translation_key="cancel_manual_feed",
             action=lambda api,
             device: api.config_entry.runtime_data.client.send_api_request(
                 device.id, FeederCommand.CANCEL_MANUAL_FEED
@@ -50,7 +53,8 @@ TEXT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitButtonDesc]
             only_for_types=DEVICES_FEEDER,
         ),
         PetKitButtonDesc(
-            key="call_pet",
+            key="Call pet",
+            translation_key="call_pet",
             action=lambda api,
             device: api.config_entry.runtime_data.client.send_api_request(
                 device.id, FeederCommand.CALL_PET
@@ -58,7 +62,8 @@ TEXT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitButtonDesc]
             only_for_types=DEVICES_FEEDER,
         ),
         PetKitButtonDesc(
-            key="food_repelenished",
+            key="Food replenished",
+            translation_key="food_replenished",
             action=lambda api,
             device: api.config_entry.runtime_data.client.send_api_request(
                 device.id, FeederCommand.FOOD_REPLENISHED
@@ -68,7 +73,8 @@ TEXT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitButtonDesc]
     ],
     Litter: [
         PetKitButtonDesc(
-            key="start_cleaning",
+            key="Start cleaning",
+            translation_key="start_cleaning",
             action=lambda api,
             device: api.config_entry.runtime_data.client.control_litter_box(
                 device,
@@ -77,7 +83,8 @@ TEXT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitButtonDesc]
             only_for_types=[Litter],
         ),
         PetKitButtonDesc(
-            key="pause_cleaning",
+            key="Pause cleaning",
+            translation_key="pause_cleaning",
             action=lambda api,
             device: api.config_entry.runtime_data.client.control_litter_box(
                 device, LitterBoxCommand.PAUSE_CLEAN
@@ -88,7 +95,8 @@ TEXT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitButtonDesc]
     WaterFountain: [
         # TODO : Implementation is Client API
         # PetKitButtonDesc(
-        #     key="water_filter_reset",
+        #     key="Water filter reset",
+        #     translation_key="water_filter_reset",
         #     action=lambda api, device: api.config_entry.runtime_data.client.send_api_request(
         #         device.id, WaterFountainCommand.RESET_FILTER
         #     ),
@@ -112,7 +120,7 @@ async def async_setup_entry(
             device=device,
         )
         for device in devices
-        for device_type, entity_descriptions in TEXT_MAPPING.items()
+        for device_type, entity_descriptions in BUTTON_MAPPING.items()
         if isinstance(device, device_type)
         for entity_description in entity_descriptions
         if entity_description.is_supported(device)  # Check if the entity is supported

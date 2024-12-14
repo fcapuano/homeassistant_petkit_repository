@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any
 
 from homeassistant.components.switch import (SwitchEntity,
@@ -22,18 +23,19 @@ if TYPE_CHECKING:
     from .coordinator import PetkitDataUpdateCoordinator
     from .data import PetkitConfigEntry
 
-
+@dataclass(frozen=True, kw_only=True)
 class PetKitSwitchDesc(PetKitDescSensorBase, SwitchEntityDescription):
     """A class that describes sensor entities."""
 
-    turn_on: Callable[[Any, Any], Any]
-    turn_off: Callable[[Any, Any], Any]
+    turn_on: Callable[[Any, Any], Any] | None = None
+    turn_off: Callable[[Any, Any], Any] | None = None
 
 
 SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDesc]] = {
     Feeder: [
         PetKitSwitchDesc(
-            key="indicator_light",
+            key="Indicator light",
+            translation_key="indicator_light",
             value=lambda device: device.settings.light_mode,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -46,7 +48,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="child_lock",
+            key="Child lock",
+            translation_key="child_lock",
             value=lambda device: device.settings.manual_lock,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -59,7 +62,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="shortage_alarm",
+            key="Shortage alarm",
+            translation_key="shortage_alarm",
             value=lambda device: device.settings.food_warn,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -72,7 +76,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="feed_tone",
+            key="Feed tone",
+            translation_key="feed_tone",
             value=lambda device: device.settings.feed_tone,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -85,7 +90,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="feed_sound",
+            key="Feed sound",
+            translation_key="feed_sound",
             value=lambda device: device.settings.feed_sound,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -98,7 +104,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="dispensing_notif",
+            key="Dispensing notif",
+            translation_key="dispensing_notif",
             value=lambda device: device.settings.feed_notify,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -111,7 +118,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="refill_notif",
+            key="Refill notif",
+            translation_key="refill_notif",
             value=lambda device: device.settings.food_notify,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -124,7 +132,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="pet_visit_notif",
+            key="Pet visit notif",
+            translation_key="pet_visit_notif",
             value=lambda device: device.settings.pet_notify,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -137,7 +146,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="pet_eat_notif",
+            key="Pet eat notif",
+            translation_key="pet_eat_notif",
             value=lambda device: device.settings.eat_notify,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -150,7 +160,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="surplus_control",
+            key="Surplus control",
+            translation_key="surplus_control",
             value=lambda device: device.settings.surplus_control,
             turn_on=lambda api,
             device: api.config_entry.runtime_data.client.send_api_request(
@@ -162,7 +173,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="system_notification",
+            key="System notification",
+            translation_key="system_notification",
             value=lambda device: device.settings.system_sound_enable,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -175,7 +187,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="camera",
+            key="Camera",
+            translation_key="camera",
             value=lambda device: device.settings.camera,
             turn_on=lambda api,
             device: api.config_entry.runtime_data.client.send_api_request(
@@ -187,7 +200,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="low_battery_notif",
+            key="Low battery notif",
+            translation_key="low_battery_notif",
             value=lambda device: device.settings.low_battery_notify,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -200,7 +214,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="microphone",
+            key="Microphone",
+            translation_key="microphone",
             value=lambda device: device.settings.microphone,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -213,7 +228,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="night_vision",
+            key="Night vision",
+            translation_key="night_vision",
             value=lambda device: device.settings.night,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -226,7 +242,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="voice_dispense",
+            key="Voice dispense",
+            translation_key="voice_dispense",
             value=lambda device: device.settings.sound_enable,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -239,7 +256,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="do_not_disturb",
+            key="Do not disturb",
+            translation_key="do_not_disturb",
             value=lambda device: device.settings.disturb_mode,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -254,7 +272,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
     ],
     Litter: [
         PetKitSwitchDesc(
-            key="auto_odor",
+            key="Auto odor",
+            translation_key="auto_odor",
             value=lambda device: device.settings.auto_refresh,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -267,7 +286,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="auto_clean",
+            key="Auto clean",
+            translation_key="auto_clean",
             value=lambda device: device.settings.auto_work,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -280,7 +300,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="avoid_repeat",
+            key="Avoid repeat",
+            translation_key="avoid_repeat",
             value=lambda device: device.settings.avoid_repeat,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -293,7 +314,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="do_not_disturb",
+            key="Do not disturb",
+            translation_key="do_not_disturb",
             value=lambda device: device.settings.disturb_mode,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -306,7 +328,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="periodic_cleaning",
+            key="Periodic cleaning",
+            translation_key="periodic_cleaning",
             value=lambda device: device.settings.fixed_time_clear,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -319,7 +342,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="periodic_odor",
+            key="Periodic odor",
+            translation_key="periodic_odor",
             value=lambda device: device.settings.fixed_time_refresh,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -332,7 +356,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="kitten_mode",
+            key="Kitten mode",
+            translation_key="kitten_mode",
             value=lambda device: device.settings.kitten,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -345,7 +370,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="display",
+            key="Display",
+            translation_key="display",
             value=lambda device: device.settings.light_mode,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -358,7 +384,7 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="child_lock_lb",
+            key="Child lock lb",
             translation_key="child_lock",
             value=lambda device: device.settings.manual_lock,
             entity_category=EntityCategory.CONFIG,
@@ -372,7 +398,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="light_weight",
+            key="Light weight",
+            translation_key="light_weight",
             value=lambda device: device.settings.underweight,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -385,8 +412,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            # TODO : Fix API Client
-            key="power",
+            key="Power",
+            translation_key="power",
             value=lambda device: device.state.power,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -399,7 +426,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="cont_rotation",
+            key="Cont rotation",
+            translation_key="cont_rotation",
             value=lambda device: device.settings.downpos,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -412,7 +440,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="deep_cleaning",
+            key="Deep cleaning",
+            translation_key="deep_cleaning",
             value=lambda device: device.settings.deep_clean,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -425,7 +454,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="deep_deodor",
+            key="Deep deodor",
+            translation_key="deep_deodor",
             value=lambda device: device.settings.deep_refresh,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api,
@@ -489,7 +519,7 @@ class PetkitSwitch(PetkitEntity, SwitchEntity):
         )
 
     @property
-    def is_on(self) -> bool:
+    def is_on(self) -> bool | None :
         """Return true if the switch is on."""
         updated_device = self.coordinator.data.get(self.device.id)
         if updated_device and self.entity_description.value:
