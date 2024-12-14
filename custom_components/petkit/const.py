@@ -11,6 +11,23 @@ TIMEZONE = "timezone"
 # TODO : What is the purpose of this ATTRIBUTION constant?
 ATTRIBUTION = "Data provided by http://api.petkt.com"
 
+# Petkit devices types to name translation
+
+PETKIT_DEVICES_MAPPING = {
+    'd3': 'Fresh Element Infinity',
+    'd4': 'Fresh Element Solo',
+    'd4s': 'Fresh Element Gemini',
+    'd4h': 'YumShare Solo',
+    'd4sh': 'YumShare Dual Hopper',
+    'feeder': 'Fresh Element',
+    'feedermini': 'Fresh Element Mini Pro',
+    't3': 'Pura X',
+    't4': 'Pura MAX / Pura MAX 2',
+    't5': 'Purobot Max',
+    't6': 'Purobot Ultra',
+    'ctw3': 'Eversweet Max'
+}
+
 # Data mapping for petkit devices
 DEVICE_STATUS_MAP = {
     0: "Offline",
@@ -27,6 +44,7 @@ BATTERY_LEVEL_MAP = {
 SURPLUS_FOOD_LEVEL_OPT = {1: "Less", 2: "Moderate", 3: "Full"}
 IA_DETECTION_SENSITIVITY_OPT = {1: "Low", 2: "Mid", 3: "High"}
 LITTER_TYPE_OPT = {1: "Bentonite", 2: "Tofu", 3: "Mixed"}
+
 
 MANUAL_FEED_OPT = {
     0: "",
