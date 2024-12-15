@@ -8,24 +8,21 @@ DOMAIN = "petkit"
 REGION = "region"
 TIMEZONE = "timezone"
 
-# TODO : What is the purpose of this ATTRIBUTION constant?
-ATTRIBUTION = "Data provided by http://api.petkt.com"
 
 # Petkit devices types to name translation
-
 PETKIT_DEVICES_MAPPING = {
-    'd3': 'Fresh Element Infinity',
-    'd4': 'Fresh Element Solo',
-    'd4s': 'Fresh Element Gemini',
-    'd4h': 'YumShare Solo',
-    'd4sh': 'YumShare Dual Hopper',
-    'feeder': 'Fresh Element',
-    'feedermini': 'Fresh Element Mini Pro',
-    't3': 'Pura X',
-    't4': 'Pura MAX / Pura MAX 2',
-    't5': 'Purobot Max',
-    't6': 'Purobot Ultra',
-    'ctw3': 'Eversweet Max'
+    "d3": "Fresh Element Infinity",
+    "d4": "Fresh Element Solo",
+    "d4s": "Fresh Element Gemini",
+    "d4h": "YumShare Solo",
+    "d4sh": "YumShare Dual Hopper",
+    "feeder": "Fresh Element",
+    "feedermini": "Fresh Element Mini Pro",
+    "t3": "Pura X",
+    "t4": "Pura MAX / Pura MAX 2",
+    "t5": "Purobot Max",
+    "t6": "Purobot Ultra",
+    "ctw3": "Eversweet Max",
 }
 
 # Data mapping for petkit devices
