@@ -94,7 +94,10 @@
         "name": "Purified water"
       },
       "error_message": {
-        "name": "Error"
+        "name": "Error",
+        "state": {
+          "no_error": "No error"
+        }
       },
       "times_eaten": {
         "name": "Times eaten"
@@ -169,7 +172,42 @@
         "name": "Error"
       },
       "litter_state": {
-        "name": "State"
+        "name": "State",
+        "state": {
+          "idle": "Idle",
+          "cleaning": "Cleaning",
+          "cleaning_paused": "Cleaning Paused",
+          "cleaning_paused_pet_entered": "Cleaning Paused - Pet Entered",
+          "cleaning_paused_cover": "Cleaning Paused - Cover",
+          "cleaning_paused_system_error": "Cleaning Paused - System Error",
+          "cleaning_paused_pet_approach": "Cleaning Paused - Pet Approach",
+          "cleaning_paused_pet_using": "Cleaning Paused - Pet Using",
+          "dumping": "Dumping",
+          "dumping_paused": "Dumping Paused",
+          "dumping_paused_pet_entered": "Dumping Paused - Pet Entered",
+          "dumping_paused_cover": "Dumping Paused - Cover",
+          "dumping_paused_system_error": "Dumping Paused - System Error",
+          "dumping_paused_pet_approach": "Dumping Paused - Pet Approach",
+          "dumping_paused_pet_using": "Dumping Paused - Pet Using",
+          "resetting_device": "Resetting Device",
+          "paused": "Paused",
+          "paused_pet_entered": "Paused - Pet Entered",
+          "paused_cover": "Paused - Cover",
+          "paused_system_error": "Paused - System Error",
+          "paused_pet_approach": "Paused - Pet Approach",
+          "paused_pet_using": "Paused - Pet Using",
+          "unknown": "Unknown",
+          "resetting": "Resetting",
+          "leveling": "Leveling",
+          "calibrating": "Calibrating",
+          "maintenance": "Maintenance",
+          "maintenance_paused": "Maintenance Paused",
+          "maintenance_paused_pet_entered": "Maintenance Paused - Pet Entered",
+          "maintenance_paused_cover": "Maintenance Paused - Cover",
+          "maintenance_paused_system_error": "Maintenance Paused - System Error",
+          "maintenance_paused_pet_approach": "Maintenance Paused - Pet Approach",
+          "maintenance_paused_pet_using": "Maintenance Paused - Pet Using"
+        }
       },
       "amount_eaten": {
         "name": "Amount eaten"
