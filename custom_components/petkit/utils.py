@@ -1,7 +1,9 @@
-""" Util functions for the Petkit integration. """
+"""Util functions for the Petkit integration."""
 
 from math import floor
+
 from pypetkitapi.litter_container import WorkState
+
 from .const import LOGGER
 
 
@@ -29,24 +31,23 @@ def map_work_state(work_state: WorkState | None):
 
         if major == 1:
             return f"{prefix}"
-        elif major == 2:
+        if major == 2:
             if minor == 2:
                 safe_warn_status = get_safe_warn_status(
                     work_state.safe_warn, work_state.pet_in_time
                 )
                 return f"{prefix}_paused_{safe_warn_status}"
             return f"{prefix}_paused"
-        elif major == 3:
+        if major == 3:
             return "resetting_device"
-        elif major == 4:
+        if major == 4:
             if minor == 2:
                 safe_warn_status = get_safe_warn_status(
                     work_state.safe_warn, work_state.pet_in_time
                 )
                 return f"paused_{safe_warn_status}"
             return "paused"
-        else:
-            return f"{prefix}"
+        return f"{prefix}"
 
     work_mode_mapping = {
         0: lambda: handle_process_mapping("cleaning"),
