@@ -1,1 +1,1 @@
-pypetkitapi>=0.0.1
+pypetkitapi>=1.0.0
