@@ -6,27 +6,19 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any
 
-from homeassistant.components.number import (
-    NumberEntity,
-    NumberEntityDescription,
-    NumberMode,
-    NumberDeviceClass,
-)
-from homeassistant.const import EntityCategory, UnitOfTime
-from pypetkitapi.command import FeederCommand, DeviceCommand
-from pypetkitapi.const import (
-    D3,
-    D4,
-    D4H,
-    D4S,
-    D4SH,
-    FEEDER,
-    FEEDER_MINI,
-    DEVICES_FEEDER,
-)
+from pypetkitapi.command import DeviceCommand, FeederCommand
+from pypetkitapi.const import D3, D4H, D4S, D4SH, FEEDER
 from pypetkitapi.feeder_container import Feeder
 from pypetkitapi.litter_container import Litter
 from pypetkitapi.water_fountain_container import WaterFountain
+
+from homeassistant.components.number import (
+    NumberDeviceClass,
+    NumberEntity,
+    NumberEntityDescription,
+    NumberMode,
+)
+from homeassistant.const import EntityCategory, UnitOfTime
 
 from .const import LOGGER
 from .entity import PetKitDescSensorBase, PetkitEntity
@@ -153,7 +145,7 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up binary_sensors using config entry."""
-    devices = entry.runtime_data.client.device_list.values()
+    devices = entry.runtime_data.client.petkit_entities.values()
     entities = [
         PetkitNumber(
             coordinator=entry.runtime_data.coordinator,

@@ -4,14 +4,15 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
-from homeassistant.components.button import ButtonEntity, ButtonEntityDescription
-from pypetkitapi.command import FeederCommand, LitterCommand, LBAction, LBCommand
-from pypetkitapi.const import D4H, D4S, D4SH, DEVICES_FEEDER, DEVICES_LITTER_BOX, D3
+from pypetkitapi.command import FeederCommand, LBAction, LBCommand, LitterCommand
+from pypetkitapi.const import D3, D4H, D4S, D4SH, DEVICES_FEEDER, DEVICES_LITTER_BOX
 from pypetkitapi.feeder_container import Feeder
 from pypetkitapi.litter_container import Litter
 from pypetkitapi.water_fountain_container import WaterFountain
+
+from homeassistant.components.button import ButtonEntity, ButtonEntityDescription
 
 from .const import LOGGER
 from .entity import PetKitDescSensorBase, PetkitEntity
@@ -28,7 +29,7 @@ if TYPE_CHECKING:
 class PetKitButtonDesc(PetKitDescSensorBase, ButtonEntityDescription):
     """A class that describes sensor entities."""
 
-    action: Callable[[PetkitConfigEntry, Feeder | Litter | WaterFountain], Any] | None = None
+    action: Callable[PetkitConfigEntry]
     is_available: Callable[[Feeder | Litter | WaterFountain], bool] | None = None
 
 
@@ -114,7 +115,11 @@ BUTTON_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitButtonDes
             action=lambda api, device: api.send_api_request(
                 device.id,
                 LitterCommand.CONTROL_DEVICE,
-                {LBAction.STOP: api.device_list[device.id].state.work_state.work_mode},
+                {
+                    LBAction.STOP: api.petkit_entities[
+                        device.id
+                    ].state.work_state.work_mode
+                },
             ),
             only_for_types=DEVICES_LITTER_BOX,
             is_available=lambda device: device.state.work_state is not None,
@@ -126,7 +131,7 @@ BUTTON_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitButtonDes
                 device.id,
                 LitterCommand.CONTROL_DEVICE,
                 {
-                    LBAction.CONTINUE: api.device_list[
+                    LBAction.CONTINUE: api.petkit_entities[
                         device.id
                     ].state.work_state.work_mode
                 },
@@ -140,7 +145,11 @@ BUTTON_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitButtonDes
             action=lambda api, device: api.send_api_request(
                 device.id,
                 LitterCommand.CONTROL_DEVICE,
-                {LBAction.END: api.device_list[device.id].state.work_state.work_mode},
+                {
+                    LBAction.END: api.petkit_entities[
+                        device.id
+                    ].state.work_state.work_mode
+                },
             ),
             only_for_types=DEVICES_LITTER_BOX,
             is_available=lambda device: device.state.work_state is not None,
@@ -166,7 +175,7 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up binary_sensors using config entry."""
-    devices = entry.runtime_data.client.device_list.values()
+    devices = entry.runtime_data.client.petkit_entities.values()
     entities = [
         PetkitButton(
             coordinator=entry.runtime_data.coordinator,
@@ -212,7 +221,6 @@ class PetkitButton(PetkitEntity, ButtonEntity):
         if self.entity_description.is_available:
             return self.entity_description.is_available(self.device)
         return True
-
 
     async def async_press(self) -> None:
         """Handle the button press."""

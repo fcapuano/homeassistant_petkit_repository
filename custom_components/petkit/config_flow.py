@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from pypetkitapi.client import PetKitClient
 from pypetkitapi.exceptions import PetkitAuthenticationError, PypetkitError
 import voluptuous as vol
@@ -10,6 +9,7 @@ import voluptuous as vol
 from homeassistant import config_entries, data_entry_flow
 from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
 from homeassistant.helpers import selector
+from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import COUNTRY_CODES, DOMAIN, LOGGER, REGION, TIMEZONE, TIMEZONES
 
