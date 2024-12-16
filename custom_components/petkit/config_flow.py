@@ -1,4 +1,4 @@
-"""Adds config flow for Blueprint."""
+"""Adds config flow for Petkit Smart Devices."""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ from .const import COUNTRY_CODES, DOMAIN, LOGGER, REGION, TIMEZONE, TIMEZONES
 
 
 class PetkitFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
-    """Config flow for Blueprint."""
+    """Config flow for Petkit Smart Devices."""
 
     VERSION = 1
 

@@ -1,4 +1,4 @@
-"""BlueprintEntity class."""
+"""Petkit Smart Devices Entity class."""
 
 from __future__ import annotations
 
@@ -69,7 +69,7 @@ class PetKitDescSensorBase(EntityDescription):
 
 
 class PetkitEntity(CoordinatorEntity[PetkitDataUpdateCoordinator], Generic[_DevicesT]):
-    """BlueprintEntity class."""
+    """Petkit Entity class."""
 
     _attr_has_entity_name = True
 
