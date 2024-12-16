@@ -9,7 +9,6 @@
 [![Discord][discord-shield]][discord]
 [![Community Forum][forum-shield]][forum]
 
-
 ## Supported devices
 
 ### Feeders :
@@ -38,10 +37,6 @@
 - [ ] Eversweet 5 Mini
 - [x] Eversweet Max
 
-### Others devices :
-
-- [ ] Air Magicube
-
 > [!IMPORTANT]
 > Camera feature is not supported yet. I'm working on it...
 
@@ -49,7 +44,7 @@
 
 Via HACS (recommended), click here :
 
-<img src="https://my.home-assistant.io/badges/hacs_repository.svg?style=flat-square" alt="Open your Home Assistant instance and open the repository inside the Home Assistant Community Store"></img>  
+<img src="https://my.home-assistant.io/badges/hacs_repository.svg?style=flat-square" alt="Open your Home Assistant instance and open the repository inside the Home Assistant Community Store"></img>
 
 Or follow these steps:
 
@@ -67,9 +62,10 @@ Or follow these steps:
 
 ## Configuration is done in the UI
 
-> [!IMPORTANT] 
-> Petkit accounts cannot be logged in two places at the same time. To use the official Petkit application and the Home Assistant integration simultaneously, you must create a second Petkit account and a "Family". 
-Follow these steps:
+> [!IMPORTANT]
+> Petkit accounts cannot be logged in two places at the same time. To use the official Petkit application and the Home Assistant integration simultaneously, you must create a second Petkit account and a "Family".
+> Follow these steps:
+>
 > 1. Go to the Petkit application.
 > 2. At the top, click on Family Management and then on the Create a family button and follow the instructions.
 > 3. Once finished, click the Add family member button.
@@ -86,10 +82,11 @@ This repository is based on the client library for the Petkit API, which can be 
 ## Credits
 
 Thanks to :
-* @Leedeus for the [integration_blueprint](https://github.com/ludeeus/integration_blueprint) template.
-* @RobertD502 for the great reverse engineering done in this repository which helped a lot [home-assistant-petkit](https://github.com/RobertD502/home-assistant-petkit)
 
-***
+- @Leedeus for the [integration_blueprint](https://github.com/ludeeus/integration_blueprint) template.
+- @RobertD502 for the great reverse engineering done in this repository which helped a lot [home-assistant-petkit](https://github.com/RobertD502/home-assistant-petkit)
+
+---
 
 [homeassistant_petkit]: https://github.com/Jezza34000/homeassistant_petkit
 [buymecoffee]: https://www.buymeacoffee.com/ludeeus
@@ -97,8 +94,7 @@ Thanks to :
 [commits-shield]: https://img.shields.io/github/commit-activity/y/ludeeus/integration_blueprint.svg?style=for-the-badge
 [commits]: https://github.com/Jezza34000/homeassistant_petkit/commits/main
 [discord]: https://discord.gg/bYQWBc9d
-[discord-shield]: https://img.shields.io/discord/330944238910963714.svg?style=for-the-badge
-[exampleimg]: example.png
+[discord-shield]: https://img.shields.io/discord/1318098700379361362.svg?style=for-the-badge
 [forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg?style=for-the-badge
 [forum]: https://community.home-assistant.io/
 [license-shield]: https://img.shields.io/github/license/Jezza34000/homeassistant_petkit.svg?style=for-the-badge
