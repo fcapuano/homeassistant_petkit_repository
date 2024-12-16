@@ -6,14 +6,15 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any, Generic, TypeVar
 
-from homeassistant.helpers.device_registry import DeviceInfo
-from homeassistant.helpers.entity import EntityDescription
-from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from pypetkitapi.feeder_container import Feeder
 from pypetkitapi.litter_container import Litter
 from pypetkitapi.water_fountain_container import WaterFountain
 
-from .const import ATTRIBUTION, DOMAIN, LOGGER, PETKIT_DEVICES_MAPPING
+from homeassistant.helpers.device_registry import DeviceInfo
+from homeassistant.helpers.entity import EntityDescription
+from homeassistant.helpers.update_coordinator import CoordinatorEntity
+
+from .const import DOMAIN, LOGGER, PETKIT_DEVICES_MAPPING
 from .coordinator import PetkitDataUpdateCoordinator
 
 _DevicesT = TypeVar("_DevicesT", bound=Feeder | Litter | WaterFountain)
@@ -54,7 +55,12 @@ class PetKitDescSensorBase(EntityDescription):
 
         if self.value is not None:
             try:
-                self.value(device)
+                result = self.value(device)
+                if result is None:
+                    LOGGER.debug(
+                        f"{device.device_type} DOES NOT support '{self.key}' (value is None)"
+                    )
+                    return False
                 LOGGER.debug(f"{device.device_type} support '{self.key}'")
             except AttributeError:
                 LOGGER.debug(f"{device.device_type} DOES NOT support '{self.key}'")
@@ -65,7 +71,6 @@ class PetKitDescSensorBase(EntityDescription):
 class PetkitEntity(CoordinatorEntity[PetkitDataUpdateCoordinator], Generic[_DevicesT]):
     """BlueprintEntity class."""
 
-    _attr_attribution = ATTRIBUTION
     _attr_has_entity_name = True
 
     def __init__(
@@ -85,7 +90,9 @@ class PetkitEntity(CoordinatorEntity[PetkitDataUpdateCoordinator], Generic[_Devi
         )
 
     @property
-    def device_info(self, ) -> DeviceInfo:
+    def device_info(
+        self,
+    ) -> DeviceInfo:
         """Return the device information for a Litter-Robot."""
         return DeviceInfo(
             identifiers={(DOMAIN, self.device.sn)},
