@@ -17,6 +17,9 @@ repos:
       - id: detect-private-key
       - id: mixed-line-ending
       - id: requirements-txt-fixer
+      - id: check-json
+      - id: pretty-format-json
+        args: ["--autofix"]
 
   - repo: https://github.com/codespell-project/codespell
     rev: v2.3.0
@@ -40,7 +43,7 @@ repos:
       - id: ruff
         args:
           - --fix
-  #      - id: ruff-format # Run `ruff-format` conflict with `black`
+    #      - id: ruff-format # Run `ruff-format` conflict with `black`
 
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.21.2
@@ -51,6 +54,7 @@ repos:
     rev: v3.1.0
     hooks:
       - id: prettier
+
   - repo: https://github.com/cdce8p/python-typing-update
     rev: v0.7.0
     hooks:
