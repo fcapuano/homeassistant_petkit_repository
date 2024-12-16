@@ -42,9 +42,7 @@ class PetkitDataUpdateCoordinator(DataUpdateCoordinator):
         """Update data via library."""
         try:
             await self.config_entry.runtime_data.client.get_devices_data()
-            return self.config_entry.runtime_data.client.device_list
         except PypetkitError as exception:
             raise UpdateFailed(exception) from exception
-        # TODO : Add more exception to catch
-        # except PypetkitError as exception:
-        #     raise ConfigEntryAuthFailed(exception) from exception
+        else:
+            return self.config_entry.runtime_data.client.petkit_entities
