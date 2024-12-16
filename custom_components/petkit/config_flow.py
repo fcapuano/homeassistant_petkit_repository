@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from pypetkitapi.client import PetKitClient
 from pypetkitapi.exceptions import PetkitAuthenticationError, PypetkitError
 import voluptuous as vol
@@ -25,10 +26,10 @@ class PetkitFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         """Handle a flow initialized by the user."""
         _errors = {}
 
-        default_country = COUNTRY_CODES.get(self.hass.config.country, "Unknown")
-        default_tz = self.hass.config.time_zone
+        country_from_ha = COUNTRY_CODES.get(self.hass.config.country, "Unknown")
+        tz_from_ha = self.hass.config.time_zone
         LOGGER.debug(
-            f"Country code from HA : {self.hass.config.country} Detected country : {default_country} Default timezone: {default_tz}"
+            f"Country code from HA : {self.hass.config.country} Detected country : {country_from_ha} Default timezone: {tz_from_ha}"
         )
 
         if user_input is not None:
@@ -43,8 +44,8 @@ class PetkitFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                     await self._test_credentials(
                         username=user_input[CONF_USERNAME],
                         password=user_input[CONF_PASSWORD],
-                        region=user_input.get(REGION, default_country),
-                        timezone=user_input.get(TIMEZONE, default_tz),
+                        region=user_input.get(REGION, country_from_ha),
+                        timezone=user_input.get(TIMEZONE, tz_from_ha),
                     )
                 except PetkitAuthenticationError as exception:
                     LOGGER.error(exception)
@@ -78,13 +79,13 @@ class PetkitFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             data_schema.update(
                 {
                     vol.Required(
-                        REGION, default=default_country
+                        REGION, default=country_from_ha
                     ): selector.SelectSelector(
                         selector.SelectSelectorConfig(
                             options=sorted(COUNTRY_CODES.values())
                         ),
                     ),
-                    vol.Required(TIMEZONE, default=default_tz): selector.SelectSelector(
+                    vol.Required(TIMEZONE, default=tz_from_ha): selector.SelectSelector(
                         selector.SelectSelectorConfig(options=TIMEZONES),
                     ),
                 }
@@ -105,8 +106,7 @@ class PetkitFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             password=password,
             region=region,
             timezone=timezone,
-            # TODO : Check if this is needed session for performance
-            # session=async_create_clientsession(self.hass),
+            session=async_get_clientsession(self.hass),
         )
         LOGGER.debug(f"Testing credentials for {username}")
         await client.login()
