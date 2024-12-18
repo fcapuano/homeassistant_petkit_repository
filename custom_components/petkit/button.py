@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
+import asyncio
 from collections.abc import Callable
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from pypetkitapi.command import FeederCommand, LBAction, LBCommand, LitterCommand
-from pypetkitapi.const import D3, D4H, D4S, D4SH, DEVICES_FEEDER, DEVICES_LITTER_BOX
+from pypetkitapi.const import D3, D4H, D4S, D4SH, DEVICES_FEEDER, DEVICES_LITTER_BOX, T4
 from pypetkitapi.feeder_container import Feeder
 from pypetkitapi.litter_container import Litter
 from pypetkitapi.water_fountain_container import WaterFountain
@@ -87,7 +88,7 @@ BUTTON_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitButtonDes
                 LitterCommand.CONTROL_DEVICE,
                 {LBAction.START: LBCommand.MAINTENANCE},
             ),
-            only_for_types=DEVICES_LITTER_BOX,
+            only_for_types=[T4],
         ),
         PetKitButtonDesc(
             key="Exit maintenance mode",
@@ -97,7 +98,7 @@ BUTTON_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitButtonDes
                 LitterCommand.CONTROL_DEVICE,
                 {LBAction.END: LBCommand.MAINTENANCE},
             ),
-            only_for_types=DEVICES_LITTER_BOX,
+            only_for_types=[T4],
         ),
         PetKitButtonDesc(
             key="Dump litter",
@@ -156,7 +157,7 @@ BUTTON_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitButtonDes
         ),
     ],
     WaterFountain: [
-        # TODO : Implementation is Client API
+        # TODO : Implementation is missing in Client API
         # PetKitButtonDesc(
         #     key="Water filter reset",
         #     translation_key="water_filter_reset",
@@ -218,8 +219,14 @@ class PetkitButton(PetkitEntity, ButtonEntity):
     @property
     def available(self) -> bool:
         """Only make available if device is online."""
+        device_data = self.coordinator.data.get(self.device.id)
         if self.entity_description.is_available:
-            return self.entity_description.is_available(self.device)
+            LOGGER.debug(
+                "Button %s availability result is : %s",
+                self.entity_description.key,
+                self.entity_description.is_available(device_data),
+            )
+            return self.entity_description.is_available(device_data)
         return True
 
     async def async_press(self) -> None:
@@ -228,4 +235,5 @@ class PetkitButton(PetkitEntity, ButtonEntity):
         await self.entity_description.action(
             self.coordinator.config_entry.runtime_data.client, self.device
         )
+        await asyncio.sleep(1.5)
         await self.coordinator.async_request_refresh()
