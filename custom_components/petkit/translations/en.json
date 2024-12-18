@@ -64,8 +64,14 @@
       "low_battery": {
         "name": "Battery"
       },
+      "low_power": {
+        "name": "Power"
+      },
       "manually_paused": {
         "name": "Manually paused"
+      },
+      "on_ac_power": {
+        "name": "On AC power"
       },
       "pura_air_liquid": {
         "name": "Pura Air liquid"
@@ -136,6 +142,15 @@
       }
     },
     "select": {
+      "eat_detection_sensitivity": {
+        "name": "IA Eat detection sensitivity"
+      },
+      "move_detection_sensitivity": {
+        "name": "Move detection sensitivity"
+      },
+      "pet_detection_sensitivity": {
+        "name": "IA Pet detection sensitivity"
+      },
       "surplus_level": {
         "name": "Surplus control level"
       }
@@ -159,6 +174,9 @@
       "device_status": {
         "name": "Device status"
       },
+      "drink_times": {
+        "name": "Drink times"
+      },
       "end_date_care_plus_subscription": {
         "name": "Care+ end subscription"
       },
@@ -178,13 +196,59 @@
         "name": "Filter remaining"
       },
       "food_bowl_percentage": {
-        "name": "Food Bowl Percentage"
+        "name": "Food bowl fill"
       },
       "food_left": {
         "name": "Food left"
       },
       "last_update": {
         "name": "Last update"
+      },
+      "litter_last_event": {
+        "name": "Last event",
+        "state": {
+          "auto_cleaning_canceled": "Auto cleaning canceled",
+          "auto_cleaning_canceled_kitten": "Auto cleaning canceled: kitten",
+          "auto_cleaning_completed": "Auto cleaning completed",
+          "auto_cleaning_failed_full": "Auto cleaning failed: full",
+          "auto_cleaning_failed_hall_l": "Auto cleaning failed: hall L",
+          "auto_cleaning_failed_hall_t": "Auto cleaning failed: hall T",
+          "auto_cleaning_terminated": "Auto cleaning terminated",
+          "auto_odor_failed": "Auto odor failed",
+          "clean_over": "Clean",
+          "deodorant_finished": "Deodorant finished",
+          "deodorant_finished_liquid_lack": "Deodorant finished: liquid lack",
+          "litter_empty_completed": "Litter empty completed",
+          "litter_empty_failed_full": "Litter empty failed: full",
+          "litter_empty_failed_hall_l": "Litter empty failed: hall L",
+          "litter_empty_failed_hall_t": "Litter empty failed: hall T",
+          "litter_empty_terminated": "Litter empty terminated",
+          "manual_cleaning_canceled": "Manual cleaning canceled",
+          "manual_cleaning_completed": "Manual cleaning completed",
+          "manual_cleaning_failed_full": "Manual cleaning failed: full",
+          "manual_cleaning_failed_hall_l": "Manual cleaning failed: hall L",
+          "manual_cleaning_failed_hall_t": "Manual cleaning failed: hall T",
+          "manual_cleaning_terminated": "Manual cleaning terminated",
+          "manual_odor_completed": "Manual odor completed",
+          "manual_odor_completed_liquid_lack": "Manual odor completed: liquid lack",
+          "manual_odor_failed": "Manual odor failed",
+          "periodic_cleaning_canceled": "Periodic cleaning canceled",
+          "periodic_cleaning_canceled_kitten": "Periodic cleaning canceled: kitten",
+          "periodic_cleaning_completed": "Periodic cleaning completed",
+          "periodic_cleaning_terminated": "Periodic cleaning terminated",
+          "periodic_odor_completed": "Periodic odor completed",
+          "periodic_odor_completed_liquid_lack": "Periodic odor completed: liquid lack",
+          "periodic_odor_failed": "Periodic odor failed",
+          "reset_completed": "Reset completed",
+          "reset_failed_full": "Reset failed: full",
+          "reset_failed_hall_l": "Reset failed: hall L",
+          "reset_failed_hall_t": "Reset failed: hall T",
+          "reset_over": "Reset",
+          "reset_terminated": "Reset terminated",
+          "scheduled_cleaning_failed_full": "Scheduled cleaning failed: full",
+          "scheduled_cleaning_failed_hall_l": "Scheduled cleaning failed: hall L",
+          "scheduled_cleaning_failed_hall_t": "Scheduled cleaning failed: hall T"
+        }
       },
       "litter_level": {
         "name": "Litter level"
@@ -251,6 +315,9 @@
       "purified_water": {
         "name": "Purified water"
       },
+      "raw_distribution_data": {
+        "name": "RAW distribution data"
+      },
       "rssi": {
         "name": "RSSI"
       },
@@ -304,8 +371,11 @@
       "deep_deodor": {
         "name": "Deep deodor"
       },
+      "desiccant_notif": {
+        "name": "Notif on desiccant change need"
+      },
       "dispensing_notif": {
-        "name": "Dispensing notif"
+        "name": "Notif on dispense"
       },
       "display": {
         "name": "Display"
@@ -319,6 +389,9 @@
       "feed_tone": {
         "name": "Feed tone"
       },
+      "highlight": {
+        "name": "Pet tracking highlight"
+      },
       "indicator_light": {
         "name": "Indicator light"
       },
@@ -329,10 +402,13 @@
         "name": "Light Weight"
       },
       "low_battery_notif": {
-        "name": "Low battery notification"
+        "name": "Notif on low battery"
       },
       "microphone": {
         "name": "Microphone"
+      },
+      "move_notif": {
+        "name": "Notif on move"
       },
       "night_vision": {
         "name": "Night vision"
@@ -344,16 +420,19 @@
         "name": "Periodic Odor"
       },
       "pet_eat_notif": {
-        "name": "Pet eat notif"
+        "name": "Notif on pet eat"
+      },
+      "pet_tracking": {
+        "name": "Pet tracking"
       },
       "pet_visit_notif": {
-        "name": "Pet visit notif"
+        "name": "Notif on pet visit"
       },
       "power": {
         "name": "Power"
       },
       "refill_notif": {
-        "name": "Refill notif"
+        "name": "Notif on refill need"
       },
       "shortage_alarm": {
         "name": "Shortage alarm"
@@ -363,6 +442,9 @@
       },
       "system_notification": {
         "name": "System sound"
+      },
+      "video_timestamp": {
+        "name": "Display timestamp"
       },
       "voice_dispense": {
         "name": "Voice dispense"
