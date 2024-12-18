@@ -12,7 +12,7 @@
   ],
   "name": "Petkit Smart Devices",
   "requirements": [
-    "pypetkitapi==1.2.4"
+    "pypetkitapi==1.2.5"
   ],
   "version": "1.0.0"
 }
