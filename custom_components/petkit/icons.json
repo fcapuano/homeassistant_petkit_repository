@@ -148,6 +148,12 @@
       },
       "start_scoop": {
         "default": "mdi:broom"
+      },
+      "deodorize": {
+        "default": "mdi:spray"
+      },
+      "reset_odor_eliminator": {
+        "default": "mdi:scent"
       }
     },
     "number": {

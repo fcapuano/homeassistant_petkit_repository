@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from pypetkitapi.command import FeederCommand, LBAction, LBCommand, LitterCommand
-from pypetkitapi.const import D3, D4H, D4S, D4SH, DEVICES_FEEDER, DEVICES_LITTER_BOX, T4
+from pypetkitapi.const import D3, D4H, D4S, D4SH, DEVICES_FEEDER, DEVICES_LITTER_BOX, T4, T3, T6
 from pypetkitapi.feeder_container import Feeder
 from pypetkitapi.litter_container import Litter
 from pypetkitapi.water_fountain_container import WaterFountain
@@ -154,6 +154,36 @@ BUTTON_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitButtonDes
             ),
             only_for_types=DEVICES_LITTER_BOX,
             is_available=lambda device: device.state.work_state is not None,
+        ),
+        PetKitButtonDesc(
+            key="Deodorize",
+            translation_key="deodorize",
+            action=lambda api, device: api.send_api_request(
+                device.id,
+                LitterCommand.CONTROL_DEVICE,
+                {LBAction.START: LBCommand.ODOR_REMOVAL},
+            ),
+            only_for_types=DEVICES_LITTER_BOX,
+        ),
+        PetKitButtonDesc(
+            key="Reset odor eliminator",
+            translation_key="reset_odor_eliminator",
+            action=lambda api, device: api.send_api_request(
+                device.id,
+                LitterCommand.CONTROL_DEVICE,
+                {LBAction.START: LBCommand.RESET_DEODOR},
+            ),
+            only_for_types=[T3],
+        ),
+        PetKitButtonDesc(
+            key="Reset odor eliminator",
+            translation_key="reset_odor_eliminator",
+            action=lambda api, device: api.send_api_request(
+                device.id,
+                LitterCommand.CONTROL_DEVICE,
+                {LBAction.START: LBCommand.RESET_MAX_DEODOR},
+            ),
+            only_for_types=[T4, T6],
         ),
     ],
     WaterFountain: [

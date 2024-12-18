@@ -122,6 +122,12 @@
       },
       "start_scoop": {
         "name": "Scoop"
+      },
+      "deodorize": {
+        "name": "Deodorize"
+      },
+      "reset_odor_eliminator": {
+        "name": "Reset odor eliminator"
       }
     },
     "number": {
