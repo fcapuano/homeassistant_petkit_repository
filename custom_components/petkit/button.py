@@ -157,7 +157,6 @@ BUTTON_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitButtonDes
         ),
     ],
     WaterFountain: [
-        # TODO : Implementation is missing in Client API
         # PetKitButtonDesc(
         #     key="Water filter reset",
         #     translation_key="water_filter_reset",

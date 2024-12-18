@@ -54,30 +54,28 @@ class PetKitDescSensorBase(EntityDescription):
 
     def _is_force_added(self, device: Feeder | Litter | WaterFountain) -> bool:
         """Check if the device is in the force_add list."""
-        if self.force_add:
-            if device.device_type.lower() in self.force_add:
-                LOGGER.debug(f"{device.device_type} force add for '{self.key}'")
-                return True
+        if self.force_add and device.device_type.lower() in self.force_add:
+            LOGGER.debug(f"{device.device_type} force add for '{self.key}'")
+            return True
         return False
 
     def _is_ignored(self, device: Feeder | Litter | WaterFountain) -> bool:
         """Check if the device is in the ignore_types list."""
-        if self.ignore_types:
-            if device.device_type.lower() in self.ignore_types:
-                LOGGER.debug(f"{device.device_type} force ignore for '{self.key}'")
-                return True
+        if self.ignore_types and device.device_type.lower() in self.ignore_types:
+            LOGGER.debug(f"{device.device_type} force ignore for '{self.key}'")
+            return True
         return False
 
     def _is_not_in_supported_types(
         self, device: Feeder | Litter | WaterFountain
     ) -> bool:
         """Check if the device is not in the only_for_types list."""
-        if self.only_for_types:
-            if device.device_type.lower() not in self.only_for_types:
-                LOGGER.debug(
-                    f"{device.device_type} is NOT COMPATIBLE with '{self.key}'"
-                )
-                return True
+        if (
+            self.only_for_types
+            and device.device_type.lower() not in self.only_for_types
+        ):
+            LOGGER.debug(f"{device.device_type} is NOT COMPATIBLE with '{self.key}'")
+            return True
         return False
 
     def _check_value_support(self, device: Feeder | Litter | WaterFountain) -> bool:

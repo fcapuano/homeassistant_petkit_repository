@@ -306,7 +306,6 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
             key="Litter last event",
             translation_key="litter_last_event",
             value=lambda device: map_litter_event(device.device_records[-1]),
-            # force_add=DEVICES_LITTER_BOX
         ),
     ],
     WaterFountain: [
