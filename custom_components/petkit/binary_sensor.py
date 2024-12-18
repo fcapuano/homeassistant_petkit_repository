@@ -120,13 +120,8 @@ BINARY_SENSOR_MAPPING: dict[
         PetKitBinarySensorDesc(
             key="Low power",
             translation_key="low_power",
+            device_class=BinarySensorDeviceClass.PROBLEM,
             value=lambda device: device.state.low_power,
-        ),
-        PetKitBinarySensorDesc(
-            key="Power",
-            translation_key="power",
-            device_class=BinarySensorDeviceClass.POWER,
-            value=lambda device: device.state.power,
         ),
         PetKitBinarySensorDesc(
             key="Waste bin",
@@ -152,7 +147,15 @@ BINARY_SENSOR_MAPPING: dict[
             key="Battery",
             translation_key="low_battery",
             device_class=BinarySensorDeviceClass.BATTERY,
+            entity_category=EntityCategory.DIAGNOSTIC,
             value=lambda device: device.lack_warning,
+        ),
+        PetKitBinarySensorDesc(
+            key="On ac power",
+            translation_key="on_ac_power",
+            device_class=BinarySensorDeviceClass.POWER,
+            entity_category=EntityCategory.DIAGNOSTIC,
+            value=lambda device: device.status.electric_status > 0,
         ),
     ],
 }
