@@ -28,7 +28,7 @@ from homeassistant.const import (
 
 from .const import BATTERY_LEVEL_MAP, DEVICE_STATUS_MAP
 from .entity import PetKitDescSensorBase, PetkitEntity
-from .utils import map_work_state
+from .utils import get_raw_feed_plan, map_litter_event, map_work_state
 
 if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
@@ -249,6 +249,12 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
             native_unit_of_measurement=PERCENTAGE,
             value=lambda device: device.state.percent,
         ),
+        PetKitSensorDesc(
+            key="RAW distribution data",
+            translation_key="raw_distribution_data",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            value=lambda device: get_raw_feed_plan(device.device_records),
+        ),
     ],
     Litter: [
         PetKitSensorDesc(
@@ -296,6 +302,12 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
             translation_key="litter_state",
             value=lambda device: map_work_state(device.state.work_state),
         ),
+        PetKitSensorDesc(
+            key="Litter last event",
+            translation_key="litter_last_event",
+            value=lambda device: map_litter_event(device.device_records[-1]),
+            # force_add=DEVICES_LITTER_BOX
+        ),
     ],
     WaterFountain: [
         PetKitSensorDesc(
@@ -320,7 +332,6 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
         PetKitSensorDesc(
             key="Filter percent",
             translation_key="filter_percent",
-            entity_category=EntityCategory.DIAGNOSTIC,
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=PERCENTAGE,
             value=lambda device: device.filter_percent,
@@ -333,6 +344,13 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
             value=lambda device: int(
                 ((1.5 * int(device.today_pump_run_time)) / 60) / 2.0
             ),
+        ),
+        PetKitSensorDesc(
+            key="Drink times",
+            translation_key="drink_times",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            state_class=SensorStateClass.MEASUREMENT,
+            value=lambda device: len(device.device_records),
         ),
     ],
 }
@@ -380,9 +398,9 @@ class PetkitBinarySensor(PetkitEntity, SensorEntity):
     @property
     def native_value(self) -> Any:
         """Return the state of the sensor."""
-        updated_device = self.coordinator.data.get(self.device.id)
-        if updated_device:
-            return self.entity_description.value(updated_device)
+        device_data = self.coordinator.data.get(self.device.id)
+        if device_data:
+            return self.entity_description.value(device_data)
         return None
 
     @property
