@@ -40,7 +40,7 @@ class PetKitNumberDesc(PetKitDescSensorBase, NumberEntityDescription):
     )
     action: (
         Callable[[PetkitConfigEntry, Feeder | Litter | WaterFountain, str], Any] | None
-    ) = None
+    )
 
 
 NUMBER_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitNumberDesc]] = {
@@ -54,7 +54,7 @@ NUMBER_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitNumberDes
             native_step=1,
             mode=NumberMode.SLIDER,
             native_value=lambda device: device.settings.volume,
-            action=lambda api, device, value: api.config_entry.runtime_data.client.send_api_request(
+            action=lambda api, device, value: api.send_api_request(
                 device.id, DeviceCommand.UPDATE_SETTING, {"volume": int(value)}
             ),
             only_for_types=[D3, D4H, D4SH],
@@ -68,7 +68,7 @@ NUMBER_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitNumberDes
             native_step=10,
             mode=NumberMode.SLIDER,
             native_value=lambda device: device.settings.surplus,
-            action=lambda api, device, value: api.config_entry.runtime_data.client.send_api_request(
+            action=lambda api, device, value: api.send_api_request(
                 device.id, DeviceCommand.UPDATE_SETTING, {"surplus": int(value)}
             ),
             only_for_types=[D3],
@@ -83,7 +83,7 @@ NUMBER_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitNumberDes
             device_class=NumberDeviceClass.WEIGHT,
             mode=NumberMode.SLIDER,
             native_value=lambda device: 4,
-            action=lambda api, device, value: api.config_entry.runtime_data.client.send_api_request(
+            action=lambda api, device, value: api.send_api_request(
                 device.id, FeederCommand.MANUAL_FEED, {"amount": int(value)}
             ),
             only_for_types=[D3],
@@ -98,7 +98,7 @@ NUMBER_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitNumberDes
             native_unit_of_measurement=UnitOfTime.SECONDS,
             mode=NumberMode.SLIDER,
             native_value=lambda device: device.settings.shortest,
-            action=lambda api, device, value: api.config_entry.runtime_data.client.send_api_request(
+            action=lambda api, device, value: api.send_api_request(
                 device, DeviceCommand.UPDATE_SETTING, {"shortest": int(value)}
             ),
             only_for_types=[D4S],
@@ -113,7 +113,7 @@ NUMBER_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitNumberDes
             device_class=NumberDeviceClass.WEIGHT,
             mode=NumberMode.SLIDER,
             native_value=lambda device: 0,
-            action=lambda api, device, value: api.config_entry.runtime_data.client.send_api_request(
+            action=lambda api, device, value: api.send_api_request(
                 device, FeederCommand.MANUAL_FEED, {"amount": int(value)}
             ),
             only_for_types=[FEEDER],
@@ -130,7 +130,7 @@ NUMBER_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitNumberDes
             native_unit_of_measurement=UnitOfTime.MINUTES,
             mode=NumberMode.SLIDER,
             native_value=lambda device: device.settings.still_time / 60,
-            action=lambda api, device, value: api.config_entry.runtime_data.client.send_api_request(
+            action=lambda api, device, value: api.send_api_request(
                 device, DeviceCommand.UPDATE_SETTING, {"stillTime": int(value * 60)}
             ),
         ),
@@ -220,4 +220,6 @@ class PetkitNumber(PetkitEntity, NumberEntity):
         LOGGER.debug(
             "Setting value for : %s with value : %s", self.entity_description.key, value
         )
-        await self.entity_description.action(self.coordinator, self.device, value)
+        await self.entity_description.action(
+            self.coordinator.config_entry.runtime_data.client, self.device, value
+        )
