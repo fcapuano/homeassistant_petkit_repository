@@ -1,4 +1,4 @@
-<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/main/images/petkit_logo.jpg"></a>
+<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/master/images/petkit_logo.png" width="512" height="101">
 
 # Petkit integration for Home Assistant
 
