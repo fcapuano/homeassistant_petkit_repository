@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from pypetkitapi.command import DeviceCommand
 from pypetkitapi.const import D4H, D4SH
@@ -13,8 +13,9 @@ from pypetkitapi.litter_container import Litter
 from pypetkitapi.water_fountain_container import WaterFountain
 
 from homeassistant.components.select import SelectEntity, SelectEntityDescription
+from homeassistant.const import EntityCategory
 
-from .const import LOGGER, SURPLUS_FOOD_LEVEL_OPT
+from .const import IA_DETECTION_SENSITIVITY_OPT, LOGGER, SURPLUS_FOOD_LEVEL_OPT
 from .entity import PetKitDescSensorBase, PetkitEntity
 
 if TYPE_CHECKING:
@@ -31,9 +32,7 @@ class PetKitSelectDesc(PetKitDescSensorBase, SelectEntityDescription):
 
     current_option: Callable[[Feeder | Litter | WaterFountain], str] | None = None
     options: Callable[[], list[str]] | None = None
-    action: (
-        Callable[[PetkitConfigEntry, Feeder | Litter | WaterFountain, str], Any] | None
-    ) = None
+    action: Callable[PetkitConfigEntry]
 
 
 SELECT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSelectDesc]] = {
@@ -45,7 +44,7 @@ SELECT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSelectDes
                 device.settings.surplus_standard
             ],
             options=lambda: list(SURPLUS_FOOD_LEVEL_OPT.values()),
-            action=lambda api, device, opt_value: api.config_entry.runtime_data.client.send_api_request(
+            action=lambda api, device, opt_value: api.send_api_request(
                 device.id,
                 DeviceCommand.UPDATE_SETTING,
                 {
@@ -57,7 +56,70 @@ SELECT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSelectDes
                 },
             ),
             only_for_types=[D4H, D4SH],
-        )
+        ),
+        PetKitSelectDesc(
+            key="Eat detection sensitivity",
+            translation_key="eat_detection_sensitivity",
+            current_option=lambda device: IA_DETECTION_SENSITIVITY_OPT[
+                device.settings.eat_sensitivity
+            ],
+            options=lambda: list(IA_DETECTION_SENSITIVITY_OPT.values()),
+            action=lambda api, device, opt_value: api.send_api_request(
+                device.id,
+                DeviceCommand.UPDATE_SETTING,
+                {
+                    "eatSensitivity": next(
+                        key
+                        for key, value in IA_DETECTION_SENSITIVITY_OPT.items()
+                        if value == opt_value
+                    )
+                },
+            ),
+            entity_category=EntityCategory.CONFIG,
+            only_for_types=[D4H, D4SH],
+        ),
+        PetKitSelectDesc(
+            key="Pet detection sensitivity",
+            translation_key="pet_detection_sensitivity",
+            current_option=lambda device: IA_DETECTION_SENSITIVITY_OPT[
+                device.settings.pet_sensitivity
+            ],
+            options=lambda: list(IA_DETECTION_SENSITIVITY_OPT.values()),
+            action=lambda api, device, opt_value: api.send_api_request(
+                device.id,
+                DeviceCommand.UPDATE_SETTING,
+                {
+                    "petSensitivity": next(
+                        key
+                        for key, value in IA_DETECTION_SENSITIVITY_OPT.items()
+                        if value == opt_value
+                    )
+                },
+            ),
+            entity_category=EntityCategory.CONFIG,
+            only_for_types=[D4H, D4SH],
+        ),
+        PetKitSelectDesc(
+            key="Move detection sensitivity",
+            translation_key="move_detection_sensitivity",
+            current_option=lambda device: IA_DETECTION_SENSITIVITY_OPT[
+                device.settings.move_sensitivity
+            ],
+            options=lambda: list(IA_DETECTION_SENSITIVITY_OPT.values()),
+            action=lambda api, device, opt_value: api.send_api_request(
+                device.id,
+                DeviceCommand.UPDATE_SETTING,
+                {
+                    "moveSensitivity": next(
+                        key
+                        for key, value in IA_DETECTION_SENSITIVITY_OPT.items()
+                        if value == opt_value
+                    )
+                },
+            ),
+            entity_category=EntityCategory.CONFIG,
+            only_for_types=[D4H, D4SH],
+        ),
     ],
     Litter: [],
     WaterFountain: [],
@@ -125,4 +187,6 @@ class PetkitSelect(PetkitEntity, SelectEntity):
         LOGGER.debug(
             "Setting value for : %s with value : %s", self.entity_description.key, value
         )
-        await self.entity_description.action(self.coordinator, self.device, value)
+        await self.entity_description.action(
+            self.coordinator.config_entry.runtime_data.client, self.device, value
+        )
