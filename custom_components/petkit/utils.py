@@ -121,7 +121,7 @@ def map_litter_event(litter_event: LitterRecord) -> str | None:
         if event_type == 5 and result == 2:
             return EVENT_MAPPING[event_type][result][reason][error]
 
-        if event_type in {6, 7} and result == 2:
+        if event_type in [6, 7] and result == 2:
             return EVENT_MAPPING[event_type][result][error]
 
         if event_type in [8, 5]:
