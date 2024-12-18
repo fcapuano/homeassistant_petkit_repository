@@ -14,7 +14,7 @@ from pypetkitapi.water_fountain_container import WaterFountain
 
 from homeassistant.components.text import TextEntity, TextEntityDescription
 
-from .const import LOGGER
+from .const import INPUT_FEED_PATTERN, LOGGER
 from .entity import PetKitDescSensorBase, PetkitEntity
 
 if TYPE_CHECKING:
@@ -43,9 +43,9 @@ TEXT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitTextDesc]] 
             value=lambda device: device.settings.light_mode,
             native_min=1,
             native_max=2,
-            pattern="^([0-9]|10)$",
+            pattern=INPUT_FEED_PATTERN,
             native_value="0",
-            action=lambda api, device, amount_value: api.config_entry.runtime_data.client.send_api_request(
+            action=lambda api, device, amount_value: api.send_api_request(
                 device.id, FeederCommand.MANUAL_FEED, {"amount": int(amount_value)}
             ),
             only_for_types=[FEEDER, FEEDER_MINI, D3, D4, D4H],
@@ -56,9 +56,9 @@ TEXT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitTextDesc]] 
             value=lambda device: device.settings.light_mode,
             native_min=1,
             native_max=2,
-            pattern="^([0-9]|10)$",
+            pattern=INPUT_FEED_PATTERN,
             native_value="0",
-            action=lambda api, device, amount_value: api.config_entry.runtime_data.client.send_api_request(
+            action=lambda api, device, amount_value: api.send_api_request(
                 device.id,
                 FeederCommand.MANUAL_FEED_DUAL,
                 {"amount1": int(amount_value), "amount2": 0},
@@ -71,9 +71,9 @@ TEXT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitTextDesc]] 
             value=lambda device: device.settings.light_mode,
             native_min=1,
             native_max=2,
-            pattern="^([0-9]|10)$",
+            pattern=INPUT_FEED_PATTERN,
             native_value="0",
-            action=lambda api, device, amount_value: api.config_entry.runtime_data.client.send_api_request(
+            action=lambda api, device, amount_value: api.send_api_request(
                 device.id,
                 FeederCommand.MANUAL_FEED_DUAL,
                 {"amount1": 0, "amount2": int(amount_value)},
@@ -161,4 +161,6 @@ class PetkitText(PetkitEntity, TextEntity):
         LOGGER.debug(
             "Setting value for : %s with value : %s", self.entity_description.key, value
         )
-        await self.entity_description.action(self.coordinator, self.device, value)
+        await self.entity_description.action(
+            self.coordinator.config_entry.runtime_data.client, self.device, value
+        )
