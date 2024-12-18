@@ -37,6 +37,9 @@ BATTERY_LEVEL_MAP = {
     "1": "Normal",
 }
 
+# Text input regex
+INPUT_FEED_PATTERN = "^([0-9]|10)$"
+
 # Select list mapping
 SURPLUS_FOOD_LEVEL_OPT = {1: "Less", 2: "Moderate", 3: "Full"}
 IA_DETECTION_SENSITIVITY_OPT = {1: "Low", 2: "Mid", 3: "High"}
@@ -56,6 +59,96 @@ MANUAL_FEED_OPT = {
     45: "45g",
     50: "50g",
 }
+
+# Litter Event
+
+EVENT_MAPPING = {
+    5: {
+        0: {
+            0: "auto_cleaning_completed",
+            1: "periodic_cleaning_completed",
+            2: "manual_cleaning_completed",
+            3: "manual_cleaning_completed",
+        },
+        1: {
+            0: "auto_cleaning_terminated",
+            1: "periodic_cleaning_terminated",
+            2: "manual_cleaning_terminated",
+            3: "manual_cleaning_terminated",
+        },
+        2: {
+            0: {
+                "full": "auto_cleaning_failed_full",
+                "hallL": "auto_cleaning_failed_hall_l",
+                "hallT": "auto_cleaning_failed_hall_t",
+            },
+            1: {
+                "full": "scheduled_cleaning_failed_full",
+                "hallL": "scheduled_cleaning_failed_hall_l",
+                "hallT": "scheduled_cleaning_failed_hall_t",
+            },
+            2: {
+                "full": "manual_cleaning_failed_full",
+                "hallL": "manual_cleaning_failed_hall_l",
+                "hallT": "manual_cleaning_failed_hall_t",
+            },
+            3: {
+                "full": "manual_cleaning_failed_full",
+                "hallL": "manual_cleaning_failed_hall_l",
+                "hallT": "manual_cleaning_failed_hall_t",
+            },
+        },
+        3: {
+            0: "auto_cleaning_canceled",
+            1: "periodic_cleaning_canceled",
+            2: "manual_cleaning_canceled",
+            3: "manual_cleaning_canceled",
+        },
+        4: {
+            0: "auto_cleaning_canceled_kitten",
+            1: "periodic_cleaning_canceled_kitten",
+        },
+    },
+    6: {
+        0: "litter_empty_completed",
+        1: "litter_empty_terminated",
+        2: {
+            "full": "litter_empty_failed_full",
+            "hallL": "litter_empty_failed_hall_l",
+            "hallT": "litter_empty_failed_hall_t",
+        },
+    },
+    7: {
+        0: "reset_completed",
+        1: "reset_terminated",
+        2: {
+            "full": "reset_failed_full",
+            "hallL": "reset_failed_hall_l",
+            "hallT": "reset_failed_hall_t",
+        },
+    },
+    8: {
+        0: {
+            0: "deodorant_finished",
+            1: "periodic_odor_completed",
+            2: "manual_odor_completed",
+            3: "manual_odor_completed",
+        },
+        1: {
+            0: "deodorant_finished_liquid_lack",
+            1: "periodic_odor_completed_liquid_lack",
+            2: "manual_odor_completed_liquid_lack",
+            3: "manual_odor_completed_liquid_lack",
+        },
+        2: {
+            0: "auto_odor_failed",
+            1: "periodic_odor_failed",
+            2: "manual_odor_failed",
+            3: "manual_odor_failed",
+        },
+    },
+}
+
 
 # Country code mapping / Timezone
 
