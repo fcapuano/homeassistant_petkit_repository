@@ -262,6 +262,9 @@
       "last_update": {
         "default": "mdi:clock"
       },
+      "last_used_by": {
+        "default": "mdi:cat"
+      },
       "litter_last_event": {
         "default": "mdi:calendar-check"
       },
@@ -307,9 +310,6 @@
       },
       "purified_water": {
         "default": "mdi:water-pump"
-      },
-      "last_used_by": {
-        "default": "mdi:cat"
       },
       "raw_distribution_data": {
         "default": "mdi:format-list-bulleted-type"

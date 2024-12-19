@@ -222,6 +222,9 @@
       "last_update": {
         "name": "Last update"
       },
+      "last_used_by": {
+        "name": "Last used by"
+      },
       "litter_last_event": {
         "name": "Last event",
         "state": {
@@ -356,9 +359,6 @@
       },
       "times_used": {
         "name": "Times used"
-      },
-      "last_used_by": {
-        "name": "Last used by"
       },
       "total_dispensed": {
         "name": "Total dispensed"
