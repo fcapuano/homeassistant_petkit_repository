@@ -336,6 +336,34 @@ SENSOR_MAPPING: dict[
                 else None
             ),
         ),
+        PetKitSensorDesc(
+            key="Times used",
+            translation_key="times_used",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            state_class=SensorStateClass.MEASUREMENT,
+            value=lambda device: device.device_stats.times,
+        ),
+        PetKitSensorDesc(
+            key="Total time",
+            translation_key="total_time",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=UnitOfTime.SECONDS,
+            value=lambda device: device.device_stats.total_time,
+        ),
+        PetKitSensorDesc(
+            key="Average time",
+            translation_key="average_time",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=UnitOfTime.SECONDS,
+            value=lambda device: device.device_stats.avg_time,
+        ),
+        PetKitSensorDesc(
+            key="Last used by",
+            translation_key="last_used_by",
+            value=lambda device: device.device_stats.statistic_info[-1].pet_name if device.device_stats.statistic_info else None,
+        ),
     ],
     WaterFountain: [
         PetKitSensorDesc(
@@ -412,7 +440,7 @@ async def async_setup_entry(
     """Set up binary_sensors using config entry."""
     devices = entry.runtime_data.client.petkit_entities.values()
     entities = [
-        PetkitBinarySensor(
+        PetkitSensor(
             coordinator=entry.runtime_data.coordinator,
             entity_description=entity_description,
             device=device,
@@ -426,7 +454,7 @@ async def async_setup_entry(
     async_add_entities(entities)
 
 
-class PetkitBinarySensor(PetkitEntity, SensorEntity):
+class PetkitSensor(PetkitEntity, SensorEntity):
     """Petkit Smart Devices BinarySensor class."""
 
     entity_description: PetKitSensorDesc
