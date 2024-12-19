@@ -210,8 +210,17 @@
       "food_left": {
         "name": "Food left"
       },
+      "spray_deodorant_liquid": {
+        "name": "Spray deodorant liquid"
+      },
       "last_update": {
         "name": "Last update"
+      },
+      "pet_last_weight_mesurement": {
+        "name": "Last weight measurement"
+      },
+      "pet_last_use_duration": {
+        "name": "Last use duration"
       },
       "litter_last_event": {
         "name": "Last event",

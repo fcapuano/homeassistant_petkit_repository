@@ -173,7 +173,8 @@ BUTTON_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitButtonDes
                 LitterCommand.CONTROL_DEVICE,
                 {LBAction.START: LBCommand.ODOR_REMOVAL},
             ),
-            only_for_types=DEVICES_LITTER_BOX,
+            only_for_types=[T4],
+            value=lambda device: None if device.with_k3 == 0 else 1,
         ),
         PetKitButtonDesc(
             key="Reset odor eliminator",

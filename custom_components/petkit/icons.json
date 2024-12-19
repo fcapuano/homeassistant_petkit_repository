@@ -215,6 +215,15 @@
       "desiccant_left_days": {
         "default": "mdi:air-filter"
       },
+      "pet_last_weight_mesurement": {
+        "default": "mdi:weight-kilogram"
+      },
+      "pet_last_use_duration": {
+        "default": "mdi:timer-outline"
+      },
+      "spray_deodorant_liquid": {
+        "default": "mdi:hydraulic-oil-level"
+      },
       "device_status": {
         "default": "mdi:lan-pending",
         "state": {
