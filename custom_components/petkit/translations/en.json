@@ -171,6 +171,9 @@
       "amount_eaten": {
         "name": "Amount eaten"
       },
+      "average_time": {
+        "name": "Average use"
+      },
       "avg_eating_time": {
         "name": "Average Eating Time"
       },
@@ -351,6 +354,12 @@
       "times_eaten": {
         "name": "Times eaten"
       },
+      "times_used": {
+        "name": "Times used"
+      },
+      "last_used_by": {
+        "name": "Last used by"
+      },
       "total_dispensed": {
         "name": "Total dispensed"
       },
@@ -368,6 +377,9 @@
       },
       "total_planned_hopper_2": {
         "name": "Total Planned Hopper 2"
+      },
+      "total_time": {
+        "name": "Total use"
       }
     },
     "switch": {

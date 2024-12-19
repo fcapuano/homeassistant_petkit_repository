@@ -197,6 +197,9 @@
       "amount_eaten": {
         "default": "mdi:food-drumstick"
       },
+      "average_time": {
+        "default": "mdi:timer-sand"
+      },
       "avg_eating_time": {
         "default": "mdi:food-drumstick"
       },
@@ -305,6 +308,9 @@
       "purified_water": {
         "default": "mdi:water-pump"
       },
+      "last_used_by": {
+        "default": "mdi:cat"
+      },
       "raw_distribution_data": {
         "default": "mdi:format-list-bulleted-type"
       },
@@ -319,6 +325,9 @@
       },
       "times_eaten": {
         "default": "mdi:food-drumstick"
+      },
+      "times_used": {
+        "default": "mdi:counter"
       },
       "today_pump_run_time": {
         "default": "mdi:lightning-bolt"
@@ -340,6 +349,9 @@
       },
       "total_planned_hopper_2": {
         "default": "mdi:food-drumstick"
+      },
+      "total_time": {
+        "default": "mdi:timer-sand"
       }
     },
     "switch": {
