@@ -45,6 +45,20 @@ SURPLUS_FOOD_LEVEL_OPT = {1: "Less", 2: "Moderate", 3: "Full"}
 IA_DETECTION_SENSITIVITY_OPT = {1: "Low", 2: "Mid", 3: "High"}
 LITTER_TYPE_OPT = {1: "Bentonite", 2: "Tofu", 3: "Mixed"}
 
+CLEANING_INTERVAL_OPT = {
+    0: "Disabled",
+    300: "5min",
+    600: "10min",
+    900: "15min",
+    1800: "30min",
+    2700: "45min",
+    3600: "1h",
+    4500: "1h15min",
+    5400: "1h30min",
+    6300: "1h45min",
+    7200: "2h",
+}
+
 
 MANUAL_FEED_OPT = {
     0: "",

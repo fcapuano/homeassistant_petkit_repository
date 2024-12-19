@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Any
 
 from pypetkitapi.const import D3, D4S
+from pypetkitapi.containers import Pet
 from pypetkitapi.feeder_container import Feeder
 from pypetkitapi.litter_container import Litter
 from pypetkitapi.water_fountain_container import WaterFountain
@@ -43,7 +44,9 @@ class PetKitSensorDesc(PetKitDescSensorBase, SensorEntityDescription):
     """A class that describes sensor entities."""
 
 
-SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDesc]] = {
+SENSOR_MAPPING: dict[
+    type[Feeder | Litter | WaterFountain | Pet], list[PetKitSensorDesc]
+] = {
     Feeder: [
         PetKitSensorDesc(
             key="Device status",
@@ -266,6 +269,14 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
             ),
         ),
         PetKitSensorDesc(
+            key="End date care plus subscription",
+            translation_key="end_date_care_plus_subscription",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            value=lambda device: datetime.fromtimestamp(
+                device.cloud_product.work_indate, tz=timezone.utc
+            ).strftime("%Y-%m-%d %H:%M:%S"),
+        ),
+        PetKitSensorDesc(
             key="Litter level",
             translation_key="litter_level",
             entity_category=EntityCategory.DIAGNOSTIC,
@@ -310,7 +321,20 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
         PetKitSensorDesc(
             key="Deodorant left days",
             translation_key="deodorant_left_days",
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=UnitOfTime.DAYS,
             value=lambda device: device.state.deodorant_left_days,
+        ),
+        PetKitSensorDesc(
+            key="Spray deodorant liquid",
+            translation_key="spray_deodorant_liquid",
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=PERCENTAGE,
+            value=lambda device: (
+                device.state.liquid
+                if device.state.liquid is not None and 0 <= device.state.liquid <= 100
+                else None
+            ),
         ),
     ],
     WaterFountain: [
@@ -354,6 +378,26 @@ SENSOR_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSensorDes
             translation_key="drink_times",
             entity_category=EntityCategory.DIAGNOSTIC,
             state_class=SensorStateClass.MEASUREMENT,
+            value=lambda device: len(device.device_records),
+        ),
+    ],
+    Pet: [
+        PetKitSensorDesc(
+            key="Pet last weight measurement",
+            translation_key="pet_last_weight_measurement",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            device_class=SensorDeviceClass.WEIGHT,
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=UnitOfMass.KILOGRAMS,
+            value=lambda device: len(device.device_records),
+        ),
+        PetKitSensorDesc(
+            key="Pet last use duration",
+            translation_key="pet_last_use_duration",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            device_class=SensorDeviceClass.DURATION,
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=UnitOfTime.SECONDS,
             value=lambda device: len(device.device_records),
         ),
     ],

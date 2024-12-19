@@ -15,7 +15,13 @@ from pypetkitapi.water_fountain_container import WaterFountain
 from homeassistant.components.select import SelectEntity, SelectEntityDescription
 from homeassistant.const import EntityCategory
 
-from .const import IA_DETECTION_SENSITIVITY_OPT, LOGGER, SURPLUS_FOOD_LEVEL_OPT
+from .const import (
+    CLEANING_INTERVAL_OPT,
+    IA_DETECTION_SENSITIVITY_OPT,
+    LITTER_TYPE_OPT,
+    LOGGER,
+    SURPLUS_FOOD_LEVEL_OPT,
+)
 from .entity import PetKitDescSensorBase, PetkitEntity
 
 if TYPE_CHECKING:
@@ -121,7 +127,46 @@ SELECT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSelectDes
             only_for_types=[D4H, D4SH],
         ),
     ],
-    Litter: [],
+    Litter: [
+        PetKitSelectDesc(
+            key="Litter type",
+            translation_key="litter_type",
+            current_option=lambda device: LITTER_TYPE_OPT[device.settings.sand_type],
+            options=lambda: list(LITTER_TYPE_OPT.values()),
+            action=lambda api, device, opt_value: api.send_api_request(
+                device.id,
+                DeviceCommand.UPDATE_SETTING,
+                {
+                    "sandType": next(
+                        key
+                        for key, value in LITTER_TYPE_OPT.items()
+                        if value == opt_value
+                    )
+                },
+            ),
+            entity_category=EntityCategory.CONFIG,
+        ),
+        PetKitSelectDesc(
+            key="Cleaning interval",
+            translation_key="cleaning_interval",
+            current_option=lambda device: CLEANING_INTERVAL_OPT[
+                device.settings.auto_interval_min
+            ],
+            options=lambda: list(CLEANING_INTERVAL_OPT.values()),
+            action=lambda api, device, opt_value: api.send_api_request(
+                device.id,
+                DeviceCommand.UPDATE_SETTING,
+                {
+                    "autoIntervalMin": next(
+                        key
+                        for key, value in CLEANING_INTERVAL_OPT.items()
+                        if value == opt_value
+                    )
+                },
+            ),
+            entity_category=EntityCategory.CONFIG,
+        ),
+    ],
     WaterFountain: [],
 }
 

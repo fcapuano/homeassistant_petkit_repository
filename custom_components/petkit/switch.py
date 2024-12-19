@@ -480,6 +480,89 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
                 device.id, DeviceCommand.UPDATE_SETTING, {"timeDisplay": 0}
             ),
         ),
+        PetKitSwitchDesc(
+            key="Pet tracking",
+            translation_key="pet_tracking",
+            value=lambda device: device.settings.highlight,
+            entity_category=EntityCategory.CONFIG,
+            turn_on=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"highlight": 1}
+            ),
+            turn_off=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"highlight": 0}
+            ),
+        ),
+        PetKitSwitchDesc(
+            key="Camera",
+            translation_key="camera",
+            value=lambda device: device.settings.camera,
+            turn_on=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"camera": 1}
+            ),
+            turn_off=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"camera": 0}
+            ),
+        ),
+        PetKitSwitchDesc(
+            key="Microphone",
+            translation_key="microphone",
+            value=lambda device: device.settings.microphone,
+            entity_category=EntityCategory.CONFIG,
+            turn_on=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"microphone": 1}
+            ),
+            turn_off=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"microphone": 0}
+            ),
+        ),
+        PetKitSwitchDesc(
+            key="Night vision",
+            translation_key="night_vision",
+            value=lambda device: device.settings.night,
+            entity_category=EntityCategory.CONFIG,
+            turn_on=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"night": 1}
+            ),
+            turn_off=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"night": 0}
+            ),
+        ),
+        PetKitSwitchDesc(
+            key="Pet visit notif",
+            translation_key="pet_visit_notif",
+            value=lambda device: device.settings.pet_notify,
+            entity_category=EntityCategory.CONFIG,
+            turn_on=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"petNotify": 1}
+            ),
+            turn_off=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"petNotify": 0}
+            ),
+        ),
+        PetKitSwitchDesc(
+            key="System notification",
+            translation_key="system_notification",
+            value=lambda device: device.settings.system_sound_enable,
+            entity_category=EntityCategory.CONFIG,
+            turn_on=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"systemSoundEnable": 1}
+            ),
+            turn_off=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"systemSoundEnable": 0}
+            ),
+        ),
+        PetKitSwitchDesc(
+            key="Waste covering",
+            translation_key="waste_covering",
+            value=lambda device: device.settings.bury,
+            entity_category=EntityCategory.CONFIG,
+            turn_on=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"bury": 1}
+            ),
+            turn_off=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"bury": 0}
+            ),
+        ),
     ],
     WaterFountain: [],
 }

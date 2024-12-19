@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any
 
 from pypetkitapi.command import DeviceCommand, FeederCommand
-from pypetkitapi.const import D3, D4H, D4S, D4SH, FEEDER
+from pypetkitapi.const import D3, D4H, D4S, D4SH, FEEDER, T6
 from pypetkitapi.feeder_container import Feeder
 from pypetkitapi.litter_container import Litter
 from pypetkitapi.water_fountain_container import WaterFountain
@@ -133,6 +133,20 @@ NUMBER_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitNumberDes
             action=lambda api, device, value: api.send_api_request(
                 device, DeviceCommand.UPDATE_SETTING, {"stillTime": int(value * 60)}
             ),
+        ),
+        PetKitNumberDesc(
+            key="Volume",
+            translation_key="volume",
+            entity_category=EntityCategory.CONFIG,
+            native_min_value=1,
+            native_max_value=9,
+            native_step=1,
+            mode=NumberMode.SLIDER,
+            native_value=lambda device: device.settings.volume,
+            action=lambda api, device, value: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"volume": int(value)}
+            ),
+            only_for_types=[T6],
         ),
     ],
     WaterFountain: [],
