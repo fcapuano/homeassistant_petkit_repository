@@ -362,7 +362,11 @@ SENSOR_MAPPING: dict[
         PetKitSensorDesc(
             key="Last used by",
             translation_key="last_used_by",
-            value=lambda device: device.device_stats.statistic_info[-1].pet_name if device.device_stats.statistic_info else None,
+            value=lambda device: (
+                device.device_stats.statistic_info[-1].pet_name
+                if device.device_stats.statistic_info
+                else None
+            ),
         ),
     ],
     WaterFountain: [
