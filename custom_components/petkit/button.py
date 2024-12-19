@@ -8,7 +8,17 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from pypetkitapi.command import FeederCommand, LBAction, LBCommand, LitterCommand
-from pypetkitapi.const import D3, D4H, D4S, D4SH, DEVICES_FEEDER, DEVICES_LITTER_BOX, T4, T3, T6
+from pypetkitapi.const import (
+    D3,
+    D4H,
+    D4S,
+    D4SH,
+    DEVICES_FEEDER,
+    DEVICES_LITTER_BOX,
+    T3,
+    T4,
+    T6,
+)
 from pypetkitapi.feeder_container import Feeder
 from pypetkitapi.litter_container import Litter
 from pypetkitapi.water_fountain_container import WaterFountain
