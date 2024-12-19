@@ -137,23 +137,23 @@
       "action_reset": {
         "default": "mdi:refresh-circle"
       },
+      "deodorize": {
+        "default": "mdi:spray"
+      },
       "dump_litter": {
         "default": "mdi:delete-circle-outline"
       },
       "exit_maintenance": {
         "default": "mdi:location-exit"
       },
+      "reset_odor_eliminator": {
+        "default": "mdi:scent"
+      },
       "start_maintenance": {
         "default": "mdi:progress-wrench"
       },
       "start_scoop": {
         "default": "mdi:broom"
-      },
-      "deodorize": {
-        "default": "mdi:spray"
-      },
-      "reset_odor_eliminator": {
-        "default": "mdi:scent"
       }
     },
     "number": {
@@ -208,6 +208,9 @@
           "0": "mdi:battery-low",
           "1": "mdi:battery-high"
         }
+      },
+      "deodorant_left_days": {
+        "default": "mdi:scent"
       },
       "desiccant_left_days": {
         "default": "mdi:air-filter"

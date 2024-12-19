@@ -105,6 +105,9 @@
       "cancel_manual_feed": {
         "name": "Cancel manual feed"
       },
+      "deodorize": {
+        "name": "Deodorize"
+      },
       "dump_litter": {
         "name": "Dump litter"
       },
@@ -117,17 +120,14 @@
       "reset_desiccant": {
         "name": "Reset desiccant"
       },
+      "reset_odor_eliminator": {
+        "name": "Reset odor eliminator"
+      },
       "start_maintenance": {
         "name": "Maintenance : Start"
       },
       "start_scoop": {
         "name": "Scoop"
-      },
-      "deodorize": {
-        "name": "Deodorize"
-      },
-      "reset_odor_eliminator": {
-        "name": "Reset odor eliminator"
       }
     },
     "number": {
@@ -170,6 +170,9 @@
       },
       "battery_level": {
         "name": "Battery level"
+      },
+      "deodorant_left_days": {
+        "name": "Deodorant left days"
       },
       "deodorizer_level": {
         "name": "Deodorizer level"
