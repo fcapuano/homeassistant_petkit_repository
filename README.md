@@ -21,6 +21,9 @@
 - [x] YumShare Solo with Camera
 - [x] YumShare Dual-hopper with Camera
 
+> [!IMPORTANT]
+> Video/Picture feature is not supported yet. it's planned for a future release.
+
 ### Litters :
 
 - [x] PuraX
@@ -28,6 +31,9 @@
 - [x] PuraMax 2
 - [ ] Purobot Max Pro with camera (tester needed)
 - [x] Purobot Ultra with camera
+
+> [!IMPORTANT]
+> Video/Picture feature is not supported yet. it's planned for a future release.
 
 ### Fountains :
 
@@ -38,7 +44,8 @@
 - [x] Eversweet Max
 
 > [!IMPORTANT]
-> Camera feature is not supported yet. I'm working on it...
+> Fountain only support reading data, no control is available yet. it's planned for a future release.
+
 
 ## Installation
 
