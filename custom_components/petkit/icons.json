@@ -174,8 +174,14 @@
       }
     },
     "select": {
+      "cleaning_interval": {
+        "default": "mdi:timer-sync-outline"
+      },
       "eat_detection_sensitivity": {
         "default": "mdi:tune-variant"
+      },
+      "litter_type": {
+        "default": "mdi:format-list-bulleted-type"
       },
       "move_detection_sensitivity": {
         "default": "mdi:tune-variant"
@@ -214,15 +220,6 @@
       },
       "desiccant_left_days": {
         "default": "mdi:air-filter"
-      },
-      "pet_last_weight_mesurement": {
-        "default": "mdi:weight-kilogram"
-      },
-      "pet_last_use_duration": {
-        "default": "mdi:timer-outline"
-      },
-      "spray_deodorant_liquid": {
-        "default": "mdi:hydraulic-oil-level"
       },
       "device_status": {
         "default": "mdi:lan-pending",
@@ -290,6 +287,12 @@
       "manual_dispensed_hopper_2": {
         "default": "mdi:food-drumstick"
       },
+      "pet_last_use_duration": {
+        "default": "mdi:timer-outline"
+      },
+      "pet_last_weight_measurement": {
+        "default": "mdi:weight-kilogram"
+      },
       "planned_dispensed": {
         "default": "mdi:food-drumstick"
       },
@@ -307,6 +310,9 @@
       },
       "rssi": {
         "default": "mdi:wifi"
+      },
+      "spray_deodorant_liquid": {
+        "default": "mdi:hydraulic-oil-level"
       },
       "times_dispensed": {
         "default": "mdi:food-drumstick"
@@ -553,6 +559,13 @@
         "state": {
           "off": "mdi:volume-mute",
           "on": "mdi:volume-high"
+        }
+      },
+      "waste_covering": {
+        "default": "mdi:shovel",
+        "state": {
+          "off": "mdi:shovel-off",
+          "on": "mdi:shovel"
         }
       }
     },

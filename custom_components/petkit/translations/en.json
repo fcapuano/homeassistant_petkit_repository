@@ -148,8 +148,14 @@
       }
     },
     "select": {
+      "cleaning_interval": {
+        "name": "Cleaning interval"
+      },
       "eat_detection_sensitivity": {
         "name": "IA Eat detection sensitivity"
+      },
+      "litter_type": {
+        "name": "Litter type"
       },
       "move_detection_sensitivity": {
         "name": "Move detection sensitivity"
@@ -210,17 +216,8 @@
       "food_left": {
         "name": "Food left"
       },
-      "spray_deodorant_liquid": {
-        "name": "Spray deodorant liquid"
-      },
       "last_update": {
         "name": "Last update"
-      },
-      "pet_last_weight_mesurement": {
-        "name": "Last weight measurement"
-      },
-      "pet_last_use_duration": {
-        "name": "Last use duration"
       },
       "litter_last_event": {
         "name": "Last event",
@@ -321,6 +318,12 @@
       "manual_dispensed_hopper_2": {
         "name": "Manually Dispensed Hopper 2"
       },
+      "pet_last_use_duration": {
+        "name": "Last use duration"
+      },
+      "pet_last_weight_measurement": {
+        "name": "Last weight measurement"
+      },
       "planned_dispensed": {
         "name": "Planned dispensed"
       },
@@ -338,6 +341,9 @@
       },
       "rssi": {
         "name": "RSSI"
+      },
+      "spray_deodorant_liquid": {
+        "name": "Spray deodorant liquid"
       },
       "times_dispensed": {
         "name": "Times dispensed"
@@ -466,6 +472,9 @@
       },
       "voice_dispense": {
         "name": "Voice dispense"
+      },
+      "waste_covering": {
+        "name": "Waste covering"
       }
     },
     "text": {
