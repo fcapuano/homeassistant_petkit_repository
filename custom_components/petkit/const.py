@@ -23,6 +23,7 @@ PETKIT_DEVICES_MAPPING = {
     "t5": "Purobot Max",
     "t6": "Purobot Ultra",
     "ctw3": "Eversweet Max",
+    "pet": "Pet",
 }
 
 # Data mapping for petkit devices
