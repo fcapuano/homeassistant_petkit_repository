@@ -106,6 +106,7 @@ class PetkitImage(PetkitEntity, ImageEntity):
         self.entity_description = entity_description
         self.device = device
         self.media_handler = MediaHandler(device, os.path.join(os.path.dirname(__file__), 'images'))
+        self._last_image_timestamp = None  # Stocke le dernier timestamp
 
     @property
     def unique_id(self) -> str:
@@ -117,22 +118,21 @@ class PetkitImage(PetkitEntity, ImageEntity):
     @property
     def image_last_updated(self) -> datetime.datetime | None:
         """Return timestamp of last image update."""
-        return None
+        return self._last_image_timestamp
 
-    def image(self) -> bytes | None:  # pragma: no cover (HA currently does not support a direct way to test this)
+    def image(self) -> bytes | None:
         """Return bytes of image."""
-        LOGGER.debug(">>>>>>>> Getting image")
-
         asyncio.run(self.media_handler.get_last_image())
         result = self.media_handler.media_files
 
         print(result)
 
         event_key = self.entity_description.event_key
-        filename = self._get_filename_for_event_key(result, event_key)
+        filename, timestamp = self._get_filename_and_timestamp_for_event_key(result, event_key)
 
         if filename:
             try:
+                self._last_image_timestamp = timestamp  # Met à jour le dernier timestamp
                 image_path = os.path.join(os.path.dirname(__file__), 'images', filename)
                 LOGGER.debug(f"Getting image for {self.device.device_type} Path is :{image_path}")
                 with open(image_path, 'rb') as image_file:
@@ -145,10 +145,15 @@ class PetkitImage(PetkitEntity, ImageEntity):
             return None
 
     @staticmethod
-    def _get_filename_for_event_key(media_files, event_key):
-        """Parse media files and return the filename for the given event key."""
-        print(media_files, event_key)
+    def _get_filename_and_timestamp_for_event_key(media_files, event_key):
+        """
+        Parse media files and return the filename and timestamp for the given event key.
+
+        Returns:
+            tuple: (filename, timestamp) or (None, None)
+        """
         for media_file in media_files:
             if media_file.record_type == event_key:
-                return media_file.filename
-        return None
+                timestamp = datetime.datetime.fromtimestamp(media_file.timestamp)
+                return media_file.filename, timestamp
+        return None, None

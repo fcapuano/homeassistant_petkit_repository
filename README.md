@@ -11,6 +11,11 @@
 
 ## Supported devices
 
+Picture feature is supported for feeders with camera. 
+Video feature is not supported yet. it's planned for a future release.
+
+<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/master/images/last_event.png">
+
 ### Feeders :
 
 - [x] Fresh Element
@@ -21,8 +26,24 @@
 - [x] YumShare Solo with Camera
 - [x] YumShare Dual-hopper with Camera
 
-> [!IMPORTANT]
-> Video/Picture feature is not supported yet. it's planned for a future release.
+Add Feeding Schedule card for feeders :
+
+<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/master/images/feed_plan.png">
+
+Add this card to your HA with HACS : https://github.com/cristianchelu/dispenser-schedule-card
+
+On config card paste this :
+
+```yaml
+type: custom:dispenser-schedule-card
+entity: sensor.yumshare_raw_feed_plan_data
+editable: never
+alternate_unit:
+  unit_of_measurement: g
+  conversion_factor: 10
+  approximate: true
+```
+
 
 ### Litters :
 
@@ -32,8 +53,6 @@
 - [ ] Purobot Max Pro with camera (tester needed)
 - [x] Purobot Ultra with camera
 
-> [!IMPORTANT]
-> Video/Picture feature is not supported yet. it's planned for a future release.
 
 ### Fountains :
 
@@ -45,7 +64,6 @@
 
 > [!IMPORTANT]
 > Fountain only support reading data, no control is available yet. it's planned for a future release.
-
 
 ## Installation
 
