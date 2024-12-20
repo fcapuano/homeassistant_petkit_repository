@@ -9,7 +9,8 @@
   "loggers": ["petkit"],
   "requirements": [
     "pypetkitapi==1.6.1",
-    "aiofiles==24.1.0"
+    "aiofiles==24.1.0",
+    "pycryptodome==3.21.0"
   ],
   "version": "1.0.0"
 }
