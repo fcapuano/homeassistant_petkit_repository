@@ -8,10 +8,8 @@
   "issue_tracker": "https://github.com/Jezza34000/homeassistant_petkit/issues",
   "loggers": ["petkit"],
   "requirements": [
-    "pypetkitapi==1.6.2",
-    "aiofiles==24.1.0",
-    "pycryptodome==3.21.0",
-    "pydantic==2.10"
+    "pypetkitapi==1.6.3",
+    "aiofiles==24.1.0"
   ],
   "version": "1.0.0"
 }
