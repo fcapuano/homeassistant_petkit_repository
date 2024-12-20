@@ -124,9 +124,6 @@ class PetkitImage(PetkitEntity, ImageEntity):
         """Return bytes of image."""
         asyncio.run(self.media_handler.get_last_image())
         result = self.media_handler.media_files
-
-        print(result)
-
         event_key = self.entity_description.event_key
         filename, timestamp = self._get_filename_and_timestamp_for_event_key(result, event_key)
 
