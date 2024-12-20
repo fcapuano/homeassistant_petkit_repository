@@ -372,6 +372,12 @@
       "total_planned": {
         "name": "Total planned"
       },
+      "total_package": {
+        "name": "Total package"
+      },
+      "package_used": {
+        "name": "Package used"
+      },
       "total_planned_hopper_1": {
         "name": "Total Planned Hopper 1"
       },
@@ -498,6 +504,17 @@
       },
       "manual_feed_single": {
         "name": "Manual feed"
+      }
+    },
+    "image": {
+      "last_visit_event": {
+        "name": "Last visit event"
+      },
+      "last_eat_event": {
+        "name": "Last eat event"
+      },
+      "last_feed_event": {
+        "name": "Last feed event"
       }
     }
   }

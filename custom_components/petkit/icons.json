@@ -314,6 +314,12 @@
       "raw_distribution_data": {
         "default": "mdi:format-list-bulleted-type"
       },
+      "total_package": {
+        "default": "mdi:trash-can"
+      },
+      "package_used": {
+        "default": "mdi:trash-can"
+      },
       "rssi": {
         "default": "mdi:wifi"
       },
@@ -590,6 +596,11 @@
       },
       "manual_feed_single": {
         "default": "mdi:shaker-outline"
+      }
+    },
+    "image": {
+      "last_picture_event": {
+        "default": "mdi:camera"
       }
     }
   }
