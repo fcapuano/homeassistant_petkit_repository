@@ -14,6 +14,10 @@
 Picture feature is supported for feeders with camera. 
 Video feature is not supported yet. it's planned for a future release.
 
+> [!NOTE]
+> Picture feature does not require an active Care+ subscription. \
+> Video feature will require an active Care+ subscription.
+
 <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/master/images/last_event.png">
 
 ### Feeders :
