@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Any
 
-from pypetkitapi.const import D3, D4S
+from pypetkitapi.const import D3, D4S, T4, T6
 from pypetkitapi.containers import Pet
 from pypetkitapi.feeder_container import Feeder
 from pypetkitapi.litter_container import Litter
@@ -42,6 +42,8 @@ if TYPE_CHECKING:
 @dataclass(frozen=True, kw_only=True)
 class PetKitSensorDesc(PetKitDescSensorBase, SensorEntityDescription):
     """A class that describes sensor entities."""
+
+    entity_picture: callable[[Pet], str | None] | None = None
 
 
 SENSOR_MAPPING: dict[
@@ -279,7 +281,6 @@ SENSOR_MAPPING: dict[
         PetKitSensorDesc(
             key="Litter level",
             translation_key="litter_level",
-            entity_category=EntityCategory.DIAGNOSTIC,
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=PERCENTAGE,
             value=lambda device: device.state.sand_percent,
@@ -362,11 +363,28 @@ SENSOR_MAPPING: dict[
         PetKitSensorDesc(
             key="Last used by",
             translation_key="last_used_by",
-            value=lambda device: (
-                device.device_stats.statistic_info[-1].pet_name
-                if device.device_stats.statistic_info
-                else None
-            ),
+            value=lambda device: device.device_stats.statistic_info[-1].pet_name if device.device_stats.statistic_info else None,
+            only_for_types=[T4]
+        ),
+        PetKitSensorDesc(
+            key="Last used by",
+            translation_key="last_used_by",
+            value=lambda device: device.device_pet_graph_out[-1].pet_name if device.device_pet_graph_out else None,
+            only_for_types=[T6]
+        ),
+        PetKitSensorDesc(
+            key="Total package",
+            translation_key="total_package",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            state_class=SensorStateClass.MEASUREMENT,
+            value=lambda device: device.package_total_count,
+        ),
+        PetKitSensorDesc(
+            key="Package used",
+            translation_key="package_used",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            state_class=SensorStateClass.MEASUREMENT,
+            value=lambda device: device.package_used_count,
         ),
     ],
     WaterFountain: [
@@ -417,21 +435,21 @@ SENSOR_MAPPING: dict[
         PetKitSensorDesc(
             key="Pet last weight measurement",
             translation_key="pet_last_weight_measurement",
-            entity_category=EntityCategory.DIAGNOSTIC,
+            entity_picture=lambda pet: pet.avatar,
             device_class=SensorDeviceClass.WEIGHT,
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=UnitOfMass.KILOGRAMS,
-            value=lambda device: len(device.device_records),
+            value=lambda _: 0,
         ),
         PetKitSensorDesc(
             key="Pet last use duration",
             translation_key="pet_last_use_duration",
-            entity_category=EntityCategory.DIAGNOSTIC,
+            entity_picture=lambda pet: pet.avatar,
             device_class=SensorDeviceClass.DURATION,
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=UnitOfTime.SECONDS,
-            value=lambda device: len(device.device_records),
-        ),
+            value=lambda _: 0,
+        )
     ],
 }
 
@@ -481,6 +499,14 @@ class PetkitSensor(PetkitEntity, SensorEntity):
         device_data = self.coordinator.data.get(self.device.id)
         if device_data:
             return self.entity_description.value(device_data)
+        return None
+
+    @property
+    def entity_picture(self) -> str | None:
+        """Grab associated pet picture."""
+
+        if self.entity_description.entity_picture:
+            return self.entity_description.entity_picture(self.device)
         return None
 
     @property
