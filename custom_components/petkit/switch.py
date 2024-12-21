@@ -457,18 +457,6 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="Pet tracking",
-            translation_key="pet_tracking",
-            value=lambda device: device.settings.highlight,
-            entity_category=EntityCategory.CONFIG,
-            turn_on=lambda api, device: api.send_api_request(
-                device.id, DeviceCommand.UPDATE_SETTING, {"highlight": 1}
-            ),
-            turn_off=lambda api, device: api.send_api_request(
-                device.id, DeviceCommand.UPDATE_SETTING, {"highlight": 0}
-            ),
-        ),
-        PetKitSwitchDesc(
             key="Video timestamp",
             translation_key="video_timestamp",
             value=lambda device: device.settings.time_display,
