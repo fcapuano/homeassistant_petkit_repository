@@ -180,21 +180,9 @@ BUTTON_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitButtonDes
             key="Reset odor eliminator",
             translation_key="reset_odor_eliminator",
             action=lambda api, device: api.send_api_request(
-                device.id,
-                LitterCommand.CONTROL_DEVICE,
-                {LBAction.START: LBCommand.RESET_DEODOR},
+                device.id, LitterCommand.RESET_DEODORIZER
             ),
-            only_for_types=[T3],
-        ),
-        PetKitButtonDesc(
-            key="Reset odor eliminator",
-            translation_key="reset_odor_eliminator",
-            action=lambda api, device: api.send_api_request(
-                device.id,
-                LitterCommand.CONTROL_DEVICE,
-                {LBAction.START: LBCommand.RESET_MAX_DEODOR},
-            ),
-            only_for_types=[T4, T6],
+            only_for_types=[T3, T4, T6],
         ),
     ],
     WaterFountain: [
