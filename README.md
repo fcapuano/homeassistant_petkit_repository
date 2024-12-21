@@ -12,7 +12,7 @@
 ## Enjoying this integration? 
 ### Show your support by sponsoring! Every donation helps keep the project alive and thriving.
 
-<iframe src="https://github.com/sponsors/Jezza34000/button" title="Sponsor Jezza34000" height="32" width="114" style="border: 0; border-radius: 6px;"></iframe>
+[![Sponsor Jezza34000](https://img.shields.io/badge/sponsor-Jezza34000-blue.svg?style=for-the-badge)](https://github.com/sponsors/Jezza34000)
 
 
 ## Supported devices
