@@ -1,3 +1,4 @@
 {
-  "name": "Petkit Smart Devices"
+  "name": "Petkit Smart Devices",
+  "homeassistant": "2024.11.0"
 }
