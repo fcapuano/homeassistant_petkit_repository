@@ -9,9 +9,15 @@
 [![Discord][discord-shield]][discord]
 [![Community Forum][forum-shield]][forum]
 
+## Enjoying this integration? 
+### Show your support by sponsoring! Every donation helps keep the project alive and thriving.
+
+<iframe src="https://github.com/sponsors/Jezza34000/button" title="Sponsor Jezza34000" height="32" width="114" style="border: 0; border-radius: 6px;"></iframe>
+
+
 ## Supported devices
 
-Picture feature is supported for feeders with camera. 
+Picture feature is supported for feeders with camera.
 Video feature is not supported yet. it's planned for a future release.
 
 > [!NOTE]
@@ -48,7 +54,6 @@ alternate_unit:
   approximate: true
 ```
 
-
 ### Litters :
 
 - [x] PuraX
@@ -56,7 +61,6 @@ alternate_unit:
 - [x] PuraMax 2
 - [ ] Purobot Max Pro with camera (tester needed)
 - [x] Purobot Ultra with camera
-
 
 ### Fountains :
 
@@ -99,6 +103,12 @@ Or follow these steps:
 > 2. At the top, click on Family Management and then on the Create a family button and follow the instructions.
 > 3. Once finished, click the Add family member button.
 > 4. Add your second Petkit account that you will have created beforehand and will be used by the Home Assistant Petkit integration.
+
+## Available languages
+
+This integration is available in the following languages:
+
+- English
 
 ## Contributions are welcome!
 
