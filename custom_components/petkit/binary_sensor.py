@@ -135,14 +135,14 @@ BINARY_SENSOR_MAPPING: dict[
             translation_key="waste_bin_presence",
             device_class=BinarySensorDeviceClass.PROBLEM,
             value=lambda device: not device.state.box_state,
-            only_for_types=[T4]
+            only_for_types=[T4],
         ),
         PetKitBinarySensorDesc(
             key="Waste bin presence",
             translation_key="waste_bin_presence",
             device_class=BinarySensorDeviceClass.PROBLEM,
             value=lambda device: device.state.box_store_state,
-            only_for_types=[T6]
+            only_for_types=[T6],
         ),
     ],
     WaterFountain: [
