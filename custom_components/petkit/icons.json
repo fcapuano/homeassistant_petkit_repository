@@ -156,6 +156,11 @@
         "default": "mdi:broom"
       }
     },
+    "image": {
+      "last_picture_event": {
+        "default": "mdi:camera"
+      }
+    },
     "number": {
       "cleaning_delay": {
         "default": "mdi:clock"
@@ -293,6 +298,9 @@
       "manual_dispensed_hopper_2": {
         "default": "mdi:food-drumstick"
       },
+      "package_used": {
+        "default": "mdi:trash-can"
+      },
       "pet_last_use_duration": {
         "default": "mdi:timer-outline"
       },
@@ -313,12 +321,6 @@
       },
       "raw_distribution_data": {
         "default": "mdi:format-list-bulleted-type"
-      },
-      "total_package": {
-        "default": "mdi:trash-can"
-      },
-      "package_used": {
-        "default": "mdi:trash-can"
       },
       "rssi": {
         "default": "mdi:wifi"
@@ -346,6 +348,9 @@
       },
       "total_dispensed_hopper_2": {
         "default": "mdi:food-drumstick"
+      },
+      "total_package": {
+        "default": "mdi:trash-can"
       },
       "total_planned": {
         "default": "mdi:food-drumstick"
@@ -596,11 +601,6 @@
       },
       "manual_feed_single": {
         "default": "mdi:shaker-outline"
-      }
-    },
-    "image": {
-      "last_picture_event": {
-        "default": "mdi:camera"
       }
     }
   }

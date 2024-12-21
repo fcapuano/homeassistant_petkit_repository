@@ -130,6 +130,17 @@
         "name": "Scoop"
       }
     },
+    "image": {
+      "last_eat_event": {
+        "name": "Last eat event"
+      },
+      "last_feed_event": {
+        "name": "Last feed event"
+      },
+      "last_visit_event": {
+        "name": "Last visit event"
+      }
+    },
     "number": {
       "cleaning_delay": {
         "name": "Cleaning Delay"
@@ -324,6 +335,15 @@
       "manual_dispensed_hopper_2": {
         "name": "Manually Dispensed Hopper 2"
       },
+      "package_used": {
+        "name": "Package used"
+      },
+      "pet_last_device_used": {
+        "name": "Last litter used"
+      },
+      "pet_last_use_date": {
+        "name": "Last use date"
+      },
       "pet_last_use_duration": {
         "name": "Last use duration"
       },
@@ -369,14 +389,11 @@
       "total_dispensed_hopper_2": {
         "name": "Total Dispensed Hopper 2"
       },
-      "total_planned": {
-        "name": "Total planned"
-      },
       "total_package": {
         "name": "Total package"
       },
-      "package_used": {
-        "name": "Package used"
+      "total_planned": {
+        "name": "Total planned"
       },
       "total_planned_hopper_1": {
         "name": "Total Planned Hopper 1"
@@ -504,17 +521,6 @@
       },
       "manual_feed_single": {
         "name": "Manual feed"
-      }
-    },
-    "image": {
-      "last_visit_event": {
-        "name": "Last visit event"
-      },
-      "last_eat_event": {
-        "name": "Last eat event"
-      },
-      "last_feed_event": {
-        "name": "Last feed event"
       }
     }
   }
