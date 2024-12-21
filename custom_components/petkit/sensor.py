@@ -363,14 +363,22 @@ SENSOR_MAPPING: dict[
         PetKitSensorDesc(
             key="Last used by",
             translation_key="last_used_by",
-            value=lambda device: device.device_stats.statistic_info[-1].pet_name if device.device_stats.statistic_info else None,
-            only_for_types=[T4]
+            value=lambda device: (
+                device.device_stats.statistic_info[-1].pet_name
+                if device.device_stats.statistic_info
+                else None
+            ),
+            only_for_types=[T4],
         ),
         PetKitSensorDesc(
             key="Last used by",
             translation_key="last_used_by",
-            value=lambda device: device.device_pet_graph_out[-1].pet_name if device.device_pet_graph_out else None,
-            only_for_types=[T6]
+            value=lambda device: (
+                device.device_pet_graph_out[-1].pet_name
+                if device.device_pet_graph_out
+                else None
+            ),
+            only_for_types=[T6],
         ),
         PetKitSensorDesc(
             key="Total package",
@@ -438,8 +446,9 @@ SENSOR_MAPPING: dict[
             entity_picture=lambda pet: pet.avatar,
             device_class=SensorDeviceClass.WEIGHT,
             state_class=SensorStateClass.MEASUREMENT,
-            native_unit_of_measurement=UnitOfMass.KILOGRAMS,
-            value=lambda _: 0,
+            suggested_display_precision=-1,
+            native_unit_of_measurement=UnitOfMass.GRAMS,
+            value=lambda pet: pet.last_measured_weight,
         ),
         PetKitSensorDesc(
             key="Pet last use duration",
@@ -448,8 +457,24 @@ SENSOR_MAPPING: dict[
             device_class=SensorDeviceClass.DURATION,
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=UnitOfTime.SECONDS,
-            value=lambda _: 0,
-        )
+            value=lambda pet: pet.last_duration_usage,
+        ),
+        PetKitSensorDesc(
+            key="Pet last device used",
+            translation_key="pet_last_device_used",
+            entity_picture=lambda pet: pet.avatar,
+            value=lambda pet: pet.last_device_used,
+        ),
+        PetKitSensorDesc(
+            key="Pet last use date",
+            translation_key="pet_last_use_date",
+            entity_picture=lambda pet: pet.avatar,
+            value=lambda pet: (
+                datetime.fromtimestamp(pet.last_litter_usage)
+                if pet.last_litter_usage != 0
+                else None
+            ),
+        ),
     ],
 }
 
@@ -498,7 +523,9 @@ class PetkitSensor(PetkitEntity, SensorEntity):
         """Return the state of the sensor."""
         device_data = self.coordinator.data.get(self.device.id)
         if device_data:
-            return self.entity_description.value(device_data)
+            value = self.entity_description.value(device_data)
+            if value != 0:
+                return value
         return None
 
     @property
