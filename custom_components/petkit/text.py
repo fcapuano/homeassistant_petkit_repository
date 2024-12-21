@@ -158,6 +158,22 @@ class PetkitText(PetkitEntity, TextEntity):
 
     async def async_set_value(self, value: str) -> None:
         """Set manual feeding amount."""
+
+        if self.device.device_type in [D4, D4H]:
+            # D4/D4H => 10,20,30,40,50
+            valid_values = [10, 20, 30, 40, 50]
+        elif self.device.device_type == FEEDER_MINI:
+            # FeederMini => 0,5,10,15,20,25,30,35,40,45,50
+            valid_values = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
+        else:
+            # Other, D4sh => 1,2,3,4,5,7,8,9,10
+            valid_values = [1, 2, 3, 4, 5, 7, 8, 9, 10]
+
+        if int(value) not in valid_values:
+            raise ValueError(
+                f"Feeding value '{value}' is not valid for this Feeder. Valid values are: {valid_values}"
+            )
+
         LOGGER.debug(
             "Setting value for : %s with value : %s", self.entity_description.key, value
         )
