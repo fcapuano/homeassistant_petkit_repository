@@ -2,18 +2,18 @@
 
 # Petkit integration for Home Assistant
 
-[![GitHub Release][releases-shield]][releases] [![License][license-shield]](LICENSE)
+[![GitHub Release][releases-shield]][releases] [![HACS Custom](https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge)](https://hacs.xyz/docs/faq/custom_repositories)
 
-[![GitHub Activity][commits-shield]][commits] ![Project Maintenance][maintenance-shield]
+[![GitHub Activity][commits-shield]][commits] ![Project Maintenance][maintenance-shield] [![License][license-shield]](LICENSE)
 
 [![Discord][discord-shield]][discord]
 [![Community Forum][forum-shield]][forum]
 
-## Enjoying this integration? 
+## Enjoying this integration?
+
 ### Show your support by sponsoring! Every donation helps keep the project alive and thriving.
 
 [![Sponsor Jezza34000](https://img.shields.io/badge/sponsor-Jezza34000-blue.svg?style=for-the-badge)](https://github.com/sponsors/Jezza34000)
-
 
 ## Supported devices
 
@@ -64,10 +64,10 @@ alternate_unit:
 
 ### Fountains :
 
-- [ ] Eversweet Solo 2
-- [ ] Eversweet 3 Pro
-- [ ] Eversweet 3 Pro UVC
-- [ ] Eversweet 5 Mini
+- [x] Eversweet Solo 2
+- [x] Eversweet 3 Pro
+- [x] Eversweet 3 Pro UVC
+- [x] Eversweet 5 Mini
 - [x] Eversweet Max
 
 > [!IMPORTANT]
@@ -77,7 +77,7 @@ alternate_unit:
 
 Via HACS (recommended), click here :
 
-<img src="https://my.home-assistant.io/badges/hacs_repository.svg?style=flat-square" alt="Open your Home Assistant instance and open the repository inside the Home Assistant Community Store"></img>
+[![Open your Home Assistant instance and open the repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg?style=flat-square)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Jezza34000&repository=homeassistant_petkit&category=integration)
 
 Or follow these steps:
 
@@ -96,13 +96,19 @@ Or follow these steps:
 ## Configuration is done in the UI
 
 > [!IMPORTANT]
-> Petkit accounts cannot be logged in two places at the same time. To use the official Petkit application and the Home Assistant integration simultaneously, you must create a second Petkit account and a "Family".
-> Follow these steps:
+> Accounts: \
+> In order to use the official Petkit official application **AND** HomeAssistant  simultaneously, you must have 2 accounts :
+> * Use the **primary** account with your official Petkit application.
+> * Use the **secondary** account for Home Assistant.
 >
-> 1. Go to the Petkit application.
-> 2. At the top, click on Family Management and then on the Create a family button and follow the instructions.
-> 3. Once finished, click the Add family member button.
-> 4. Add your second Petkit account that you will have created beforehand and will be used by the Home Assistant Petkit integration.
+> Add the secondary account to the primary account's family in the Petkit application. \
+> 
+> **How to create a family:**
+> 1. Go to the Petkit application, when logged with your primary account.
+> 2. At the top, click on `Family Management` and then on the `Create a family` button and follow the instructions.
+> 3. Once finished, click the `Add family member` button.
+> 4. Add your second Petkit account.
+> 5. Now log in to the Home Assistant application with your secondary account.
 
 ## Available languages
 
