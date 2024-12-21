@@ -436,7 +436,11 @@ SENSOR_MAPPING: dict[
             translation_key="drink_times",
             entity_category=EntityCategory.DIAGNOSTIC,
             state_class=SensorStateClass.MEASUREMENT,
-            value=lambda device: len(device.device_records),
+            value=lambda device: (
+                len(device.device_records)
+                if isinstance(device.device_records, list)
+                else None
+            ),
         ),
     ],
     Pet: [
