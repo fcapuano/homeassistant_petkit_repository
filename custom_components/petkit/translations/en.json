@@ -227,6 +227,9 @@
       "food_bowl_percentage": {
         "name": "Food bowl fill"
       },
+      "food_in_bowl": {
+        "name": "Food in bowl"
+      },
       "food_left": {
         "name": "Food left"
       },
@@ -521,6 +524,17 @@
       },
       "manual_feed_single": {
         "name": "Manual feed"
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "petkit_options": {
+        "data": {
+          "polling_interval": "Polling interval (seconds)",
+          "region": "Region",
+          "timezone": "Timezone"
+        }
       }
     }
   }
