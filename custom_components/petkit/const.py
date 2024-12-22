@@ -41,7 +41,7 @@ BATTERY_LEVEL_MAP = {
 }
 
 # Text input regex
-INPUT_FEED_PATTERN = "^([0-9]|[1-4][0-5]|50)$"
+INPUT_FEED_PATTERN = "^(0|[1-9][0-9]?|1[0-9]{2}|200)$"
 
 # Select list mapping
 SURPLUS_FOOD_LEVEL_OPT = {1: "Less", 2: "Moderate", 3: "Full"}
