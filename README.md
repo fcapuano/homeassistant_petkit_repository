@@ -46,7 +46,7 @@ On config card paste this :
 
 ```yaml
 type: custom:dispenser-schedule-card
-entity: sensor.yumshare_raw_feed_plan_data
+entity: sensor.MY_FEEDER_NAME_raw_distribution_data
 editable: never
 alternate_unit:
   unit_of_measurement: g
@@ -117,6 +117,8 @@ Or follow these steps:
 This integration is available in the following languages:
 
 - English
+- Polish (thanks to @Chriserus)
+- Spanish (thanks to @joasara)
 
 ## Contributions are welcome!
 
