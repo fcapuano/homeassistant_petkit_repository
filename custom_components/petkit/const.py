@@ -7,6 +7,7 @@ DOMAIN = "petkit"
 
 REGION = "region"
 TIMEZONE = "timezone"
+POLLING_INTERVAL = "polling_interval"
 
 
 # Petkit devices types to name translation
@@ -22,6 +23,7 @@ PETKIT_DEVICES_MAPPING = {
     "t4": "Pura MAX / Pura MAX 2",
     "t5": "Purobot Max",
     "t6": "Purobot Ultra",
+    "w5": "Eversweet 5 Mini",
     "ctw3": "Eversweet Max",
     "pet": "Pet",
 }
