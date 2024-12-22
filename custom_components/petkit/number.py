@@ -62,7 +62,6 @@ NUMBER_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitNumberDes
         PetKitNumberDesc(
             key="Surplus",
             translation_key="surplus",
-            entity_category=EntityCategory.CONFIG,
             native_min_value=20,
             native_max_value=100,
             native_step=10,
@@ -70,21 +69,6 @@ NUMBER_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitNumberDes
             native_value=lambda device: device.settings.surplus,
             action=lambda api, device, value: api.send_api_request(
                 device.id, DeviceCommand.UPDATE_SETTING, {"surplus": int(value)}
-            ),
-            only_for_types=[D3],
-        ),
-        PetKitNumberDesc(
-            key="Manual Feed",
-            translation_key="manual_feed",
-            entity_category=EntityCategory.CONFIG,
-            native_min_value=4,
-            native_max_value=200,
-            native_step=1,
-            device_class=NumberDeviceClass.WEIGHT,
-            mode=NumberMode.SLIDER,
-            native_value=lambda device: 4,
-            action=lambda api, device, value: api.send_api_request(
-                device.id, FeederCommand.MANUAL_FEED, {"amount": int(value)}
             ),
             only_for_types=[D3],
         ),
