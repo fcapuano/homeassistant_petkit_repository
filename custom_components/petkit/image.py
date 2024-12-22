@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING
 
 import aiofiles
 from pypetkitapi.const import D4H, D4SH
+from pypetkitapi.containers import Pet
 from pypetkitapi.feeder_container import Feeder
 from pypetkitapi.litter_container import Litter
 from pypetkitapi.medias import MediaHandler
@@ -91,7 +92,7 @@ class PetkitImage(PetkitEntity, ImageEntity):
         self,
         coordinator: PetkitDataUpdateCoordinator,
         entity_description: PetKitImageDesc,
-        device: Feeder | Litter | WaterFountain,
+        device: Feeder | Litter | WaterFountain | Pet,
     ) -> None:
         """Initialize the switch class."""
         super().__init__(coordinator, device)
@@ -99,8 +100,9 @@ class PetkitImage(PetkitEntity, ImageEntity):
         self.coordinator = coordinator
         self.entity_description = entity_description
         self.device = device
-        self.media_handler = MediaHandler(device, Path(__file__).parent / "images")
+        self.media_handler = MediaHandler(Path(__file__).parent / "images")
         self._last_image_timestamp: datetime.datetime | None = None
+        self._last_image_filename: str | None = None
 
     @property
     def unique_id(self) -> str:
@@ -116,17 +118,18 @@ class PetkitImage(PetkitEntity, ImageEntity):
 
     async def async_image(self) -> bytes | None:
         """Return bytes of image asynchronously."""
-        await self.media_handler.get_last_image()
-        result = self.media_handler.media_files
         event_key = self.entity_description.event_key
-        filename, timestamp = self._get_filename_and_timestamp_for_event_key(
-            result, event_key
+
+        await self.media_handler.get_last_image(self.coordinator.data.get(self.device.id))
+        await self._get_filename_and_timestamp_for_event_key(
+            self.media_handler.media_files, event_key
         )
 
-        if filename:
+        if self._last_image_filename:
             try:
-                self._last_image_timestamp = timestamp
-                image_path = Path(__file__).parent / "images" / filename
+                image_path = (
+                    Path(__file__).parent / "images" / self._last_image_filename
+                )
                 LOGGER.debug(
                     f"Getting image for {self.device.device_type} Path is :{image_path}"
                 )
@@ -139,16 +142,10 @@ class PetkitImage(PetkitEntity, ImageEntity):
             LOGGER.error(f"No filename found for event key '{event_key}'")
             return None
 
-    @staticmethod
-    def _get_filename_and_timestamp_for_event_key(media_files, event_key):
-        """Parse media files and return the filename and timestamp for the given event key.
-
-        Returns:
-            tuple: (filename, timestamp) or (None, None)
-
-        """
+    async def _get_filename_and_timestamp_for_event_key(self, media_files, event_key):
+        """Parse media files and return the filename and timestamp for the given event key."""
         for media_file in media_files:
             if media_file.record_type == event_key:
                 timestamp = datetime.datetime.fromtimestamp(media_file.timestamp)
-                return media_file.filename, timestamp
-        return None, None
+                self._last_image_timestamp = timestamp
+                self._last_image_filename = media_file.filename
