@@ -97,7 +97,11 @@ SENSOR_MAPPING: dict[
             translation_key="times_dispensed",
             entity_category=EntityCategory.DIAGNOSTIC,
             state_class=SensorStateClass.MEASUREMENT,
-            value=lambda device: device.state.feed_state.feed_times,
+            value=lambda device: (
+                len(device.state.feed_state.times)
+                if isinstance(device.state.feed_state.times, list)
+                else 0
+            ),
             only_for_types=[D3],
         ),
         PetKitSensorDesc(
@@ -162,7 +166,6 @@ SENSOR_MAPPING: dict[
         PetKitSensorDesc(
             key="Food in bowl",
             translation_key="food_in_bowl",
-            entity_category=EntityCategory.DIAGNOSTIC,
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=UnitOfMass.GRAMS,
             value=lambda device: device.state.weight,
@@ -236,7 +239,11 @@ SENSOR_MAPPING: dict[
             translation_key="food_bowl_percentage",
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=PERCENTAGE,
-            value=lambda device: max(0, min(100, device.state.bowl)),
+            value=lambda device: (
+                max(0, min(100, device.state.bowl))
+                if device.state.bowl is not None
+                else None
+            ),
         ),
         PetKitSensorDesc(
             key="End date care plus subscription",
