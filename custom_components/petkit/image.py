@@ -120,7 +120,9 @@ class PetkitImage(PetkitEntity, ImageEntity):
         """Return bytes of image asynchronously."""
         event_key = self.entity_description.event_key
 
-        await self.media_handler.get_last_image(self.coordinator.data.get(self.device.id))
+        await self.media_handler.get_last_image(
+            self.coordinator.data.get(self.device.id)
+        )
         await self._get_filename_and_timestamp_for_event_key(
             self.media_handler.media_files, event_key
         )
