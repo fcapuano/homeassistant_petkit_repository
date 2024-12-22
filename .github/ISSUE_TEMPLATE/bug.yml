@@ -6,12 +6,44 @@ body:
   - type: markdown
     attributes:
       value: Before you open a new issue, search through the existing issues to see if others have had the same problem.
+
   - type: textarea
     attributes:
       label: "System Health details"
       description: "Paste the data from the System Health card in Home Assistant (https://www.home-assistant.io/more-info/system-health#github-issues)"
     validations:
       required: true
+
+  - type: input
+    validations:
+      required: true
+    attributes:
+      label: Integration version ?
+      placeholder: v2.3.0
+      description: |
+        > Settings -> Devices & Services -> Petkit -> Version is below the integration name ("Latest" is not a version number)
+
+  - type: input
+    attributes:
+      label: In which region is your Petkit application registered?
+      placeholder: France
+      description: |
+        > This information is useful for login problem, or if the integration does not start at all.
+
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: "Device type"
+      description: |
+        > What type of device are you experiencing this problem with?
+      multiple: true
+      options:
+        - Feeder
+        - Litter
+        - Fountain
+        - Other
+        - All devices
+
   - type: checkboxes
     attributes:
       label: Checklist
@@ -22,12 +54,14 @@ body:
           required: true
         - label: This issue is not a duplicate issue of any [previous issues](https://github.com/Jezaa34000/homeassistant_petkit/issues?q=is%3Aissue+label%3A%22Bug%22+)..
           required: true
+
   - type: textarea
     attributes:
       label: "Describe the issue"
       description: "A clear and concise description of what the issue is."
     validations:
       required: true
+
   - type: textarea
     attributes:
       label: Reproduction steps
@@ -39,6 +73,7 @@ body:
         ...
     validations:
       required: true
+
   - type: textarea
     attributes:
       label: "Debug logs"
