@@ -251,15 +251,6 @@
       "food_bowl_percentage": {
         "default": "mdi:bowl"
       },
-      "last_visit_event": {
-        "default": "mdi:calendar-star"
-      },
-      "last_eat_event": {
-        "default": "mdi:calendar-star"
-      },
-      "last_feed_event": {
-        "default": "mdi:calendar-star"
-      },
       "food_in_bowl": {
         "default": "mdi:food-drumstick"
       },
@@ -273,11 +264,20 @@
           "warning": "mdi:alert"
         }
       },
+      "last_eat_event": {
+        "default": "mdi:calendar-star"
+      },
+      "last_feed_event": {
+        "default": "mdi:calendar-star"
+      },
       "last_update": {
         "default": "mdi:clock"
       },
       "last_used_by": {
         "default": "mdi:cat"
+      },
+      "last_visit_event": {
+        "default": "mdi:calendar-star"
       },
       "litter_last_event": {
         "default": "mdi:calendar-check"
