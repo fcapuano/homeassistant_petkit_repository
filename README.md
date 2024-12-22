@@ -40,7 +40,7 @@ Add Feeding Schedule card for feeders :
 
 <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/master/images/feed_plan.png">
 
-Add this card to your HA with HACS : https://github.com/cristianchelu/dispenser-schedule-card
+Add this card to your HA with HACS : https://github.com/cristianchelu/dispenser-schedule-card (thanks to @cristianchelu)
 
 On config card paste this :
 
