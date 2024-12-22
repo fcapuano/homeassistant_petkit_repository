@@ -5,6 +5,7 @@ from __future__ import annotations
 from datetime import timedelta
 from typing import TYPE_CHECKING
 
+from pypetkitapi.containers import Pet
 from pypetkitapi.exceptions import PypetkitError
 from pypetkitapi.feeder_container import Feeder
 from pypetkitapi.litter_container import Litter
@@ -38,7 +39,7 @@ class PetkitDataUpdateCoordinator(DataUpdateCoordinator):
             always_update=True,
         )
 
-    async def _async_update_data(self) -> dict[int, Feeder | Litter | WaterFountain]:
+    async def _async_update_data(self) -> dict[int, Feeder | Litter | WaterFountain | Pet]:
         """Update data via library."""
         try:
             await self.config_entry.runtime_data.client.get_devices_data()
