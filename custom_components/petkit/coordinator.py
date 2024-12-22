@@ -39,7 +39,9 @@ class PetkitDataUpdateCoordinator(DataUpdateCoordinator):
             always_update=True,
         )
 
-    async def _async_update_data(self) -> dict[int, Feeder | Litter | WaterFountain | Pet]:
+    async def _async_update_data(
+        self,
+    ) -> dict[int, Feeder | Litter | WaterFountain | Pet]:
         """Update data via library."""
         try:
             await self.config_entry.runtime_data.client.get_devices_data()
