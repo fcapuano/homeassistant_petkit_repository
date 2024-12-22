@@ -128,20 +128,19 @@ class PetkitImage(PetkitEntity, ImageEntity):
         )
 
         if self._last_image_filename:
-            try:
-                image_path = (
-                    Path(__file__).parent / "images" / self._last_image_filename
-                )
-                LOGGER.debug(
-                    f"Getting image for {self.device.device_type} Path is :{image_path}"
-                )
-                async with aiofiles.open(image_path, "rb") as image_file:
-                    return await image_file.read()
-            except FileNotFoundError:
-                LOGGER.error("Image file not found")
-                return None
+            image_path = Path(__file__).parent / "images" / self._last_image_filename
+            LOGGER.debug(
+                f"Getting image for {self.device.device_type} Path is :{image_path}"
+            )
         else:
-            LOGGER.error(f"No filename found for event key '{event_key}'")
+            image_path = Path(__file__).parent / "images" / "no-image-found.png"
+            LOGGER.info(f"No filename found for event key : '{event_key}', maybe there is no event ?")
+
+        try:
+            async with aiofiles.open(image_path, "rb") as image_file:
+                return await image_file.read()
+        except FileNotFoundError:
+            LOGGER.error("Unable to read image file")
             return None
 
     async def _get_filename_and_timestamp_for_event_key(self, media_files, event_key):
