@@ -97,8 +97,13 @@ def get_raw_feed_plan(feeder_records_data) -> str | None:
     return ",".join(result) if result else None
 
 
-def map_litter_event(litter_event: LitterRecord) -> str | None:
+def map_litter_event(litter_event: list[LitterRecord | None]) -> str | None:
     """Return a description of the last event"""
+
+    if not isinstance(litter_event, list) or not litter_event:
+        return None
+
+    litter_event = litter_event[-1]
 
     error = litter_event.content.error
 
