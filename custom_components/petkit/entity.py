@@ -11,7 +11,7 @@ from pypetkitapi.feeder_container import Feeder
 from pypetkitapi.litter_container import Litter
 from pypetkitapi.water_fountain_container import WaterFountain
 
-from homeassistant.helpers.device_registry import DeviceInfo
+from homeassistant.helpers.device_registry import DeviceInfo, CONNECTION_NETWORK_MAC
 from homeassistant.helpers.entity import EntityDescription
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -25,14 +25,12 @@ _DevicesT = TypeVar("_DevicesT", bound=Feeder | Litter | WaterFountain | Pet)
 class PetKitDescSensorBase(EntityDescription):
     """A class that describes sensor entities."""
 
-    value: Callable[[Feeder | Litter | WaterFountain], Any] = None
+    value: Callable[[_DevicesT], Any] | None = None
     ignore_types: list[str] | None = None  # List of device types to ignore
     only_for_types: list[str] | None = None  # List of device types to support
-    force_add: list[str] | None = (
-        None  # List of device types to force ever if not detected
-    )
+    force_add: list[str] | None = None
 
-    def is_supported(self, device: Feeder | Litter | WaterFountain | Pet) -> bool:
+    def is_supported(self, device: _DevicesT) -> bool:
         """Check if the entity is supported by trying to execute the value lambda."""
 
         if not isinstance(device, (Feeder, Litter, WaterFountain | Pet)):
@@ -41,44 +39,44 @@ class PetKitDescSensorBase(EntityDescription):
             )
             return False
 
-        if self._is_force_added(device):
-            return True
-
-        if self._is_ignored(device):
+        device_type = getattr(device, "device_type", None)
+        if not device_type:
+            LOGGER.error(f"Device {device.name} has no type, can't check support")
             return False
 
-        if self._is_not_in_supported_types(device):
+        if self._is_force_added(device_type):
+            return True
+
+        if self._is_ignored(device_type):
+            return False
+
+        if self._is_not_in_supported_types(device_type):
             return False
 
         return self._check_value_support(device)
 
-    def _is_force_added(self, device: Feeder | Litter | WaterFountain) -> bool:
+    def _is_force_added(self, device_type: str) -> bool:
         """Check if the device is in the force_add list."""
-        if self.force_add and device.device_type.lower() in self.force_add:
-            LOGGER.debug(f"{device.device_type} force add for '{self.key}'")
+        if self.force_add and device_type in self.force_add:
+            LOGGER.debug(f"{device_type} force add for '{self.key}'")
             return True
         return False
 
-    def _is_ignored(self, device: Feeder | Litter | WaterFountain) -> bool:
+    def _is_ignored(self, device_type: str) -> bool:
         """Check if the device is in the ignore_types list."""
-        if self.ignore_types and device.device_type.lower() in self.ignore_types:
-            LOGGER.debug(f"{device.device_type} force ignore for '{self.key}'")
+        if self.ignore_types and device_type in self.ignore_types:
+            LOGGER.debug(f"{device_type} force ignore for '{self.key}'")
             return True
         return False
 
-    def _is_not_in_supported_types(
-        self, device: Feeder | Litter | WaterFountain
-    ) -> bool:
+    def _is_not_in_supported_types(self, device_type: str) -> bool:
         """Check if the device is not in the only_for_types list."""
-        if (
-            self.only_for_types
-            and device.device_type.lower() not in self.only_for_types
-        ):
-            LOGGER.debug(f"{device.device_type} is NOT COMPATIBLE with '{self.key}'")
+        if self.only_for_types and device_type not in self.only_for_types:
+            LOGGER.debug(f"{device_type} is NOT COMPATIBLE with '{self.key}'")
             return True
         return False
 
-    def _check_value_support(self, device: Feeder | Litter | WaterFountain) -> bool:
+    def _check_value_support(self, device: _DevicesT) -> bool:
         """Check if the device supports the value lambda."""
         if self.value is not None:
             try:
@@ -117,14 +115,32 @@ class PetkitEntity(CoordinatorEntity[PetkitDataUpdateCoordinator], Generic[_Devi
         )
 
     @property
-    def device_info(
-        self,
-    ) -> DeviceInfo:
+    def device_info(self) -> DeviceInfo:
         """Return the device information for a Litter-Robot."""
-        return DeviceInfo(
+
+        if self.device.device_type:
+            device_type = self.device.device_type
+        else:
+            device_type = "Unknown"
+
+        device_info = DeviceInfo(
             identifiers={(DOMAIN, self.device.sn)},
             manufacturer="Petkit",
-            model=f"{PETKIT_DEVICES_MAPPING.get(self.device.device_type.lower(), 'Unknown Device')} ({self.device.device_type.upper()})",
+            model=f"{PETKIT_DEVICES_MAPPING.get(device_type.lower(), 'Unknown Device')}",
+            model_id=device_type.upper(),
             name=self.device.name,
-            sw_version=str(self.device.firmware),
         )
+
+        if hasattr(self.device, CONNECTION_NETWORK_MAC) and self.device.mac is not None:
+            device_info["connections"] = {(CONNECTION_NETWORK_MAC, self.device.mac)}
+
+        if hasattr(self.device, "firmware") and self.device.firmware is not None:
+            device_info["sw_version"] = str(self.device.firmware)
+
+        if hasattr(self.device, "hardware") and self.device.hardware is not None:
+            device_info["hw_version"] = str(self.device.hardware)
+
+        if hasattr(self.device, "sn") and self.device.sn is not None:
+            device_info["serial_number"] = str(self.device.sn)
+
+        return device_info
