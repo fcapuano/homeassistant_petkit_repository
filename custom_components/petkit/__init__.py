@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING
 from pypetkitapi.client import PetKitClient
 
 from homeassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
+from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.loader import async_get_loaded_integration
 
@@ -37,7 +38,9 @@ async def async_setup_entry(
 ) -> bool:
     """Set up this integration using UI."""
 
-    country_from_ha = COUNTRY_CODES.get(hass.config.country, "Unknown")
+    country_from_ha = COUNTRY_CODES.get(
+        hass.config.country if hass.config.country is not None else "Unknown"
+    )
     tz_from_ha = hass.config.time_zone
 
     coordinator = PetkitDataUpdateCoordinator(
@@ -77,3 +80,16 @@ async def async_reload_entry(
     """Reload config entry."""
     await async_unload_entry(hass, entry)
     await async_setup_entry(hass, entry)
+
+
+async def async_update_options(hass: HomeAssistant, entry: PetkitConfigEntry) -> None:
+    """Update options."""
+
+    await hass.config_entries.async_reload(entry.entry_id)
+
+
+async def async_remove_config_entry_device(
+    hass: HomeAssistant, config_entry: PetkitConfigEntry, device_entry: dr.DeviceEntry
+) -> bool:
+    """Remove a config entry from a device."""
+    return True
