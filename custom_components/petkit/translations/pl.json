@@ -1,0 +1,527 @@
+{
+  "config": {
+    "error": {
+      "account_exists": "To konto już istnieje.",
+      "connection": "Nie można połączyć się z serwerem.",
+      "unknown": "Wystąpił nieznany błąd, sprawdź logi."
+    },
+    "step": {
+      "user": {
+        "data": {
+          "password": "Hasło",
+          "region": "Region",
+          "timezone": "Strefa czasowa",
+          "username": "Nazwa użytkownika/Identyfikator"
+        },
+        "description": "Proszę wprowadzić dane konta PetKit."
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "battery": {
+        "name": "Bateria"
+      },
+      "battery_installed": {
+        "name": "Zainstalowana bateria"
+      },
+      "camera_status": {
+        "name": "Stan kamery"
+      },
+      "care_plus_subscription": {
+        "name": "Subskrypcja Care+"
+      },
+      "deodorizer": {
+        "name": "Dezodorant"
+      },
+      "eating": {
+        "name": "Jedzenie"
+      },
+      "feeding": {
+        "name": "Karmienie"
+      },
+      "food_level": {
+        "name": "Poziom jedzenia"
+      },
+      "food_level_1": {
+        "name": "Poziom jedzenia pojemnik 1"
+      },
+      "food_level_2": {
+        "name": "Poziom jedzenia pojemnik 2"
+      },
+      "lack_warning": {
+        "name": "Ostrzeżenie o braku wody"
+      },
+      "liquid_empty": {
+        "name": "Brak płynu dezodorującego"
+      },
+      "liquid_lack": {
+        "name": "Brak płynu dezodorującego"
+      },
+      "litter": {
+        "name": "Żwirek"
+      },
+      "low_battery": {
+        "name": "Bateria"
+      },
+      "low_power": {
+        "name": "Zasilanie"
+      },
+      "manually_paused": {
+        "name": "Wstrzymano ręcznie"
+      },
+      "on_ac_power": {
+        "name": "Na zasilaniu sieciowym"
+      },
+      "pura_air_liquid": {
+        "name": "Płyn Pura Air"
+      },
+      "sand_lack": {
+        "name": "Brak piasku"
+      },
+      "waste_bin": {
+        "name": "Kosz na śmieci zapełniony"
+      },
+      "waste_bin_presence": {
+        "name": "Obecność kosza na śmieci"
+      },
+      "water_level": {
+        "name": "Poziom wody"
+      }
+    },
+    "button": {
+      "action_continue": {
+        "name": "Akcja : Kontynuuj"
+      },
+      "action_pause": {
+        "name": "Akcja : Wstrzymaj"
+      },
+      "action_reset": {
+        "name": "Akcja : Resetuj"
+      },
+      "call_pet": {
+        "name": "Zadzwoń do zwierzaka"
+      },
+      "cancel_manual_feed": {
+        "name": "Anuluj ręczne karmienie"
+      },
+      "deodorize": {
+        "name": "Usuń zapach"
+      },
+      "dump_litter": {
+        "name": "Opróżnij żwirek"
+      },
+      "exit_maintenance": {
+        "name": "Konserwacja : Zakończ"
+      },
+      "food_replenished": {
+        "name": "Uzupełniono karmę"
+      },
+      "reset_desiccant": {
+        "name": "Resetuj pochłaniacz wilgoci"
+      },
+      "reset_odor_eliminator": {
+        "name": "Resetuj neutralizator zapachu"
+      },
+      "start_maintenance": {
+        "name": "Konserwacja : Rozpocznij"
+      },
+      "start_scoop": {
+        "name": "Zbierz"
+      }
+    },
+    "image": {
+      "last_eat_event": {
+        "name": "Ostatnie jedzenie"
+      },
+      "last_feed_event": {
+        "name": "Ostatnie karmienie"
+      },
+      "last_visit_event": {
+        "name": "Ostatnia wizyta"
+      }
+    },
+    "number": {
+      "cleaning_delay": {
+        "name": "Opóźnienie czyszczenia"
+      },
+      "manual_feed": {
+        "name": "Ręczne karmienie"
+      },
+      "min_eating_duration": {
+        "name": "Minimalny czas jedzenia"
+      },
+      "surplus": {
+        "name": "Nadwyżka"
+      },
+      "volume": {
+        "name": "Głośność"
+      }
+    },
+    "select": {
+      "cleaning_interval": {
+        "name": "Interwał czyszczenia"
+      },
+      "eat_detection_sensitivity": {
+        "name": "Wrażliwość detekcji jedzenia SI"
+      },
+      "litter_type": {
+        "name": "Typ żwirku"
+      },
+      "move_detection_sensitivity": {
+        "name": "Wrażliwość detekcji ruchu"
+      },
+      "pet_detection_sensitivity": {
+        "name": "Wrażliwość detekcji zwierzaka SI"
+      },
+      "surplus_level": {
+        "name": "Poziom kontroli nadwyżki"
+      }
+    },
+    "sensor": {
+      "amount_eaten": {
+        "name": "Ilość zjedzona"
+      },
+      "average_time": {
+        "name": "Średnie użycie"
+      },
+      "avg_eating_time": {
+        "name": "Średni czas jedzenia"
+      },
+      "battery_level": {
+        "name": "Poziom baterii"
+      },
+      "deodorant_left_days": {
+        "name": "Pozostałe dni dezodorantu"
+      },
+      "deodorizer_level": {
+        "name": "Poziom dezodorantu"
+      },
+      "desiccant_left_days": {
+        "name": "Pozostałe dni pochłaniacza wilgoci"
+      },
+      "device_status": {
+        "name": "Stan urządzenia"
+      },
+      "drink_times": {
+        "name": "Liczba pić"
+      },
+      "end_date_care_plus_subscription": {
+        "name": "Koniec subskrypcji Care+"
+      },
+      "error": {
+        "name": "Błąd"
+      },
+      "error_message": {
+        "name": "Błąd",
+        "state": {
+          "no_error": "Brak błędu"
+        }
+      },
+      "feeder_error": {
+        "name": "Błąd karmnika"
+      },
+      "filter_percent": {
+        "name": "Pozostało filtra"
+      },
+      "food_bowl_percentage": {
+        "name": "Wypełnienie miski na jedzenie"
+      },
+      "food_left": {
+        "name": "Pozostało jedzenia"
+      },
+      "last_update": {
+        "name": "Ostatnia aktualizacja"
+      },
+      "last_used_by": {
+        "name": "Ostatnio używane przez"
+      },
+      "litter_last_event": {
+        "name": "Ostatnie zdarzenie",
+        "state": {
+          "auto_cleaning_canceled": "Automatyczne czyszczenie anulowane",
+          "auto_cleaning_canceled_kitten": "Automatyczne czyszczenie anulowane: kociak",
+          "auto_cleaning_completed": "Automatyczne czyszczenie zakończone",
+          "auto_cleaning_failed_full": "Automatyczne czyszczenie nie powiodło się: pełny",
+          "auto_cleaning_failed_hall_l": "Automatyczne czyszczenie nie powiodło się: tor L",
+          "auto_cleaning_failed_hall_t": "Automatyczne czyszczenie nie powiodło się: tor T",
+          "auto_cleaning_terminated": "Automatyczne czyszczenie zakończone",
+          "auto_odor_failed": "Automatyczne odświeżanie nie powiodło się",
+          "clean_over": "Czyszczenie zakończone",
+          "deodorant_finished": "Dezodorant zakończony",
+          "deodorant_finished_liquid_lack": "Dezodorant zakończony: brak płynu",
+          "litter_empty_completed": "Opróżnianie żwirku zakończone",
+          "litter_empty_failed_full": "Opróżnianie żwirku nie powiodło się: pełny",
+          "litter_empty_failed_hall_l": "Opróżnianie żwirku nie powiodło się: tor L",
+          "litter_empty_failed_hall_t": "Opróżnianie żwirku nie powiodło się: tor T",
+          "litter_empty_terminated": "Opróżnianie żwirku zakończone",
+          "manual_cleaning_canceled": "Ręczne czyszczenie anulowane",
+          "manual_cleaning_completed": "Ręczne czyszczenie zakończone",
+          "manual_cleaning_failed_full": "Ręczne czyszczenie nie powiodło się: pełny",
+          "manual_cleaning_failed_hall_l": "Ręczne czyszczenie nie powiodło się: tor L",
+          "manual_cleaning_failed_hall_t": "Ręczne czyszczenie nie powiodło się: tor T",
+          "manual_cleaning_terminated": "Ręczne czyszczenie zakończone",
+          "manual_odor_completed": "Ręczne odświeżanie zakończone",
+          "manual_odor_completed_liquid_lack": "Ręczne odświeżanie zakończone: brak płynu",
+          "manual_odor_failed": "Ręczne odświeżanie nie powiodło się",
+          "periodic_cleaning_canceled": "Okresowe czyszczenie anulowane",
+          "periodic_cleaning_canceled_kitten": "Okresowe czyszczenie anulowane: kociak",
+          "periodic_cleaning_completed": "Okresowe czyszczenie zakończone",
+          "periodic_cleaning_terminated": "Okresowe czyszczenie zakończone",
+          "periodic_odor_completed": "Okresowe odświeżanie zakończone",
+          "periodic_odor_completed_liquid_lack": "Okresowe odświeżanie zakończone: brak płynu",
+          "periodic_odor_failed": "Okresowe odświeżanie nie powiodło się",
+          "reset_completed": "Reset zakończony",
+          "reset_failed_full": "Reset nie powiódł się: pełny",
+          "reset_failed_hall_l": "Reset nie powiódł się: tor L",
+          "reset_failed_hall_t": "Reset nie powiódł się: tor T",
+          "reset_over": "Reset zakończony",
+          "reset_terminated": "Reset zakończony",
+          "scheduled_cleaning_failed_full": "Zaprogramowane czyszczenie nie powiodło się: pełny",
+          "scheduled_cleaning_failed_hall_l": "Zaprogramowane czyszczenie nie powiodło się: tor L",
+          "scheduled_cleaning_failed_hall_t": "Zaprogramowane czyszczenie nie powiodło się: tor T"
+        }
+      },
+      "litter_level": {
+        "name": "Poziom żwirku"
+      },
+      "litter_state": {
+        "name": "Stan",
+        "state": {
+          "calibrating": "Kalibracja",
+          "cleaning": "Czyszczenie",
+          "cleaning_paused": "Czyszczenie wstrzymane",
+          "cleaning_paused_cover": "Czyszczenie wstrzymane - Pokrywa",
+          "cleaning_paused_pet_approach": "Czyszczenie wstrzymane - Zwierzę się zbliża",
+          "cleaning_paused_pet_entered": "Czyszczenie wstrzymane - Zwierzę weszło",
+          "cleaning_paused_pet_using": "Czyszczenie wstrzymane - Zwierzę korzysta",
+          "cleaning_paused_system_error": "Czyszczenie wstrzymane - Błąd systemu",
+          "dumping": "Opróżnianie",
+          "dumping_paused": "Opróżnianie wstrzymane",
+          "dumping_paused_cover": "Opróżnianie wstrzymane - Pokrywa",
+          "dumping_paused_pet_approach": "Opróżnianie wstrzymane - Zwierzę się zbliża",
+          "dumping_paused_pet_entered": "Opróżnianie wstrzymane - Zwierzę weszło",
+          "dumping_paused_pet_using": "Opróżnianie wstrzymane - Zwierzę korzysta",
+          "dumping_paused_system_error": "Opróżnianie wstrzymane - Błąd systemu",
+          "idle": "Tryb oczekiwania",
+          "leveling": "Wyrównywanie",
+          "maintenance": "Konserwacja",
+          "maintenance_paused": "Konserwacja wstrzymana",
+          "maintenance_paused_cover": "Konserwacja wstrzymana - Pokrywa",
+          "maintenance_paused_pet_approach": "Konserwacja wstrzymana - Zwierzę się zbliża",
+          "maintenance_paused_pet_entered": "Konserwacja wstrzymana - Zwierzę weszło",
+          "maintenance_paused_pet_using": "Konserwacja wstrzymana - Zwierzę korzysta",
+          "maintenance_paused_system_error": "Konserwacja wstrzymana - Błąd systemu",
+          "paused": "Wstrzymano",
+          "paused_cover": "Wstrzymano - Pokrywa",
+          "paused_pet_approach": "Wstrzymano - Zwierzę się zbliża",
+          "paused_pet_entered": "Wstrzymano - Zwierzę weszło",
+          "paused_pet_using": "Wstrzymano - Zwierzę korzysta",
+          "paused_system_error": "Wstrzymano - Błąd systemu",
+          "resetting": "Resetowanie",
+          "resetting_device": "Resetowanie urządzenia",
+          "unknown": "Nieznany"
+        }
+      },
+      "litter_weight": {
+        "name": "Waga żwirku"
+      },
+      "manual_dispensed": {
+        "name": "Podano ręcznie"
+      },
+      "manual_dispensed_hopper_1": {
+        "name": "Ręczne podanie pojemnik 1"
+      },
+      "manual_dispensed_hopper_2": {
+        "name": "Ręczne podanie pojemnik 2"
+      },
+      "package_used": {
+        "name": "Zużyte opakowanie"
+      },
+      "pet_last_device_used": {
+        "name": "Ostatnio używany żwirek"
+      },
+      "pet_last_use_date": {
+        "name": "Data ostatniego użycia"
+      },
+      "pet_last_use_duration": {
+        "name": "Czas ostatniego użycia"
+      },
+      "pet_last_weight_measurement": {
+        "name": "Ostatni pomiar wagi"
+      },
+      "planned_dispensed": {
+        "name": "Zaplanowane podanie"
+      },
+      "planned_dispensed_hopper_1": {
+        "name": "Zaplanowane podanie pojemnik 1"
+      },
+      "planned_dispensed_hopper_2": {
+        "name": "Zaplanowane podanie pojemnik 2"
+      },
+      "purified_water": {
+        "name": "Woda oczyszczona"
+      },
+      "raw_distribution_data": {
+        "name": "Surowe dane dystrybucji"
+      },
+      "rssi": {
+        "name": "RSSI (Poziom sygnału)"
+      },
+      "spray_deodorant_liquid": {
+        "name": "Płyn do dezodorantu"
+      },
+      "times_dispensed": {
+        "name": "Ilość dozowana"
+      },
+      "times_eaten": {
+        "name": "Ilość zjedzonych"
+      },
+      "times_used": {
+        "name": "Ile razy użyto"
+      },
+      "total_dispensed": {
+        "name": "Całkowita ilość dozowana"
+      },
+      "total_dispensed_hopper_1": {
+        "name": "Całkowita ilość dozowana pojemnik 1"
+      },
+      "total_dispensed_hopper_2": {
+        "name": "Całkowita ilość dozowana pojemnik 2"
+      },
+      "total_package": {
+        "name": "Całkowite opakowanie"
+      },
+      "total_planned": {
+        "name": "Całkowita ilość zaplanowana"
+      },
+      "total_planned_hopper_1": {
+        "name": "Całkowita ilość zaplanowana pojemnik 1"
+      },
+      "total_planned_hopper_2": {
+        "name": "Całkowita ilość zaplanowana pojemnik 2"
+      },
+      "total_time": {
+        "name": "Całkowite użycie"
+      }
+    },
+    "switch": {
+      "auto_clean": {
+        "name": "Automatyczne czyszczenie"
+      },
+      "auto_odor": {
+        "name": "Automatyczne usuwanie zapachów"
+      },
+      "avoid_repeat": {
+        "name": "Unikaj powtórzeń"
+      },
+      "camera": {
+        "name": "Kamera"
+      },
+      "child_lock": {
+        "name": "Blokada rodzicielska"
+      },
+      "cont_rotation": {
+        "name": "Ciągłe obracanie"
+      },
+      "deep_cleaning": {
+        "name": "Dokładne czyszczenie"
+      },
+      "deep_deodor": {
+        "name": "Dokładne usuwanie zapachu"
+      },
+      "desiccant_notif": {
+        "name": "Powiadomienie o potrzebie wymiany pochłaniacza wilgoci"
+      },
+      "dispensing_notif": {
+        "name": "Powiadomienie o dozowaniu"
+      },
+      "display": {
+        "name": "Ekran"
+      },
+      "do_not_disturb": {
+        "name": "Nie przeszkadzaj"
+      },
+      "feed_sound": {
+        "name": "Dźwięk karmienia"
+      },
+      "feed_tone": {
+        "name": "Ton karmienia"
+      },
+      "highlight": {
+        "name": "Podświetlenie śledzenia zwierzaka"
+      },
+      "indicator_light": {
+        "name": "Światło wskaźnika"
+      },
+      "kitten_mode": {
+        "name": "Tryb kociaka"
+      },
+      "light_weight": {
+        "name": "Lekka waga"
+      },
+      "low_battery_notif": {
+        "name": "Powiadomienie o słabej baterii"
+      },
+      "microphone": {
+        "name": "Mikrofon"
+      },
+      "move_notif": {
+        "name": "Powiadomienie o ruchu"
+      },
+      "night_vision": {
+        "name": "Tryb nocny"
+      },
+      "periodic_cleaning": {
+        "name": "Okresowe czyszczenie"
+      },
+      "periodic_odor": {
+        "name": "Okresowe usuwanie zapachu"
+      },
+      "pet_eat_notif": {
+        "name": "Powiadomienie o jedzeniu zwierzaka"
+      },
+      "pet_tracking": {
+        "name": "Śledzenie zwierzaka"
+      },
+      "pet_visit_notif": {
+        "name": "Powiadomienie o wizycie zwierzaka"
+      },
+      "power": {
+        "name": "Zasilanie"
+      },
+      "refill_notif": {
+        "name": "Powiadomienie o potrzebie uzupełnienia"
+      },
+      "shortage_alarm": {
+        "name": "Alarm niedoboru"
+      },
+      "surplus_control": {
+        "name": "Kontrola nadwyżki"
+      },
+      "system_notification": {
+        "name": "Dźwięk systemowy"
+      },
+      "video_timestamp": {
+        "name": "Wyświetl znacznik czasu"
+      },
+      "voice_dispense": {
+        "name": "Dozowanie głosowe"
+      },
+      "waste_covering": {
+        "name": "Zakrywanie odpadów"
+      }
+    },
+    "text": {
+      "manual_feed_dual_h1": {
+        "name": "Podanie ręczne pojemnik 1"
+      },
+      "manual_feed_dual_h2": {
+        "name": "Podanie ręczne pojemnik 2"
+      },
+      "manual_feed_single": {
+        "name": "Podanie ręczne"
+      }
+    }
+  }
+}
