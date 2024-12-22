@@ -165,6 +165,9 @@ class PetkitText(PetkitEntity, TextEntity):
         elif self.device.device_type == FEEDER_MINI:
             # FeederMini => 0,5,10,15,20,25,30,35,40,45,50
             valid_values = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
+        elif self.device.device_type == D3:
+            # D3 => 5 to 200
+            valid_values = list(range(5, 201))
         else:
             # Other, D4sh => 1,2,3,4,5,7,8,9,10
             valid_values = [1, 2, 3, 4, 5, 7, 8, 9, 10]
