@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Any
 
-from pypetkitapi.const import D3, D4S, T4, T6
+from pypetkitapi.const import D3, D4S, T4, T6, DEVICES_FEEDER, DEVICES_LITTER_BOX
 from pypetkitapi.containers import Pet
 from pypetkitapi.feeder_container import Feeder
 from pypetkitapi.litter_container import Litter
@@ -89,8 +89,11 @@ SENSOR_MAPPING: dict[
             translation_key="error_message",
             entity_category=EntityCategory.DIAGNOSTIC,
             value=lambda device: (
-                device.state.error_msg if "error_msg" in device.state else "no_error"
+                device.state.error_msg
+                if device.state.error_msg is not None
+                else "No error"
             ),
+            force_add=DEVICES_FEEDER,
         ),
         PetKitSensorDesc(
             key="Times dispensed d3",
@@ -313,8 +316,11 @@ SENSOR_MAPPING: dict[
             translation_key="error_message",
             entity_category=EntityCategory.DIAGNOSTIC,
             value=lambda device: (
-                device.state.error_msg if "error_msg" in device.state else "no_error"
+                device.state.error_msg
+                if device.state.error_msg is not None
+                else "No error"
             ),
+            force_add=DEVICES_LITTER_BOX,
         ),
         PetKitSensorDesc(
             key="State",
