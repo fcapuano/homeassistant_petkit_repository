@@ -11,15 +11,7 @@ from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
 from homeassistant.helpers import selector
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
-from .const import (
-    COUNTRY_CODES,
-    DOMAIN,
-    LOGGER,
-    POLLING_INTERVAL,
-    REGION,
-    TIMEZONE,
-    TIMEZONES,
-)
+from .const import COUNTRY_CODES, DOMAIN, LOGGER, REGION, TIMEZONE, TIMEZONES
 
 
 class PetkitFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):

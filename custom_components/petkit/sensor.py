@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Any
 
-from pypetkitapi.const import D3, D4S, T4, T6, DEVICES_FEEDER, DEVICES_LITTER_BOX
+from pypetkitapi.const import D3, D4S, DEVICES_FEEDER, DEVICES_LITTER_BOX, T4, T6
 from pypetkitapi.containers import Pet
 from pypetkitapi.feeder_container import Feeder
 from pypetkitapi.litter_container import Litter

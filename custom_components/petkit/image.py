@@ -134,7 +134,9 @@ class PetkitImage(PetkitEntity, ImageEntity):
             )
         else:
             image_path = Path(__file__).parent / "images" / "no-image-found.png"
-            LOGGER.info(f"No filename found for event key : '{event_key}', maybe there is no event ?")
+            LOGGER.info(
+                f"No filename found for event key : '{event_key}', maybe there is no event ?"
+            )
 
         try:
             async with aiofiles.open(image_path, "rb") as image_file:
