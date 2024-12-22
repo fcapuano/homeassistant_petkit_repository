@@ -43,7 +43,7 @@ if TYPE_CHECKING:
 class PetKitSensorDesc(PetKitDescSensorBase, SensorEntityDescription):
     """A class that describes sensor entities."""
 
-    entity_picture: callable[[Pet], str | None] | None = None
+    entity_picture: callable[Any] | None = None
 
 
 SENSOR_MAPPING: dict[
@@ -317,7 +317,7 @@ SENSOR_MAPPING: dict[
         PetKitSensorDesc(
             key="Litter last event",
             translation_key="litter_last_event",
-            value=lambda device: map_litter_event(device.device_records[-1]),
+            value=lambda device: map_litter_event(device.device_records),
         ),
         PetKitSensorDesc(
             key="Deodorant left days",
@@ -436,11 +436,7 @@ SENSOR_MAPPING: dict[
             translation_key="drink_times",
             entity_category=EntityCategory.DIAGNOSTIC,
             state_class=SensorStateClass.MEASUREMENT,
-            value=lambda device: (
-                len(device.device_records)
-                if isinstance(device.device_records, list)
-                else None
-            ),
+            value=lambda device: (len(device.device_records)),
         ),
     ],
     Pet: [
@@ -450,7 +446,6 @@ SENSOR_MAPPING: dict[
             entity_picture=lambda pet: pet.avatar,
             device_class=SensorDeviceClass.WEIGHT,
             state_class=SensorStateClass.MEASUREMENT,
-            suggested_display_precision=-1,
             native_unit_of_measurement=UnitOfMass.GRAMS,
             value=lambda pet: pet.last_measured_weight,
         ),
@@ -527,9 +522,7 @@ class PetkitSensor(PetkitEntity, SensorEntity):
         """Return the state of the sensor."""
         device_data = self.coordinator.data.get(self.device.id)
         if device_data:
-            value = self.entity_description.value(device_data)
-            if value != 0:
-                return value
+            return self.entity_description.value(device_data)
         return None
 
     @property
