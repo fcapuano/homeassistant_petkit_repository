@@ -28,7 +28,10 @@ PETKIT_DEVICES_MAPPING = {
     "pet": "Pet",
 }
 
+ONLINE_STATE = [1, 2]
+
 # Data mapping for petkit devices
+
 DEVICE_STATUS_MAP = {
     0: "Offline",
     1: "Online",
