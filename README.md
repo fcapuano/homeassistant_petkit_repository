@@ -1,32 +1,29 @@
-<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/master/images/petkit_logo.png" width="512" height="101">
+<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/master/images/petkit_logo.png" width="512" height="101"></a>
 
 # Petkit integration for Home Assistant
 
-[![GitHub Release][releases-shield]][releases] [![HACS Custom](https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge)](https://hacs.xyz/docs/faq/custom_repositories)
+---
+[![GitHub Release][releases-shield]][releases] [![HACS Custom](https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge&color=41BDF5)](https://hacs.xyz/docs/faq/custom_repositories)
 
 [![GitHub Activity][commits-shield]][commits] ![Project Maintenance][maintenance-shield] [![License][license-shield]](LICENSE)
+
+### Need help ? Join us :
 
 [![Discord][discord-shield]][discord]
 [![Community Forum][forum-shield]][forum]
 
-## Enjoying this integration?
+## Enjoying this integration? 
+[![Sponsor Jezza34000](https://img.shields.io/badge/sponsor-Jezza34000-blue.svg?style=for-the-badge&logo=githubsponsors&color=EA4AAA)](https://github.com/sponsors/Jezza34000) [![Static Badge](https://img.shields.io/badge/Donate-buy_me_a_coffee-yellow.svg?style=for-the-badge&logo=buy-me-a-coffee)](https://buymeacoffee.com/jezza)
 
-### Show your support by sponsoring! Every donation helps keep the project alive and thriving.
 
-[![Sponsor Jezza34000](https://img.shields.io/badge/sponsor-Jezza34000-blue.svg?style=for-the-badge)](https://github.com/sponsors/Jezza34000)
+Picture feature is supported for feeders with camera (does not require an active subscription to Care+) \
+Video feature is not supported yet. it's planned for a future release. (REQUIRE an active subscription to Care+)
+
+<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/master/images/last_event.png"></a>
 
 ## Supported devices
 
-Picture feature is supported for feeders with camera.
-Video feature is not supported yet. it's planned for a future release.
-
-> [!NOTE]
-> Picture feature does not require an active Care+ subscription. \
-> Video feature will require an active Care+ subscription.
-
-<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/master/images/last_event.png">
-
-### Feeders :
+### :poultry_leg: Feeders :
 
 - [x] Fresh Element
 - [x] Fresh Element Mini Pro
@@ -36,9 +33,30 @@ Video feature is not supported yet. it's planned for a future release.
 - [x] YumShare Solo with Camera
 - [x] YumShare Dual-hopper with Camera
 
-Add Feeding Schedule card for feeders :
+### :toilet: Litters :
 
-<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/master/images/feed_plan.png">
+- [x] PuraX
+- [x] PuraMax
+- [x] PuraMax 2
+- [ ] Purobot Max Pro with camera (tester needed)
+- [x] Purobot Ultra with camera
+
+### :fountain: Fountains :
+
+- [x] Eversweet Solo 2
+- [x] Eversweet 3 Pro
+- [x] Eversweet 3 Pro UVC
+- [x] Eversweet 5 Mini
+- [x] Eversweet Max
+
+> [!IMPORTANT]
+> Fountain only support reading data, no control is available yet. it's planned for a future release.
+
+## Feeders special features
+
+Add feeding Schedule card for feeders :
+
+<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/master/images/feed_plan.png"></a>
 
 Add this card to your HA with HACS : https://github.com/cristianchelu/dispenser-schedule-card (thanks to @cristianchelu)
 
@@ -53,25 +71,6 @@ alternate_unit:
   conversion_factor: 10
   approximate: true
 ```
-
-### Litters :
-
-- [x] PuraX
-- [x] PuraMax
-- [x] PuraMax 2
-- [ ] Purobot Max Pro with camera (tester needed)
-- [x] Purobot Ultra with camera
-
-### Fountains :
-
-- [x] Eversweet Solo 2
-- [x] Eversweet 3 Pro
-- [x] Eversweet 3 Pro UVC
-- [x] Eversweet 5 Mini
-- [x] Eversweet Max
-
-> [!IMPORTANT]
-> Fountain only support reading data, no control is available yet. it's planned for a future release.
 
 ## Installation
 
@@ -151,15 +150,13 @@ Thanks to :
 ---
 
 [homeassistant_petkit]: https://github.com/Jezza34000/homeassistant_petkit
-[buymecoffee]: https://www.buymeacoffee.com/
-[buymecoffeebadge]: https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg?style=for-the-badge
-[commits-shield]: https://img.shields.io/github/commit-activity/y/Jezza34000/homeassistant_petkit.svg?style=for-the-badge
+[commits-shield]: https://img.shields.io/github/commit-activity/y/Jezza34000/homeassistant_petkit.svg?style=for-the-badge&color=788B95
 [commits]: https://github.com/Jezza34000/homeassistant_petkit/commits/main
 [discord]: https://discord.gg/bYQWBc9d
-[discord-shield]: https://img.shields.io/discord/1318098700379361362.svg?style=for-the-badge
-[forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg?style=for-the-badge
+[discord-shield]: https://img.shields.io/discord/1318098700379361362.svg?style=for-the-badge&label=Discord&logo=discord&color=5865F2
+[forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg?style=for-the-badge&label=Home%20Assistant%20Community&logo=homeassistant&color=18bcf2
 [forum]: https://community.home-assistant.io/
-[license-shield]: https://img.shields.io/github/license/Jezza34000/homeassistant_petkit.svg?style=for-the-badge
-[maintenance-shield]: https://img.shields.io/badge/maintainer-Jezza34000-blue.svg?style=for-the-badge
-[releases-shield]: https://img.shields.io/github/release/Jezza34000/homeassistant_petkit.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/Jezza34000/homeassistant_petkit.svg?style=for-the-badge&color=788B95
+[maintenance-shield]: https://img.shields.io/badge/maintainer-Jezza34000-blue.svg?style=for-the-badge&color=788B95
+[releases-shield]: https://img.shields.io/github/release/Jezza34000/homeassistant_petkit.svg?style=for-the-badge&color=41BDF5
 [releases]: https://github.com/Jezza34000/homeassistant_petkit/releases
