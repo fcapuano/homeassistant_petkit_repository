@@ -314,8 +314,8 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
         ),
         PetKitSwitchDesc(
-            key="Avoid repeat",
-            translation_key="avoid_repeat",
+            key="Avoid repeat clean",
+            translation_key="avoid_repeat_clean",
             value=lambda device: device.settings.avoid_repeat,
             entity_category=EntityCategory.CONFIG,
             turn_on=lambda api, device: api.send_api_request(
@@ -549,6 +549,78 @@ SWITCH_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSwitchDes
             ),
             turn_off=lambda api, device: api.send_api_request(
                 device.id, DeviceCommand.UPDATE_SETTING, {"bury": 0}
+            ),
+        ),
+        PetKitSwitchDesc(
+            key="litter_full_notify",
+            translation_key="litter_full_notify",
+            value=lambda device: device.settings.litter_full_notify,
+            entity_category=EntityCategory.CONFIG,
+            turn_on=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"litterFullNotify": 1}
+            ),
+            turn_off=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"litterFullNotify": 0}
+            ),
+        ),
+        PetKitSwitchDesc(
+            key="pet_in_notify",
+            translation_key="pet_in_notify",
+            value=lambda device: device.settings.pet_in_notify,
+            entity_category=EntityCategory.CONFIG,
+            turn_on=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"petInNotify": 1}
+            ),
+            turn_off=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"petInNotify": 0}
+            ),
+        ),
+        PetKitSwitchDesc(
+            key="work_notify",
+            translation_key="work_notify",
+            value=lambda device: device.settings.work_notify,
+            entity_category=EntityCategory.CONFIG,
+            turn_on=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"workNotify": 1}
+            ),
+            turn_off=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"workNotify": 0}
+            ),
+        ),
+        PetKitSwitchDesc(
+            key="deodorant_notify",
+            translation_key="deodorant_notify",
+            value=lambda device: device.settings.deodorant_notify,
+            entity_category=EntityCategory.CONFIG,
+            turn_on=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"deodorantNotify": 1}
+            ),
+            turn_off=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"deodorantNotify": 0}
+            ),
+        ),
+        PetKitSwitchDesc(
+            key="lack_liquid_notify",
+            translation_key="lack_liquid_notify",
+            value=lambda device: device.settings.lack_liquid_notify,
+            entity_category=EntityCategory.CONFIG,
+            turn_on=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"lackLiquidNotify": 1}
+            ),
+            turn_off=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"lackLiquidNotify": 0}
+            ),
+        ),
+        PetKitSwitchDesc(
+            key="lack_sand_notify",
+            translation_key="lack_sand_notify",
+            value=lambda device: device.settings.lack_sand_notify,
+            entity_category=EntityCategory.CONFIG,
+            turn_on=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"lackSandNotify": 1}
+            ),
+            turn_off=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"lackSandNotify": 0}
             ),
         ),
     ],
