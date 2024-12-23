@@ -217,4 +217,7 @@ class PetkitBinarySensor(PetkitEntity, BinarySensorEntity):
     @property
     def is_on(self) -> bool | None:
         """Return the state of the binary sensor."""
-        return self.entity_description.value(self.device)
+        device_data = self.coordinator.data.get(self.device.id)
+        if device_data:
+            return self.entity_description.value(device_data)
+        return None
