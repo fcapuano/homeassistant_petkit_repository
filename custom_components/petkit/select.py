@@ -20,6 +20,7 @@ from .const import (
     IA_DETECTION_SENSITIVITY_OPT,
     LITTER_TYPE_OPT,
     LOGGER,
+    ONLINE_STATE,
     SURPLUS_FOOD_LEVEL_OPT,
 )
 from .entity import PetKitDescSensorBase, PetkitEntity
@@ -211,14 +212,25 @@ class PetkitSelect(PetkitEntity, SelectEntity):
         self.device = device
 
     @property
-    def current_option(self) -> str:
+    def current_option(self) -> str | None:
         """Return the current surplus food level option."""
-        return self.entity_description.current_option(self.device)
+        device_data = self.coordinator.data.get(self.device.id)
+        if device_data:
+            return self.entity_description.current_option(device_data)
+        return None
 
     @property
     def options(self) -> list[str]:
         """Return list of all available manual feed amounts."""
         return self.entity_description.options()
+
+    @property
+    def available(self) -> bool:
+        """Return if this button is available or not"""
+        device_data = self.coordinator.data.get(self.device.id)
+        if hasattr(device_data.state, "pim"):
+            return device_data.state.pim in ONLINE_STATE
+        return True
 
     @property
     def unique_id(self) -> str:

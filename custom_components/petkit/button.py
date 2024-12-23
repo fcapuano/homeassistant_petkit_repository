@@ -25,7 +25,7 @@ from pypetkitapi.water_fountain_container import WaterFountain
 
 from homeassistant.components.button import ButtonEntity, ButtonEntityDescription
 
-from .const import LOGGER
+from .const import LOGGER, ONLINE_STATE
 from .entity import PetKitDescSensorBase, PetkitEntity
 
 if TYPE_CHECKING:
@@ -247,7 +247,14 @@ class PetkitButton(PetkitEntity, ButtonEntity):
     @property
     def available(self) -> bool:
         """Only make available if device is online."""
+
         device_data = self.coordinator.data.get(self.device.id)
+        if (
+            hasattr(device_data.state, "pim")
+            and device_data.state.pim not in ONLINE_STATE
+        ):
+            return False
+
         if self.entity_description.is_available:
             LOGGER.debug(
                 "Button %s availability result is : %s",

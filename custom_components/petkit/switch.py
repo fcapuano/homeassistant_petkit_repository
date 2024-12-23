@@ -15,7 +15,7 @@ from pypetkitapi.water_fountain_container import WaterFountain
 from homeassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from homeassistant.const import EntityCategory
 
-from .const import LOGGER
+from .const import LOGGER, ONLINE_STATE
 from .entity import PetKitDescSensorBase, PetkitEntity
 
 if TYPE_CHECKING:
@@ -601,6 +601,14 @@ class PetkitSwitch(PetkitEntity, SwitchEntity):
         return (
             f"{self.device.device_type}_{self.device.sn}_{self.entity_description.key}"
         )
+
+    @property
+    def available(self) -> bool:
+        """Return if this button is available or not"""
+        device_data = self.coordinator.data.get(self.device.id)
+        if hasattr(device_data.state, "pim"):
+            return device_data.state.pim in ONLINE_STATE
+        return True
 
     @property
     def is_on(self) -> bool | None:

@@ -20,7 +20,7 @@ from homeassistant.components.number import (
 )
 from homeassistant.const import EntityCategory, UnitOfTime
 
-from .const import LOGGER
+from .const import LOGGER, ONLINE_STATE
 from .entity import PetKitDescSensorBase, PetkitEntity
 
 if TYPE_CHECKING:
@@ -210,8 +210,18 @@ class PetkitNumber(PetkitEntity, NumberEntity):
     @property
     def native_value(self) -> float | None:
         """Always reset to native_value"""
+        device_data = self.coordinator.data.get(self.device.id)
+        if device_data:
+            return self.entity_description.native_value(device_data)
+        return None
 
-        return self.entity_description.native_value(self.device)
+    @property
+    def available(self) -> bool:
+        """Return if this button is available or not"""
+        device_data = self.coordinator.data.get(self.device.id)
+        if hasattr(device_data.state, "pim"):
+            return device_data.state.pim in ONLINE_STATE
+        return True
 
     async def async_set_native_value(self, value: str) -> None:
         """Set manual feeding amount."""

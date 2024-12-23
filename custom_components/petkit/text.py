@@ -14,7 +14,7 @@ from pypetkitapi.water_fountain_container import WaterFountain
 
 from homeassistant.components.text import TextEntity, TextEntityDescription
 
-from .const import INPUT_FEED_PATTERN, LOGGER
+from .const import INPUT_FEED_PATTERN, LOGGER, ONLINE_STATE
 from .entity import PetKitDescSensorBase, PetkitEntity
 
 if TYPE_CHECKING:
@@ -156,6 +156,14 @@ class PetkitText(PetkitEntity, TextEntity):
 
         return self.entity_description.native_value
 
+    @property
+    def available(self) -> bool:
+        """Return if this button is available or not"""
+        device_data = self.coordinator.data.get(self.device.id)
+        if hasattr(device_data.state, "pim"):
+            return device_data.state.pim in ONLINE_STATE
+        return True
+
     async def async_set_value(self, value: str) -> None:
         """Set manual feeding amount."""
 
@@ -174,7 +182,7 @@ class PetkitText(PetkitEntity, TextEntity):
 
         if int(value) not in valid_values:
             raise ValueError(
-                f"Feeding value '{value}' is not valid for this Feeder. Valid values are: {valid_values}"
+                f"Feeding value '{value}' is not valid for this feeder. Valid values are: {valid_values}"
             )
 
         LOGGER.debug(
