@@ -179,7 +179,7 @@
       }
     },
     "select": {
-      "cleaning_interval": {
+      "avoid_repeat_cleaning_interval": {
         "default": "mdi:timer-pause"
       },
       "eat_detection_sensitivity": {

@@ -415,7 +415,7 @@
       "auto_odor": {
         "name": "Auto odor"
       },
-      "avoid_repeat": {
+      "avoid_repeat_clean": {
         "name": "Avoid repeat cleaning"
       },
       "camera": {
