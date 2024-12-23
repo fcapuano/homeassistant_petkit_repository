@@ -472,8 +472,8 @@ SENSOR_MAPPING: dict[
             entity_picture=lambda pet: pet.avatar,
             device_class=SensorDeviceClass.WEIGHT,
             state_class=SensorStateClass.MEASUREMENT,
-            native_unit_of_measurement=UnitOfMass.GRAMS,
-            value=lambda pet: pet.last_measured_weight,
+            native_unit_of_measurement=UnitOfMass.KILOGRAMS,
+            value=lambda pet: round((pet.last_measured_weight / 1000), 2),
         ),
         PetKitSensorDesc(
             key="Pet last use duration",
