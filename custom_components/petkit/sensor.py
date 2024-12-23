@@ -161,10 +161,19 @@ SENSOR_MAPPING: dict[
             entity_category=EntityCategory.DIAGNOSTIC,
             state_class=SensorStateClass.MEASUREMENT,
             value=lambda device: (
-                device.state.feed_state.eat_count
-                if device.device_type == D4S
-                else len(device.state.feed_state.eat_times)
+                len(device.state.feed_state.eat_times)
+                if device.state.feed_state.eat_times is not None
+                else None
             ),
+            ignore_types=[D4S],
+        ),
+        PetKitSensorDesc(
+            key="Times eaten",
+            translation_key="times_eaten",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            state_class=SensorStateClass.MEASUREMENT,
+            value=lambda device: device.state.feed_state.eat_count,
+            only_for_types=[D4S],
         ),
         PetKitSensorDesc(
             key="Food in bowl",
