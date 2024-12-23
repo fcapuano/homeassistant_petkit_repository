@@ -148,8 +148,8 @@ SELECT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSelectDes
             entity_category=EntityCategory.CONFIG,
         ),
         PetKitSelectDesc(
-            key="Cleaning interval",
-            translation_key="cleaning_interval",
+            key="Avoid repeat cleaning interval",
+            translation_key="avoid_repeat_cleaning_interval",
             current_option=lambda device: CLEANING_INTERVAL_OPT[
                 device.settings.auto_interval_min
             ],
