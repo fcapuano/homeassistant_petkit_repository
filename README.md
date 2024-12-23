@@ -24,6 +24,11 @@ Video feature is not supported yet. it's planned for a future release. (REQUIRE 
 
 ## Supported devices
 
+> Legend :
+>
+> :camera: Still picture feature supported \
+> :movie_camera: Video clip feature supported (REQUIRE an active subscription to Care+)
+
 ### :poultry_leg: Feeders :
 
 - [x] Fresh Element
@@ -31,16 +36,16 @@ Video feature is not supported yet. it's planned for a future release. (REQUIRE 
 - [x] Fresh Element Infinity
 - [x] Fresh Element Solo
 - [x] Fresh Element Gemini
-- [x] YumShare Solo with Camera
-- [x] YumShare Dual-hopper with Camera
+- [x] YumShare Solo (with camera) :camera:
+- [x] YumShare Dual-hopper (with camera) :camera:
 
 ### :toilet: Litters :
 
 - [x] PuraX
 - [x] PuraMax
 - [x] PuraMax 2
-- [ ] Purobot Max Pro with camera (tester needed)
-- [x] Purobot Ultra with camera
+- [ ] Purobot Max Pro (with camera) (tester needed)
+- [x] Purobot Ultra (with camera)
 
 ### :fountain: Fountains :
 
