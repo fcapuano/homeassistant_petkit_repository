@@ -65,6 +65,10 @@ def get_raw_feed_plan(feeder_records_data) -> str | None:
         LOGGER.debug("No feeder records data found")
         return None
 
+    if feeder_records_data.feed is None:
+        LOGGER.debug("No feed data found")
+        return None
+
     for feed in feeder_records_data.feed:
         items = feed.items
         for idx, item in enumerate(items):
