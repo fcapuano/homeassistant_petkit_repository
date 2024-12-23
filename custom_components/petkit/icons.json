@@ -122,8 +122,8 @@
       "waste_bin_presence": {
         "default": "mdi:delete",
         "state": {
-          "off": "mdi:delete-forever",
-          "on": "mdi:delete"
+          "off": "mdi:delete",
+          "on": "mdi:delete-forever"
         }
       }
     },
@@ -180,7 +180,7 @@
     },
     "select": {
       "cleaning_interval": {
-        "default": "mdi:timer-sync-outline"
+        "default": "mdi:timer-pause"
       },
       "eat_detection_sensitivity": {
         "default": "mdi:tune-variant"
@@ -389,7 +389,7 @@
           "on": "mdi:air-filter"
         }
       },
-      "avoid_repeat": {
+      "avoid_repeat_clean": {
         "default": "mdi:repeat",
         "state": {
           "off": "mdi:repeat-off",
@@ -433,6 +433,13 @@
       },
       "deep_deodor": {
         "default": "mdi:spray"
+      },
+      "deodorant_notify": {
+        "default": "mdi:bell",
+        "state": {
+          "off": "mdi:bell-off",
+          "on": "mdi:bell-check"
+        }
       },
       "desiccant_notif": {
         "default": "mdi:bell",
@@ -486,8 +493,29 @@
       "kitten_mode": {
         "default": "mdi:cat"
       },
+      "lack_liquid_notify": {
+        "default": "mdi:bell",
+        "state": {
+          "off": "mdi:bell-off",
+          "on": "mdi:bell-check"
+        }
+      },
+      "lack_sand_notify": {
+        "default": "mdi:bell",
+        "state": {
+          "off": "mdi:bell-off",
+          "on": "mdi:bell-check"
+        }
+      },
       "light_weight": {
         "default": "mdi:feather"
+      },
+      "litter_full_notify": {
+        "default": "mdi:bell",
+        "state": {
+          "off": "mdi:bell-off",
+          "on": "mdi:bell-check"
+        }
       },
       "low_battery_notif": {
         "default": "mdi:bell",
@@ -532,6 +560,13 @@
         }
       },
       "pet_eat_notif": {
+        "default": "mdi:bell",
+        "state": {
+          "off": "mdi:bell-off",
+          "on": "mdi:bell-check"
+        }
+      },
+      "pet_in_notify": {
         "default": "mdi:bell",
         "state": {
           "off": "mdi:bell-off",
@@ -598,6 +633,13 @@
         "state": {
           "off": "mdi:shovel-off",
           "on": "mdi:shovel"
+        }
+      },
+      "work_notify": {
+        "default": "mdi:bell",
+        "state": {
+          "off": "mdi:bell-off",
+          "on": "mdi:bell-check"
         }
       }
     },

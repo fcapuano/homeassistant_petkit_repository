@@ -159,8 +159,8 @@
       }
     },
     "select": {
-      "cleaning_interval": {
-        "name": "Cleaning interval"
+      "avoid_repeat_cleaning_interval": {
+        "name": "Avoid repeat cleaning interval"
       },
       "eat_detection_sensitivity": {
         "name": "IA Eat detection sensitivity"
@@ -416,7 +416,7 @@
         "name": "Auto odor"
       },
       "avoid_repeat": {
-        "name": "Avoid repeat"
+        "name": "Avoid repeat cleaning"
       },
       "camera": {
         "name": "Camera"
@@ -432,6 +432,9 @@
       },
       "deep_deodor": {
         "name": "Deep deodor"
+      },
+      "deodorant_notify": {
+        "name": "Notif on deodorant replacement need"
       },
       "desiccant_notif": {
         "name": "Notif on desiccant change need"
@@ -460,8 +463,17 @@
       "kitten_mode": {
         "name": "Kitten Mode"
       },
+      "lack_liquid_notify": {
+        "name": "Notif on purifying liquid shortage"
+      },
+      "lack_sand_notify": {
+        "name": "Notif on litter shortage"
+      },
       "light_weight": {
         "name": "Light Weight"
+      },
+      "litter_full_notify": {
+        "name": "Notif on waste bin full"
       },
       "low_battery_notif": {
         "name": "Notif on low battery"
@@ -483,6 +495,9 @@
       },
       "pet_eat_notif": {
         "name": "Notif on pet eat"
+      },
+      "pet_in_notify": {
+        "name": "Notif on pet toileting"
       },
       "pet_tracking": {
         "name": "Pet tracking"
@@ -513,6 +528,9 @@
       },
       "waste_covering": {
         "name": "Waste covering"
+      },
+      "work_notify": {
+        "name": "Notif on device cleaning"
       }
     },
     "text": {
