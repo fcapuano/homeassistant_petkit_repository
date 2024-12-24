@@ -100,22 +100,22 @@ Or follow these steps:
 
 ## Configuration is done in the UI
 
-> [!IMPORTANT]
-> Accounts: \
-> In order to use the official Petkit official application **AND** HomeAssistant simultaneously, you must have 2 accounts :
+>[!IMPORTANT]
 >
-> - Use the **primary** account with your official Petkit application.
-> - Use the **secondary** account for Home Assistant.
+>To use both the official Petkit app AND Home Assistant simultaneously, you need two accounts:
 >
-> Add the secondary account to the primary account's family in the Petkit application. \
+> - Use your **PRIMARY** account with the official Petkit app to retain full control over device management.
+> - Use your **SECONDARY** account for Home Assistant integration.
 >
-> **How to create a family:**
+>Add the secondary account to your primary account's family in the Petkit app.
 >
-> 1. Go to the Petkit application, when logged with your primary account.
-> 2. At the top, click on `Family Management` and then on the `Create a family` button and follow the instructions.
-> 3. Once finished, click the `Add family member` button.
-> 4. Add your second Petkit account.
-> 5. Now log in to the Home Assistant application with your secondary account.
+>How to create a family and add a member:
+>
+> 1. Open the Petkit app and log in with your primary account.
+> 2. At the top of the screen, click on Family Management, then select Create a Family and follow the prompts.
+> 3. Once the family is created, click on the Add Family Member button.
+> 4. Add your secondary Petkit account.
+> 5. Finally, log into the Home Assistant integration using your secondary account.
 
 ## Available languages
 
@@ -150,7 +150,7 @@ This repository is based on the client library for the Petkit API, which can be 
 
 Thanks to :
 
-- @Leedeus for the [integration_blueprint](https://github.com/ludeeus/integration_blueprint) template.
+- @ludeeus for the [integration_blueprint](https://github.com/ludeeus/integration_blueprint) template.
 - @RobertD502 for the great reverse engineering done in this repository which helped a lot [home-assistant-petkit](https://github.com/RobertD502/home-assistant-petkit)
 
 ---
