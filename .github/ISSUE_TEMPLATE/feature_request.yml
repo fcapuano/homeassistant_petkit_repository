@@ -13,7 +13,7 @@ body:
       options:
         - label: This only contains 1 feature request (if you have multiple feature requests, open one feature request for each feature request).
           required: true
-        - label: This issue is not a duplicate feature request of [previous feature requests](https://github.com/Jezza34000/homeassistant_petkit/issues?q=is%3Aissue+label%3A%22Feature+Request%22+).
+        - label: This request is not a duplicate feature request of [previous feature requests](https://github.com/Jezza34000/homeassistant_petkit/issues?q=is%3Aissue+label%3A%22Feature+Request%22+).
           required: true
 
   - type: textarea
@@ -33,7 +33,5 @@ body:
 
   - type: textarea
     attributes:
-      label: "Additional context"
+      label: "Additional context (optional)"
       description: "Add any other context or screenshots about the feature request here."
-    validations:
-      required: true
