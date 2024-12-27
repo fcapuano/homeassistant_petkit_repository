@@ -100,16 +100,16 @@ Or follow these steps:
 
 ## Configuration is done in the UI
 
->[!IMPORTANT]
+> [!IMPORTANT]
 >
->To use both the official Petkit app AND Home Assistant simultaneously, you need two accounts:
+> To use both the official Petkit app AND Home Assistant simultaneously, you need two accounts:
 >
 > - Use your **PRIMARY** account with the official Petkit app to retain full control over device management.
 > - Use your **SECONDARY** account for Home Assistant integration.
 >
->Add the secondary account to your primary account's family in the Petkit app.
+> Add the secondary account to your primary account's family in the Petkit app.
 >
->How to create a family and add a member:
+> How to create a family and add a member:
 >
 > 1. Open the Petkit app and log in with your primary account.
 > 2. At the top of the screen, click on Family Management, then select Create a Family and follow the prompts.
