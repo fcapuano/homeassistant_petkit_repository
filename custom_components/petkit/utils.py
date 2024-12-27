@@ -1,5 +1,6 @@
 """Util functions for the Petkit integration."""
 
+from pypetkitapi.feeder_container import RecordsItems
 from pypetkitapi.litter_container import LitterRecord, WorkState
 
 from .const import EVENT_MAPPING, LOGGER
@@ -141,3 +142,53 @@ def map_litter_event(litter_event: list[LitterRecord | None]) -> str | None:
     except KeyError:
         LOGGER.debug(f"Unknown event type result: {event_type}")
         return f"event_type_{event_type}_unknown"
+
+
+def get_dispense_status(
+    feed_record: RecordsItems,
+) -> tuple[str, str, int, int, int, int]:
+    """Get the dispense status.
+
+    :param feed_record: RecordsItems
+    :return: tuple (source, status, plan_amount1, plan_amount2, disp_amount1, disp_amount2)
+    """
+
+    # Init
+    plan_amount1 = getattr(feed_record, "amount", 0)
+    plan_amount2 = 0
+    disp_amount1 = 0
+    disp_amount2 = 0
+
+    # Déterminer les montants planifiés si `amount1` et `amount2` existent
+    if hasattr(feed_record, "amount1") and hasattr(feed_record, "amount2"):
+        plan_amount1 = feed_record.amount1
+        plan_amount2 = feed_record.amount2
+
+    # Find the source
+    source_mapping = {
+        1: "feeding plan",
+        3: "manual (source : from application)",
+        4: "manual (source : locally from feeder)",
+    }
+    source = source_mapping.get(feed_record.src, "unknown")
+
+    # Find the status
+    if feed_record.status == 1:
+        status = "cancelled"
+    elif hasattr(feed_record, "state") and feed_record.state is not None:
+        state = feed_record.state
+        if state.err_code == 0 and state.result == 0:
+            status = "dispensed"
+        elif state.err_code == 10 and state.result == 8:
+            status = "skipped"
+        else:
+            status = "failed dispense"
+
+        # Determinate the dispensed amount
+        disp_amount1 = getattr(state, "real_amount", 0)
+        disp_amount1 = getattr(state, "real_amount1", disp_amount1)
+        disp_amount2 = getattr(state, "real_amount2", 0)
+    else:
+        status = "pending"
+
+    return source, status, plan_amount1, plan_amount2, disp_amount1, disp_amount2
