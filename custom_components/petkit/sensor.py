@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Any
 
-from pypetkitapi.const import D3, D4S, DEVICES_FEEDER, DEVICES_LITTER_BOX, T4, T6
+from pypetkitapi.const import D4S, DEVICES_FEEDER, DEVICES_LITTER_BOX, T4, T6
 from pypetkitapi.containers import Pet
 from pypetkitapi.feeder_container import Feeder
 from pypetkitapi.litter_container import Litter
@@ -96,24 +96,11 @@ SENSOR_MAPPING: dict[
             force_add=DEVICES_FEEDER,
         ),
         PetKitSensorDesc(
-            key="Times dispensed d3",
-            translation_key="times_dispensed",
-            entity_category=EntityCategory.DIAGNOSTIC,
-            state_class=SensorStateClass.MEASUREMENT,
-            value=lambda device: (
-                len(device.state.feed_state.times)
-                if isinstance(device.state.feed_state.times, list)
-                else 0
-            ),
-            only_for_types=[D3],
-        ),
-        PetKitSensorDesc(
             key="Times dispensed",
             translation_key="times_dispensed",
             entity_category=EntityCategory.DIAGNOSTIC,
             state_class=SensorStateClass.MEASUREMENT,
             value=lambda device: device.state.feed_state.times,
-            ignore_types=[D3],
         ),
         PetKitSensorDesc(
             key="Total planned",
@@ -153,7 +140,7 @@ SENSOR_MAPPING: dict[
             entity_category=EntityCategory.DIAGNOSTIC,
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=UnitOfMass.GRAMS,
-            value=lambda device: device.state.feed_state.eat_amount_total,
+            value=lambda device: device.state.feed_state.eat_amount_total,  # D3
         ),
         PetKitSensorDesc(
             key="Times eaten",
