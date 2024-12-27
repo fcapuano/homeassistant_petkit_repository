@@ -22,22 +22,20 @@ if TYPE_CHECKING:
     from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
     from .coordinator import PetkitDataUpdateCoordinator
-    from .data import PetkitConfigEntry
+    from .data import PetkitConfigEntry, PetkitDevices
 
 
 @dataclass(frozen=True, kw_only=True)
-class PetKitTextDesc(PetKitDescSensorBase, TextEntityDescription):
+class PetkitTextDesc(PetKitDescSensorBase, TextEntityDescription):
     """A class that describes sensor entities."""
 
     native_value: str | None = None
-    action: (
-        Callable[[PetkitConfigEntry, Feeder | Litter | WaterFountain, str], Any] | None
-    ) = None
+    action: Callable[[PetkitConfigEntry, PetkitDevices, str], Any] | None = None
 
 
-TEXT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitTextDesc]] = {
+TEXT_MAPPING: dict[type[PetkitDevices], list[PetkitTextDesc]] = {
     Feeder: [
-        PetKitTextDesc(
+        PetkitTextDesc(
             key="Manual feed single",
             translation_key="manual_feed_single",
             value=lambda device: device.settings.light_mode,
@@ -50,7 +48,7 @@ TEXT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitTextDesc]] 
             ),
             only_for_types=[FEEDER, FEEDER_MINI, D3, D4, D4H],
         ),
-        PetKitTextDesc(
+        PetkitTextDesc(
             key="Manual feed dual h1",
             translation_key="manual_feed_dual_h1",
             value=lambda device: device.settings.light_mode,
@@ -65,7 +63,7 @@ TEXT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitTextDesc]] 
             ),
             only_for_types=[D4S, D4SH],
         ),
-        PetKitTextDesc(
+        PetkitTextDesc(
             key="Manual feed dual h2",
             translation_key="manual_feed_dual_h2",
             value=lambda device: device.settings.light_mode,
@@ -111,13 +109,13 @@ async def async_setup_entry(
 class PetkitText(PetkitEntity, TextEntity):
     """Petkit Smart Devices Switch class."""
 
-    entity_description: PetKitTextDesc
+    entity_description: PetkitTextDesc
 
     def __init__(
         self,
         coordinator: PetkitDataUpdateCoordinator,
-        entity_description: PetKitTextDesc,
-        device: Feeder | Litter | WaterFountain,
+        entity_description: PetkitTextDesc,
+        device: PetkitDevices,
     ) -> None:
         """Initialize the switch class."""
         super().__init__(coordinator, device)
