@@ -180,7 +180,7 @@
     },
     "sensor": {
       "amount_eaten": {
-        "name": "Cantidad comida"
+        "name": "Cantidad de comida consumida"
       },
       "average_time": {
         "name": "Uso promedio"
