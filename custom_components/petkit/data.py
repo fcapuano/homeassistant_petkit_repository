@@ -5,6 +5,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
+from pypetkitapi.containers import Pet
+from pypetkitapi.feeder_container import Feeder
+from pypetkitapi.litter_container import Litter
+from pypetkitapi.water_fountain_container import WaterFountain
+
 if TYPE_CHECKING:
     from pypetkitapi.client import PetKitClient
 
@@ -15,6 +20,9 @@ if TYPE_CHECKING:
 
 
 type PetkitConfigEntry = ConfigEntry[PetkitData]
+
+# Custom types for Petkit Smart Devices integration
+type PetkitDevices = Feeder | Litter | WaterFountain | Pet
 
 
 @dataclass
