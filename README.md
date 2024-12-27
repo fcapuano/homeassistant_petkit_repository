@@ -158,7 +158,7 @@ Thanks to :
 [homeassistant_petkit]: https://github.com/Jezza34000/homeassistant_petkit
 [commits-shield]: https://img.shields.io/github/commit-activity/y/Jezza34000/homeassistant_petkit.svg?style=for-the-badge&color=788B95
 [commits]: https://github.com/Jezza34000/homeassistant_petkit/commits/main
-[discord]: https://discord.gg/bYQWBc9d
+[discord]: https://discord.gg/Va8DrmtweP
 [discord-shield]: https://img.shields.io/discord/1318098700379361362.svg?style=for-the-badge&label=Discord&logo=discord&color=5865F2
 [forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg?style=for-the-badge&label=Home%20Assistant%20Community&logo=homeassistant&color=18bcf2
 [forum]: https://community.home-assistant.io/
