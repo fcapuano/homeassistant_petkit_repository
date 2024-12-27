@@ -65,7 +65,6 @@ CLEANING_INTERVAL_OPT = {
     7200: "2h",
 }
 
-
 MANUAL_FEED_OPT = {
     0: "",
     5: "5g",
@@ -81,7 +80,6 @@ MANUAL_FEED_OPT = {
 }
 
 # Litter Event
-
 EVENT_MAPPING = {
     5: {
         0: {
@@ -171,7 +169,6 @@ EVENT_MAPPING = {
 
 
 # Country code mapping / Timezone
-
 COUNTRY_CODES = {
     "AD": "Andorra",
     "AE": "United Arab Emirates",
