@@ -176,7 +176,7 @@ class PetkitText(PetkitEntity, TextEntity):
             valid_values = list(range(5, 201))
         else:
             # Other, D4sh => 1,2,3,4,5,7,8,9,10
-            valid_values = [1, 2, 3, 4, 5, 7, 8, 9, 10]
+            valid_values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
         if int(value) not in valid_values:
             raise ValueError(
