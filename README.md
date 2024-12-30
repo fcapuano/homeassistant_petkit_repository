@@ -44,7 +44,7 @@ Video feature is not supported yet. it's planned for a future release. (REQUIRE 
 - [x] PuraX
 - [x] PuraMax
 - [x] PuraMax 2
-- [ ] Purobot Max Pro (with camera) (tester needed)
+- [x] Purobot Max Pro (with camera)
 - [x] Purobot Ultra (with camera)
 
 ### :fountain: Fountains :
