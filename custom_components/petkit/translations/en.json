@@ -417,6 +417,9 @@
       },
       "total_time": {
         "name": "Total use"
+      },
+      "smart_spray_battery": {
+        "name": "Smart spray battery"
       }
     },
     "switch": {

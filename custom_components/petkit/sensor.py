@@ -287,6 +287,14 @@ SENSOR_MAPPING: dict[
             ),
         ),
         PetKitSensorDesc(
+            key="Smart spray battery",
+            translation_key="smart_spray_battery",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            device_class=SensorDeviceClass.BATTERY,
+            native_unit_of_measurement=PERCENTAGE,
+            value=lambda device: device.k3_device.battery,
+        ),
+        PetKitSensorDesc(
             key="End date care plus subscription",
             translation_key="end_date_care_plus_subscription",
             entity_category=EntityCategory.DIAGNOSTIC,
