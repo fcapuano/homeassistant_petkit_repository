@@ -24,22 +24,22 @@ Video feature is not supported yet. it's planned for a future release. (REQUIRE 
 
 ## Supported devices
 
-> Legend :
+> [!NOTE] Legend :
 >
-> :camera: Still picture feature supported \
-> :movie_camera: Video clip feature supported (REQUIRE an active subscription to Care+)
+> - 📸 Still picture feature supported \
+> - 📹 Video clip feature supported (REQUIRE an active subscription to Care+)
 
-### :poultry_leg: Feeders :
+### 🍗 Feeders :
 
 - [x] Fresh Element
 - [x] Fresh Element Mini Pro
 - [x] Fresh Element Infinity
 - [x] Fresh Element Solo
 - [x] Fresh Element Gemini
-- [x] YumShare Solo (with camera) :camera:
-- [x] YumShare Dual-hopper (with camera) :camera:
+- [x] YumShare Solo (with camera) 📸
+- [x] YumShare Dual-hopper (with camera) 📸
 
-### :toilet: Litters :
+### 🚽 Litters :
 
 - [x] PuraX
 - [x] PuraMax
@@ -47,7 +47,7 @@ Video feature is not supported yet. it's planned for a future release. (REQUIRE 
 - [x] Purobot Max Pro (with camera)
 - [x] Purobot Ultra (with camera)
 
-### :fountain: Fountains :
+### ⛲ Fountains :
 
 - [x] Eversweet Solo 2
 - [x] Eversweet 3 Pro
@@ -56,7 +56,13 @@ Video feature is not supported yet. it's planned for a future release. (REQUIRE 
 - [x] Eversweet Max
 
 > [!IMPORTANT]
-> Fountain only support reading data, no control is available yet. it's planned for a future release.
+> Fountain only support reading data, no control is available yet.
+> Control is planned for a future release.
+
+### 🧴 Purifiers :
+
+- [x] Air Magicube
+- [x] Air Smart Spray
 
 ## Feeders special features
 
