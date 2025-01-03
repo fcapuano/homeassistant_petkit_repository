@@ -5,11 +5,7 @@ from __future__ import annotations
 from datetime import timedelta
 from typing import TYPE_CHECKING
 
-from pypetkitapi.containers import Pet
-from pypetkitapi.exceptions import PypetkitError
-from pypetkitapi.feeder_container import Feeder
-from pypetkitapi.litter_container import Litter
-from pypetkitapi.water_fountain_container import WaterFountain
+from pypetkitapi import Feeder, Litter, Pet, Purifier, PypetkitError, WaterFountain
 
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -41,7 +37,7 @@ class PetkitDataUpdateCoordinator(DataUpdateCoordinator):
 
     async def _async_update_data(
         self,
-    ) -> dict[int, Feeder | Litter | WaterFountain | Pet]:
+    ) -> dict[int, Feeder | Litter | WaterFountain | Purifier | Pet]:
         """Update data via library."""
         try:
             await self.config_entry.runtime_data.client.get_devices_data()

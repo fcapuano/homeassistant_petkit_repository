@@ -6,11 +6,19 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Any
 
-from pypetkitapi.const import D4S, DEVICES_FEEDER, DEVICES_LITTER_BOX, T4, T6
-from pypetkitapi.containers import Pet
-from pypetkitapi.feeder_container import Feeder
-from pypetkitapi.litter_container import Litter
-from pypetkitapi.water_fountain_container import WaterFountain
+from pypetkitapi import (
+    D4S,
+    DEVICES_FEEDER,
+    DEVICES_LITTER_BOX,
+    K2,
+    T4,
+    T6,
+    Feeder,
+    Litter,
+    Pet,
+    Purifier,
+    WaterFountain,
+)
 
 from homeassistant.components.sensor import (
     SensorDeviceClass,
@@ -24,7 +32,9 @@ from homeassistant.const import (
     EntityCategory,
     UnitOfEnergy,
     UnitOfMass,
+    UnitOfTemperature,
     UnitOfTime,
+    UnitOfVolume,
 )
 
 from .const import BATTERY_LEVEL_MAP, DEVICE_STATUS_MAP
@@ -488,6 +498,65 @@ SENSOR_MAPPING: dict[
             ),
         ),
     ],
+    Purifier: [
+        PetKitSensorDesc(
+            key="Humidity",
+            translation_key="humidity",
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=PERCENTAGE,
+            device_class=SensorDeviceClass.HUMIDITY,
+            value=lambda device: round(device.state.humidity / 10),
+        ),
+        PetKitSensorDesc(
+            key="Temperature",
+            translation_key="temperature",
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            device_class=SensorDeviceClass.TEMPERATURE,
+            value=lambda device: round(device.state.temp / 10),
+        ),
+        PetKitSensorDesc(
+            key="Air purified",
+            translation_key="air_purified",
+            state_class=SensorStateClass.TOTAL,
+            native_unit_of_measurement=UnitOfVolume.CUBIC_METERS,
+            device_class=SensorDeviceClass.VOLUME,
+            value=lambda device: round(device.state.refresh),
+        ),
+        PetKitSensorDesc(
+            key="Error message",
+            translation_key="error_message",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            value=lambda device: (
+                device.state.error_msg
+                if hasattr(device.state, "error_msg")
+                and device.state.error_msg is not None
+                else "No error"
+            ),
+            force_add=[K2],
+        ),
+        PetKitSensorDesc(
+            key="Rssi",
+            translation_key="rssi",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            state_class=SensorStateClass.MEASUREMENT,
+            device_class=SensorDeviceClass.SIGNAL_STRENGTH,
+            native_unit_of_measurement=SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
+            value=lambda device: device.state.wifi.rsq,
+        ),
+        PetKitSensorDesc(
+            key="Purifier liquid",
+            translation_key="purifier_liquid",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=PERCENTAGE,
+            value=lambda device: (
+                device.state.liquid
+                if device.state.liquid is not None and 0 <= device.state.liquid <= 100
+                else None
+            ),
+        ),
+    ],
 }
 
 
@@ -549,9 +618,7 @@ class PetkitSensor(PetkitEntity, SensorEntity):
     @property
     def unique_id(self) -> str:
         """Return a unique ID for the binary_sensor."""
-        return (
-            f"{self.device.device_type}_{self.device.sn}_{self.entity_description.key}"
-        )
+        return f"{self.device.device_nfo.device_type}_{self.device.sn}_{self.entity_description.key}"
 
     @property
     def native_unit_of_measurement(self) -> str | None:

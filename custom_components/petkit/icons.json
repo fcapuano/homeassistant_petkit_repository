@@ -199,6 +199,9 @@
       }
     },
     "sensor": {
+      "air_purified": {
+        "default": "mdi:air-filter"
+      },
       "amount_eaten": {
         "default": "mdi:food-drumstick"
       },
@@ -327,6 +330,9 @@
       },
       "purified_water": {
         "default": "mdi:water-pump"
+      },
+      "purifier_liquid": {
+        "default": "mdi:hydraulic-oil-level"
       },
       "raw_distribution_data": {
         "default": "mdi:format-list-bulleted-type"
@@ -633,6 +639,13 @@
         "state": {
           "off": "mdi:shovel-off",
           "on": "mdi:shovel"
+        }
+      },
+      "work_log_notify": {
+        "default": "mdi:bell",
+        "state": {
+          "off": "mdi:bell-off",
+          "on": "mdi:bell-check"
         }
       },
       "work_notify": {

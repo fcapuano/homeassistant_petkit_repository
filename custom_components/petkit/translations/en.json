@@ -130,6 +130,11 @@
         "name": "Scoop"
       }
     },
+    "fan": {
+      "air_purifier_fan": {
+        "name": "Air purifier"
+      }
+    },
     "image": {
       "last_eat_event": {
         "name": "Last eat event"
@@ -179,6 +184,9 @@
       }
     },
     "sensor": {
+      "air_purified": {
+        "name": "Air purified"
+      },
       "amount_eaten": {
         "name": "Amount eaten"
       },
@@ -365,6 +373,9 @@
       "purified_water": {
         "name": "Purified water"
       },
+      "purifier_liquid": {
+        "name": "Purifier liquid"
+      },
       "raw_distribution_data": {
         "name": "RAW distribution data"
       },
@@ -528,6 +539,9 @@
       },
       "waste_covering": {
         "name": "Waste covering"
+      },
+      "work_log_notify": {
+        "name": "Notif on executing scheduled tasks"
       },
       "work_notify": {
         "name": "Notif on device cleaning"
