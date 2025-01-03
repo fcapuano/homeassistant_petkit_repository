@@ -1,7 +1,6 @@
 """Util functions for the Petkit integration."""
 
-from pypetkitapi.feeder_container import RecordsItems
-from pypetkitapi.litter_container import LitterRecord, WorkState
+from pypetkitapi import LitterRecord, RecordsItems, WorkState
 
 from .const import EVENT_MAPPING, LOGGER
 

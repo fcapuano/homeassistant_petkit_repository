@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pypetkitapi.client import PetKitClient
+from pypetkitapi import PetKitClient
 
 from homeassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
 from homeassistant.helpers import device_registry as dr
@@ -29,6 +29,7 @@ PLATFORMS: list[Platform] = [
     Platform.NUMBER,
     Platform.SELECT,
     Platform.IMAGE,
+    Platform.FAN,
 ]
 
 

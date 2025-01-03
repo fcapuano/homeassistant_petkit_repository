@@ -2,8 +2,7 @@
 
 from __future__ import annotations
 
-from pypetkitapi.client import PetKitClient
-from pypetkitapi.exceptions import PetkitAuthenticationError, PypetkitError
+from pypetkitapi import PetkitAuthenticationError, PetKitClient, PypetkitError
 import voluptuous as vol
 
 from homeassistant import config_entries, data_entry_flow

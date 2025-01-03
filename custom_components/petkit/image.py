@@ -8,12 +8,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 import aiofiles
-from pypetkitapi.const import D4H, D4SH
-from pypetkitapi.containers import Pet
-from pypetkitapi.feeder_container import Feeder
-from pypetkitapi.litter_container import Litter
-from pypetkitapi.medias import MediaHandler
-from pypetkitapi.water_fountain_container import WaterFountain
+from pypetkitapi import D4H, D4SH, Feeder, Litter, MediaHandler, Pet, WaterFountain
 
 from homeassistant.components.image import ImageEntity, ImageEntityDescription
 
@@ -107,9 +102,7 @@ class PetkitImage(PetkitEntity, ImageEntity):
     @property
     def unique_id(self) -> str:
         """Return a unique ID for the binary_sensor."""
-        return (
-            f"{self.device.device_type}_{self.device.sn}_{self.entity_description.key}"
-        )
+        return f"{self.device.device_nfo.device_type}_{self.device.sn}_{self.entity_description.key}"
 
     @property
     def image_last_updated(self) -> datetime.datetime | None:
@@ -130,7 +123,7 @@ class PetkitImage(PetkitEntity, ImageEntity):
         if self._last_image_filename:
             image_path = Path(__file__).parent / "images" / self._last_image_filename
             LOGGER.debug(
-                f"Getting image for {self.device.device_type} Path is :{image_path}"
+                f"Getting image for {self.device.device_nfo.device_type} Path is :{image_path}"
             )
         else:
             image_path = Path(__file__).parent / "images" / "no-image-found.png"

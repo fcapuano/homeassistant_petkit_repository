@@ -5,10 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from pypetkitapi.const import D4S, D4SH, T4, T6
-from pypetkitapi.feeder_container import Feeder
-from pypetkitapi.litter_container import Litter
-from pypetkitapi.water_fountain_container import WaterFountain
+from pypetkitapi import D4S, D4SH, T4, T6, Feeder, Litter, WaterFountain
 
 from homeassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
@@ -212,7 +209,7 @@ class PetkitBinarySensor(PetkitEntity, BinarySensorEntity):
     @property
     def unique_id(self) -> str:
         """Return a unique ID for the binary_sensor."""
-        return f"{self.device.id}_{self.entity_description.key}"
+        return f"{self.device.device_nfo.device_type}_{self.device.sn}_{self.entity_description.key}"
 
     @property
     def is_on(self) -> bool | None:
