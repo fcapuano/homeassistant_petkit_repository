@@ -382,6 +382,9 @@
       "rssi": {
         "name": "RSSI"
       },
+      "smart_spray_battery": {
+        "name": "Smart spray battery"
+      },
       "spray_deodorant_liquid": {
         "name": "Spray deodorant liquid"
       },
@@ -417,9 +420,6 @@
       },
       "total_time": {
         "name": "Total use"
-      },
-      "smart_spray_battery": {
-        "name": "Smart spray battery"
       }
     },
     "switch": {
