@@ -25,9 +25,9 @@ Video feature is not supported yet. it's planned for a future release. (REQUIRE 
 ## Supported devices
 
 > [!NOTE]
->
-> - 📸 Still picture feature supported \
-> - 📹 Video clip feature supported (REQUIRE an active subscription to Care+)
+> Legend :
+> - 📸 = Still picture feature supported
+> - 📹 = Video clip feature supported
 
 ### 🍗 Feeders :
 
