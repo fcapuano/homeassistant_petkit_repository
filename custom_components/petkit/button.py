@@ -24,6 +24,8 @@ from pypetkitapi import (
     LBCommand,
     Litter,
     LitterCommand,
+    Pet,
+    Purifier,
     WaterFountain,
 )
 
@@ -37,7 +39,7 @@ if TYPE_CHECKING:
     from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
     from .coordinator import PetkitDataUpdateCoordinator
-    from .data import PetkitConfigEntry
+    from .data import PetkitConfigEntry, PetkitDevices
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -45,11 +47,14 @@ class PetKitButtonDesc(PetKitDescSensorBase, ButtonEntityDescription):
     """A class that describes sensor entities."""
 
     action: Callable[PetkitConfigEntry]
-    is_available: Callable[[Feeder | Litter | WaterFountain], bool] | None = None
+    is_available: Callable[[PetkitDevices], bool] | None = None
 
 
-BUTTON_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitButtonDesc]] = {
+COMMON_ENTITIES = []
+
+BUTTON_MAPPING: dict[type[PetkitDevices], list[PetKitButtonDesc]] = {
     Feeder: [
+        *COMMON_ENTITIES,
         PetKitButtonDesc(
             key="Reset desiccant",
             translation_key="reset_desiccant",
@@ -84,6 +89,7 @@ BUTTON_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitButtonDes
         ),
     ],
     Litter: [
+        *COMMON_ENTITIES,
         PetKitButtonDesc(
             key="Scoop",
             translation_key="start_scoop",
@@ -189,16 +195,9 @@ BUTTON_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitButtonDes
             only_for_types=[T3, T4, T6],
         ),
     ],
-    WaterFountain: [
-        # PetKitButtonDesc(
-        #     key="Water filter reset",
-        #     translation_key="water_filter_reset",
-        #     action=lambda api, device: api.send_api_request(
-        #         device.id, WaterFountainCommand.RESET_FILTER
-        #     ),
-        #     only_for_types=[D4S, D4H, D4SH]
-        # ),
-    ],
+    WaterFountain: [*COMMON_ENTITIES],
+    Purifier: [*COMMON_ENTITIES],
+    Pet: [*COMMON_ENTITIES],
 }
 
 

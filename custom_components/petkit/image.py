@@ -20,7 +20,7 @@ if TYPE_CHECKING:
     from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
     from .coordinator import PetkitDataUpdateCoordinator
-    from .data import PetkitConfigEntry
+    from .data import PetkitConfigEntry, PetkitDevices
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -30,8 +30,11 @@ class PetKitImageDesc(PetKitDescSensorBase, ImageEntityDescription):
     event_key: str | None = None  # Event key to get the image from
 
 
-IMAGE_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitImageDesc]] = {
+COMMON_ENTITIES = []
+
+IMAGE_MAPPING: dict[type[PetkitDevices], list[PetKitImageDesc]] = {
     Feeder: [
+        *COMMON_ENTITIES,
         PetKitImageDesc(
             key="Last visit event",
             event_key="pet",
@@ -51,8 +54,7 @@ IMAGE_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitImageDesc]
             only_for_types=[D4SH, D4H],
         ),
     ],
-    Litter: [],
-    WaterFountain: [],
+    Litter: [*COMMON_ENTITIES],
 }
 
 

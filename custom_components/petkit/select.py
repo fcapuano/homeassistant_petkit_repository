@@ -6,7 +6,16 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from pypetkitapi import D4H, D4SH, DeviceCommand, Feeder, Litter, WaterFountain
+from pypetkitapi import (
+    D4H,
+    D4SH,
+    DeviceCommand,
+    Feeder,
+    Litter,
+    Pet,
+    Purifier,
+    WaterFountain,
+)
 
 from homeassistant.components.select import SelectEntity, SelectEntityDescription
 from homeassistant.const import EntityCategory
@@ -26,20 +35,23 @@ if TYPE_CHECKING:
     from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
     from .coordinator import PetkitDataUpdateCoordinator
-    from .data import PetkitConfigEntry
+    from .data import PetkitConfigEntry, PetkitDevices
 
 
 @dataclass(frozen=True, kw_only=True)
 class PetKitSelectDesc(PetKitDescSensorBase, SelectEntityDescription):
     """A class that describes sensor entities."""
 
-    current_option: Callable[[Feeder | Litter | WaterFountain], str] | None = None
+    current_option: Callable[[PetkitDevices], str] | None = None
     options: Callable[[], list[str]] | None = None
     action: Callable[PetkitConfigEntry]
 
 
-SELECT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSelectDesc]] = {
+COMMON_ENTITIES = []
+
+SELECT_MAPPING: dict[type[PetkitDevices], list[PetKitSelectDesc]] = {
     Feeder: [
+        *COMMON_ENTITIES,
         PetKitSelectDesc(
             key="Surplus level",
             translation_key="surplus_level",
@@ -125,6 +137,7 @@ SELECT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSelectDes
         ),
     ],
     Litter: [
+        *COMMON_ENTITIES,
         PetKitSelectDesc(
             key="Litter type",
             translation_key="litter_type",
@@ -164,7 +177,9 @@ SELECT_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitSelectDes
             entity_category=EntityCategory.CONFIG,
         ),
     ],
-    WaterFountain: [],
+    WaterFountain: [*COMMON_ENTITIES],
+    Purifier: [*COMMON_ENTITIES],
+    Pet: [*COMMON_ENTITIES],
 }
 
 

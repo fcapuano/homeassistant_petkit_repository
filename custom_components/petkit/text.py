@@ -17,6 +17,8 @@ from pypetkitapi import (
     Feeder,
     FeederCommand,
     Litter,
+    Pet,
+    Purifier,
     WaterFountain,
 )
 
@@ -41,8 +43,11 @@ class PetkitTextDesc(PetKitDescSensorBase, TextEntityDescription):
     action: Callable[[PetkitConfigEntry, PetkitDevices, str], Any] | None = None
 
 
+COMMON_ENTITIES = []
+
 TEXT_MAPPING: dict[type[PetkitDevices], list[PetkitTextDesc]] = {
     Feeder: [
+        *COMMON_ENTITIES,
         PetkitTextDesc(
             key="Manual feed single",
             translation_key="manual_feed_single",
@@ -87,8 +92,10 @@ TEXT_MAPPING: dict[type[PetkitDevices], list[PetkitTextDesc]] = {
             only_for_types=[D4S, D4SH],
         ),
     ],
-    Litter: [],
-    WaterFountain: [],
+    Litter: [*COMMON_ENTITIES],
+    WaterFountain: [*COMMON_ENTITIES],
+    Purifier: [*COMMON_ENTITIES],
+    Pet: [*COMMON_ENTITIES],
 }
 
 
