@@ -62,7 +62,7 @@
         "name": "Litter"
       },
       "low_battery": {
-        "name": "Battery"
+        "name": "Low battery"
       },
       "low_power": {
         "name": "Power"
@@ -75,6 +75,9 @@
       },
       "pura_air_liquid": {
         "name": "Pura Air liquid"
+      },
+      "replace_filter": {
+        "name": "Replace filter"
       },
       "sand_lack": {
         "name": "Sand lack"
