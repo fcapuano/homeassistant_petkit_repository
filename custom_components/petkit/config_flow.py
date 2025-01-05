@@ -6,11 +6,16 @@ from pypetkitapi import PetkitAuthenticationError, PetKitClient, PypetkitError
 import voluptuous as vol
 
 from homeassistant import config_entries, data_entry_flow
-from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
+from homeassistant.const import (
+    CONF_PASSWORD,
+    CONF_REGION,
+    CONF_TIME_ZONE,
+    CONF_USERNAME,
+)
 from homeassistant.helpers import selector
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
-from .const import COUNTRY_CODES, DOMAIN, LOGGER, REGION, TIMEZONE, TIMEZONES
+from .const import ALL_COUNTRY_CODES_DICT, ALL_TIMEZONES_LST, DOMAIN, LOGGER
 
 
 class PetkitFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
@@ -25,7 +30,9 @@ class PetkitFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         """Handle a flow initialized by the user."""
         _errors = {}
 
-        country_from_ha = COUNTRY_CODES.get(self.hass.config.country, "Unknown")
+        country_from_ha = ALL_COUNTRY_CODES_DICT.get(
+            self.hass.config.country, "Unknown"
+        )
         tz_from_ha = self.hass.config.time_zone
         LOGGER.debug(
             f"Country code from HA : {self.hass.config.country} Detected country : {country_from_ha} Default timezone: {tz_from_ha}"
@@ -43,8 +50,8 @@ class PetkitFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                     await self._test_credentials(
                         username=user_input[CONF_USERNAME],
                         password=user_input[CONF_PASSWORD],
-                        region=user_input.get(REGION, country_from_ha),
-                        timezone=user_input.get(TIMEZONE, tz_from_ha),
+                        region=user_input.get(CONF_REGION, country_from_ha),
+                        timezone=user_input.get(CONF_TIME_ZONE, tz_from_ha),
                     )
                 except PetkitAuthenticationError as exception:
                     LOGGER.error(exception)
@@ -78,14 +85,16 @@ class PetkitFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             data_schema.update(
                 {
                     vol.Required(
-                        REGION, default=country_from_ha
+                        CONF_REGION, default=country_from_ha
                     ): selector.SelectSelector(
                         selector.SelectSelectorConfig(
-                            options=sorted(COUNTRY_CODES.values())
+                            options=sorted(ALL_COUNTRY_CODES_DICT.values())
                         ),
                     ),
-                    vol.Required(TIMEZONE, default=tz_from_ha): selector.SelectSelector(
-                        selector.SelectSelectorConfig(options=TIMEZONES),
+                    vol.Required(
+                        CONF_TIME_ZONE, default=tz_from_ha
+                    ): selector.SelectSelector(
+                        selector.SelectSelectorConfig(options=ALL_TIMEZONES_LST),
                     ),
                 }
             )

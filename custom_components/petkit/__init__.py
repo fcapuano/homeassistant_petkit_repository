@@ -6,12 +6,18 @@ from typing import TYPE_CHECKING
 
 from pypetkitapi import PetKitClient
 
-from homeassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
+from homeassistant.const import (
+    CONF_PASSWORD,
+    CONF_REGION,
+    CONF_TIME_ZONE,
+    CONF_USERNAME,
+    Platform,
+)
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.loader import async_get_loaded_integration
 
-from .const import COUNTRY_CODES, REGION, TIMEZONE
+from .const import ALL_COUNTRY_CODES_DICT
 from .coordinator import PetkitDataUpdateCoordinator
 from .data import PetkitData
 
@@ -39,7 +45,7 @@ async def async_setup_entry(
 ) -> bool:
     """Set up this integration using UI."""
 
-    country_from_ha = COUNTRY_CODES.get(
+    country_from_ha = ALL_COUNTRY_CODES_DICT.get(
         hass.config.country if hass.config.country is not None else "Unknown"
     )
     tz_from_ha = hass.config.time_zone
@@ -51,8 +57,8 @@ async def async_setup_entry(
         client=PetKitClient(
             username=entry.data[CONF_USERNAME],
             password=entry.data[CONF_PASSWORD],
-            region=entry.data.get(REGION, country_from_ha),
-            timezone=entry.data.get(TIMEZONE, tz_from_ha),
+            region=entry.data.get(CONF_REGION, country_from_ha),
+            timezone=entry.data.get(CONF_TIME_ZONE, tz_from_ha),
             session=async_get_clientsession(hass),
         ),
         integration=async_get_loaded_integration(hass, entry.domain),

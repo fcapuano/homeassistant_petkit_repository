@@ -5,11 +5,6 @@ from logging import Logger, getLogger
 LOGGER: Logger = getLogger(__package__)
 DOMAIN = "petkit"
 
-REGION = "region"
-TIMEZONE = "timezone"
-POLLING_INTERVAL = "polling_interval"
-
-
 # Petkit devices types to name translation
 PETKIT_DEVICES_MAPPING = {
     "0k2": "Air Magicube",
@@ -34,9 +29,11 @@ PETKIT_DEVICES_MAPPING = {
     "0pet": "Pet",
 }
 
-POWER_ONLINE_STATE = [1, 2]
+# Messages consrtants
+NO_ERROR = "No error"
 
-# Data mapping for petkit devices
+# Status mapping
+POWER_ONLINE_STATE = [1, 2]
 
 DEVICE_STATUS_MAP = {
     0: "Offline",
@@ -56,8 +53,6 @@ INPUT_FEED_PATTERN = "^(0|[1-9][0-9]?|1[0-9]{2}|200)$"
 SURPLUS_FOOD_LEVEL_OPT = {1: "Less", 2: "Moderate", 3: "Full"}
 IA_DETECTION_SENSITIVITY_OPT = {1: "Low", 2: "Mid", 3: "High"}
 LITTER_TYPE_OPT = {1: "Bentonite", 2: "Tofu", 3: "Mixed"}
-# Fan mode
-PURIFIER_MODE = {0: "Auto", 1: "Silent", 2: "Standard", 3: "Strong"}
 
 CLEANING_INTERVAL_OPT = {
     0: "Disabled",
@@ -86,6 +81,9 @@ MANUAL_FEED_OPT = {
     45: "45g",
     50: "50g",
 }
+
+# Fan mode
+PURIFIER_MODE = {0: "Auto", 1: "Silent", 2: "Standard", 3: "Strong"}
 
 # Litter Event
 EVENT_MAPPING = {
@@ -177,7 +175,7 @@ EVENT_MAPPING = {
 
 
 # Country code mapping / Timezone
-COUNTRY_CODES = {
+ALL_COUNTRY_CODES_DICT = {
     "AD": "Andorra",
     "AE": "United Arab Emirates",
     "AF": "Afghanistan",
@@ -430,7 +428,7 @@ COUNTRY_CODES = {
 }
 
 
-TIMEZONES = [
+ALL_TIMEZONES_LST = [
     "Africa/Abidjan",
     "Africa/Accra",
     "Africa/Addis_Ababa",
