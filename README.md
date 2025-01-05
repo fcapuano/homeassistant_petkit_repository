@@ -26,6 +26,7 @@ Video feature is not supported yet. it's planned for a future release. (REQUIRE 
 
 > [!NOTE]
 > Legend :
+>
 > - 📸 = Still picture feature supported
 > - 📹 = Video clip feature supported
 
