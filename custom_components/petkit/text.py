@@ -178,13 +178,13 @@ class PetkitText(PetkitEntity, TextEntity):
     async def async_set_value(self, value: str) -> None:
         """Set manual feeding amount."""
 
-        if self.device.device_type in [D4, D4H]:
+        if self.device.device_nfo.device_type in [D4, D4H]:
             # D4/D4H => 10,20,30,40,50
             valid_values = [10, 20, 30, 40, 50]
-        elif self.device.device_type == FEEDER_MINI:
+        elif self.device.device_nfo.device_type == FEEDER_MINI:
             # FeederMini => 0,5,10,15,20,25,30,35,40,45,50
             valid_values = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
-        elif self.device.device_type == D3:
+        elif self.device.device_nfo.device_type == D3:
             # D3 => 5 to 200
             valid_values = list(range(5, 201))
         else:
