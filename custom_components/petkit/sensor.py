@@ -6,13 +6,13 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Any, Callable
 
-from pypetkitapi import D4S, K2, T4, T6, Feeder, Litter, Pet, Purifier, WaterFountain
+from pypetkitapi import D4S, K2, T4, T6, Feeder, Litter, Pet, Purifier, WaterFountain, T5
 
 from homeassistant.components.sensor import (
     SensorDeviceClass,
-    SensorEntity,
     SensorEntityDescription,
     SensorStateClass,
+    RestoreSensor
 )
 from homeassistant.const import (
     PERCENTAGE,
@@ -42,6 +42,7 @@ class PetKitSensorDesc(PetKitDescSensorBase, SensorEntityDescription):
     """A class that describes sensor entities."""
 
     entity_picture: Callable[[PetkitDevices], str | None] | None = None
+    restore_state: bool = False
 
 
 COMMON_ENTITIES = [
@@ -282,6 +283,7 @@ SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitSensorDesc]] = {
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=PERCENTAGE,
             value=lambda device: device.state.sand_percent,
+            ignore_types=[T5, T6]
         ),
         PetKitSensorDesc(
             key="Litter weight",
@@ -351,6 +353,7 @@ SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitSensorDesc]] = {
                 else None
             ),
             only_for_types=[T4],
+            restore_state=True,
         ),
         PetKitSensorDesc(
             key="Last used by",
@@ -361,6 +364,7 @@ SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitSensorDesc]] = {
                 else None
             ),
             only_for_types=[T6],
+            restore_state=True,
         ),
         PetKitSensorDesc(
             key="Total package",
@@ -482,6 +486,7 @@ SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitSensorDesc]] = {
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=UnitOfMass.KILOGRAMS,
             value=lambda pet: round((pet.last_measured_weight / 1000), 2),
+            restore_state=True,
         ),
         PetKitSensorDesc(
             key="Pet last use duration",
@@ -491,12 +496,14 @@ SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitSensorDesc]] = {
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=UnitOfTime.SECONDS,
             value=lambda pet: pet.last_duration_usage,
+            restore_state=True,
         ),
         PetKitSensorDesc(
             key="Pet last device used",
             translation_key="pet_last_device_used",
             entity_picture=lambda pet: pet.avatar,
             value=lambda pet: pet.last_device_used,
+            restore_state=True,
         ),
         PetKitSensorDesc(
             key="Pet last use date",
@@ -507,6 +514,7 @@ SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitSensorDesc]] = {
                 if pet.last_litter_usage != 0
                 else None
             ),
+            restore_state=True,
         ),
     ],
 }
@@ -534,7 +542,8 @@ async def async_setup_entry(
     async_add_entities(entities)
 
 
-class PetkitSensor(PetkitEntity, SensorEntity):
+
+class PetkitSensor(PetkitEntity, RestoreSensor):
     """Petkit Smart Devices BinarySensor class."""
 
     entity_description: PetKitSensorDesc
@@ -576,3 +585,14 @@ class PetkitSensor(PetkitEntity, SensorEntity):
     def native_unit_of_measurement(self) -> str | None:
         """Return the unit of measurement."""
         return self.entity_description.native_unit_of_measurement
+
+    async def async_added_to_hass(self) -> None:
+        """Run when entity about to be added to hass."""
+
+        if self.entity_description.restore_state:
+            await super().async_added_to_hass()
+
+            if last_state := await self.async_get_last_sensor_data():
+                self._attr_native_value = last_state.native_value
+            else:
+                self._attr_native_value = 0
