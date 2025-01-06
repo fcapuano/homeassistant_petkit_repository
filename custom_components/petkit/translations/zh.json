@@ -1,53 +1,53 @@
 {
   "config": {
     "error": {
-      "account_exists": "This account already exists.",
-      "connection": "Unable to connect to the server.",
-      "unknown": "Unknown error occurred, please check the logs."
+      "account_exists": "账号已存在",
+      "connection": "无法连接到服务器",
+      "unknown": "发生未知错误，请检查日志"
     },
     "step": {
       "user": {
         "data": {
-          "password": "Password",
-          "region": "Region",
-          "timezone": "Timezone",
-          "username": "Username/Id"
+          "password": "密码",
+          "region": "区域",
+          "timezone": "时区",
+          "username": "用户名/ID"
         },
-        "description": "Please enter your PetKit account details."
+        "description": "请输入你的小佩账号信息"
       }
     }
   },
   "entity": {
     "binary_sensor": {
       "battery": {
-        "name": "Battery"
+        "name": "电池"
       },
       "battery_installed": {
-        "name": "Battery installed"
+        "name": "电池已安装"
       },
       "camera_status": {
-        "name": "Camera status"
+        "name": "摄像头状态"
       },
       "care_plus_subscription": {
-        "name": "Care+ subscription"
+        "name": "Care+ 订阅"
       },
       "deodorizer": {
-        "name": "Deodorizer"
+        "name": "除臭剂"
       },
       "eating": {
-        "name": "Eating"
+        "name": "进食"
       },
       "feeding": {
-        "name": "Feeding"
+        "name": "出粮"
       },
       "food_level": {
-        "name": "Food level"
+        "name": "粮仓等级"
       },
       "food_level_1": {
-        "name": "Food level hopper 1"
+        "name": "1号粮仓"
       },
       "food_level_2": {
-        "name": "Food level hopper 2"
+        "name": "2号粮仓"
       },
       "lack_warning": {
         "name": "Water lack warning"
@@ -59,19 +59,19 @@
         "name": "Deodorizer liquid lack"
       },
       "litter": {
-        "name": "Litter"
+        "name": "猫厕所"
       },
       "low_battery": {
-        "name": "Low battery"
+        "name": "低电量"
       },
       "low_power": {
         "name": "Power"
       },
       "manually_paused": {
-        "name": "Manually paused"
+        "name": "手动暂停"
       },
       "on_ac_power": {
-        "name": "On AC power"
+        "name": "接入交流电"
       },
       "pura_air_liquid": {
         "name": "Pura Air liquid"
@@ -80,13 +80,13 @@
         "name": "Replace filter"
       },
       "sand_lack": {
-        "name": "Sand lack"
+        "name": "猫砂缺少"
       },
       "waste_bin": {
-        "name": "Wastebin filled"
+        "name": "垃圾箱已满"
       },
       "waste_bin_presence": {
-        "name": "Wastebin presence"
+        "name": "垃圾箱在位"
       },
       "water_level": {
         "name": "Water level"
@@ -94,22 +94,22 @@
     },
     "button": {
       "action_continue": {
-        "name": "Action : Continue"
+        "name": "Action : 继续"
       },
       "action_pause": {
-        "name": "Action : Pause"
+        "name": "Action : 暂停"
       },
       "action_reset": {
-        "name": "Action : Reset"
+        "name": "Action : 复位"
       },
       "call_pet": {
         "name": "Call pet"
       },
       "cancel_manual_feed": {
-        "name": "Cancel manual feed"
+        "name": "取消手动加餐"
       },
       "deodorize": {
-        "name": "Deodorize"
+        "name": "除臭"
       },
       "dump_litter": {
         "name": "Dump litter"
@@ -118,10 +118,10 @@
         "name": "Maintenance : Exit"
       },
       "food_replenished": {
-        "name": "Food replenished"
+        "name": "立即加餐"
       },
       "reset_desiccant": {
-        "name": "Reset desiccant"
+        "name": "复位干燥剂"
       },
       "reset_odor_eliminator": {
         "name": "Reset odor eliminator"
@@ -140,13 +140,13 @@
     },
     "image": {
       "last_eat_event": {
-        "name": "Last eat event"
+        "name": "上次进食事件"
       },
       "last_feed_event": {
-        "name": "Last feed event"
+        "name": "上次出粮事件"
       },
       "last_visit_event": {
-        "name": "Last visit event"
+        "name": "上次路过事件"
       }
     },
     "number": {
@@ -154,16 +154,16 @@
         "name": "Cleaning Delay"
       },
       "manual_feed": {
-        "name": "Manual Feed"
+        "name": "手动加餐（份）"
       },
       "min_eating_duration": {
         "name": "Min Eating Duration"
       },
       "surplus": {
-        "name": "Surplus"
+        "name": "碗内余粮"
       },
       "volume": {
-        "name": "Volume"
+        "name": "音量"
       }
     },
     "select": {
@@ -171,19 +171,19 @@
         "name": "Avoid repeat cleaning interval"
       },
       "eat_detection_sensitivity": {
-        "name": "IA Eat detection sensitivity"
+        "name": "进食侦测灵敏度"
       },
       "litter_type": {
         "name": "Litter type"
       },
       "move_detection_sensitivity": {
-        "name": "Move detection sensitivity"
+        "name": "移动侦测灵敏度"
       },
       "pet_detection_sensitivity": {
-        "name": "IA Pet detection sensitivity"
+        "name": "宠物侦测灵敏度"
       },
       "surplus_level": {
-        "name": "Surplus control level"
+        "name": "碗内余粮控制等级"
       }
     },
     "sensor": {
@@ -191,16 +191,16 @@
         "name": "Air purified"
       },
       "amount_eaten": {
-        "name": "Amount eaten"
+        "name": "进食量"
       },
       "average_time": {
-        "name": "Average use"
+        "name": "平均使用时间"
       },
       "avg_eating_time": {
-        "name": "Average Eating Time"
+        "name": "平均进食时间"
       },
       "battery_level": {
-        "name": "Battery level"
+        "name": "电量"
       },
       "deodorant_left_days": {
         "name": "Deodorant left days"
@@ -209,46 +209,46 @@
         "name": "Deodorizer level"
       },
       "desiccant_left_days": {
-        "name": "Desiccant left days"
+        "name": "干燥剂剩余天数"
       },
       "device_status": {
-        "name": "Device status"
+        "name": "设备状态"
       },
       "drink_times": {
-        "name": "Drink times"
+        "name": "饮水次数"
       },
       "end_date_care_plus_subscription": {
-        "name": "Care+ end subscription"
+        "name": "Care+ 订阅结束日期"
       },
       "error": {
-        "name": "Error"
+        "name": "错误"
       },
       "error_message": {
-        "name": "Error",
+        "name": "错误",
         "state": {
-          "no_error": "No error"
+          "no_error": "没有错误"
         }
       },
       "feeder_error": {
-        "name": "Feeder error"
+        "name": "喂食器错误"
       },
       "filter_percent": {
         "name": "Filter remaining"
       },
       "food_bowl_percentage": {
-        "name": "Food bowl fill"
+        "name": "粮碗百分比"
       },
       "food_in_bowl": {
-        "name": "Food in bowl"
+        "name": "碗内有粮"
       },
       "food_left": {
         "name": "Food left"
       },
       "last_update": {
-        "name": "Last update"
+        "name": "上次更新"
       },
       "last_used_by": {
-        "name": "Last used by"
+        "name": "上次使用于"
       },
       "litter_last_event": {
         "name": "Last event",
@@ -359,10 +359,10 @@
         "name": "Last use date"
       },
       "pet_last_use_duration": {
-        "name": "Last use duration"
+        "name": "上次使用时长"
       },
       "pet_last_weight_measurement": {
-        "name": "Last weight measurement"
+        "name": "上次称重"
       },
       "planned_dispensed": {
         "name": "Planned dispensed"
@@ -392,16 +392,16 @@
         "name": "Spray deodorant liquid"
       },
       "times_dispensed": {
-        "name": "Times dispensed"
+        "name": "出粮次数"
       },
       "times_eaten": {
-        "name": "Times eaten"
+        "name": "进食次数"
       },
       "times_used": {
-        "name": "Times used"
+        "name": "使用次数"
       },
       "total_dispensed": {
-        "name": "Total dispensed"
+        "name": "出粮量"
       },
       "total_dispensed_hopper_1": {
         "name": "Total Dispensed Hopper 1"
@@ -436,10 +436,10 @@
         "name": "Avoid repeat cleaning"
       },
       "camera": {
-        "name": "Camera"
+        "name": "摄像头"
       },
       "child_lock": {
-        "name": "Chlid lock"
+        "name": "童锁"
       },
       "cont_rotation": {
         "name": "Continuous rotation"
@@ -454,16 +454,16 @@
         "name": "Notif on deodorant replacement need"
       },
       "desiccant_notif": {
-        "name": "Notif on desiccant change need"
+        "name": "干燥剂更换提醒"
       },
       "dispensing_notif": {
-        "name": "Notif on dispense"
+        "name": "出粮通知"
       },
       "display": {
         "name": "Display"
       },
       "do_not_disturb": {
-        "name": "Do Not Disturb"
+        "name": "免打扰"
       },
       "feed_sound": {
         "name": "Feed sound"
@@ -472,37 +472,37 @@
         "name": "Feed tone"
       },
       "highlight": {
-        "name": "Pet tracking highlight"
+        "name": "每日精彩"
       },
       "indicator_light": {
-        "name": "Indicator light"
+        "name": "指示灯"
       },
       "kitten_mode": {
         "name": "Kitten Mode"
       },
       "lack_liquid_notify": {
-        "name": "Notif on purifying liquid shortage"
+        "name": "缺少净化剂通知"
       },
       "lack_sand_notify": {
-        "name": "Notif on litter shortage"
+        "name": "缺少猫砂通知"
       },
       "light_weight": {
         "name": "Light Weight"
       },
       "litter_full_notify": {
-        "name": "Notif on waste bin full"
+        "name": "垃圾箱满通知"
       },
       "low_battery_notif": {
-        "name": "Notif on low battery"
+        "name": "低电量通知"
       },
       "microphone": {
-        "name": "Microphone"
+        "name": "麦克风"
       },
       "move_notif": {
-        "name": "Notif on move"
+        "name": "移动通知"
       },
       "night_vision": {
-        "name": "Night vision"
+        "name": "夜视模式"
       },
       "periodic_cleaning": {
         "name": "Periodic Cleaning"
@@ -511,16 +511,16 @@
         "name": "Periodic Odor"
       },
       "pet_eat_notif": {
-        "name": "Notif on pet eat"
+        "name": "进食事件通知"
       },
       "pet_in_notify": {
         "name": "Notif on pet toileting"
       },
       "pet_tracking": {
-        "name": "Pet tracking"
+        "name": "宠物侦测"
       },
       "pet_visit_notif": {
-        "name": "Notif on pet visit"
+        "name": "宠物事件通知"
       },
       "power": {
         "name": "Power"
@@ -529,19 +529,19 @@
         "name": "Notif on refill need"
       },
       "shortage_alarm": {
-        "name": "Shortage alarm"
+        "name": "空粮报警"
       },
       "surplus_control": {
-        "name": "Surplus control"
+        "name": "碗内余粮控制"
       },
       "system_notification": {
-        "name": "System sound"
+        "name": "系统提示音"
       },
       "video_timestamp": {
-        "name": "Display timestamp"
+        "name": "时间戳显示"
       },
       "voice_dispense": {
-        "name": "Voice dispense"
+        "name": "出粮自动呼唤宠物"
       },
       "waste_covering": {
         "name": "Waste covering"
@@ -569,9 +569,9 @@
     "step": {
       "petkit_options": {
         "data": {
-          "polling_interval": "Polling interval (seconds)",
-          "region": "Region",
-          "timezone": "Timezone"
+          "polling_interval": "轮询间隔 (秒)",
+          "region": "区域",
+          "timezone": "时区"
         }
       }
     }

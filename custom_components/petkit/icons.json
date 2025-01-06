@@ -71,10 +71,10 @@
         }
       },
       "low_battery": {
-        "default": "mdi:battery-outline",
+        "default": "mdi:battery",
         "state": {
-          "off": "mdi:battery-high",
-          "on": "mdi:battery-low"
+          "off": "mdi:battery",
+          "on": "mdi:battery-alert-variant"
         }
       },
       "low_power": {
@@ -103,6 +103,13 @@
         "state": {
           "off": "mdi:power-off",
           "on": "mdi:power"
+        }
+      },
+      "replace_filter": {
+        "default": "mdi:air-filter",
+        "state": {
+          "off": "mdi:air-filter",
+          "on": "mdi:alert"
         }
       },
       "sand_lack": {
@@ -199,6 +206,9 @@
       }
     },
     "sensor": {
+      "air_purified": {
+        "default": "mdi:air-filter"
+      },
       "amount_eaten": {
         "default": "mdi:food-drumstick"
       },
@@ -294,8 +304,8 @@
       "low_battery": {
         "default": "mdi:battery",
         "state": {
-          "low": "mdi:battery-alert",
-          "normal": "mdi:battery"
+          "off": "mdi:battery",
+          "on": "mdi:battery-alert-variant"
         }
       },
       "manual_dispensed": {
@@ -327,6 +337,9 @@
       },
       "purified_water": {
         "default": "mdi:water-pump"
+      },
+      "purifier_liquid": {
+        "default": "mdi:hydraulic-oil-level"
       },
       "raw_distribution_data": {
         "default": "mdi:format-list-bulleted-type"
@@ -633,6 +646,13 @@
         "state": {
           "off": "mdi:shovel-off",
           "on": "mdi:shovel"
+        }
+      },
+      "work_log_notify": {
+        "default": "mdi:bell",
+        "state": {
+          "off": "mdi:bell-off",
+          "on": "mdi:bell-check"
         }
       },
       "work_notify": {

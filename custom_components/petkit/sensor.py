@@ -4,19 +4,15 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Callable
 
-from pypetkitapi.const import D4S, DEVICES_FEEDER, DEVICES_LITTER_BOX, T4, T6
-from pypetkitapi.containers import Pet
-from pypetkitapi.feeder_container import Feeder
-from pypetkitapi.litter_container import Litter
-from pypetkitapi.water_fountain_container import WaterFountain
+from pypetkitapi import D4S, K2, T4, T6, Feeder, Litter, Pet, Purifier, WaterFountain, T5
 
 from homeassistant.components.sensor import (
     SensorDeviceClass,
-    SensorEntity,
     SensorEntityDescription,
     SensorStateClass,
+    RestoreSensor
 )
 from homeassistant.const import (
     PERCENTAGE,
@@ -24,10 +20,12 @@ from homeassistant.const import (
     EntityCategory,
     UnitOfEnergy,
     UnitOfMass,
+    UnitOfTemperature,
     UnitOfTime,
+    UnitOfVolume,
 )
 
-from .const import BATTERY_LEVEL_MAP, DEVICE_STATUS_MAP
+from .const import BATTERY_LEVEL_MAP, DEVICE_STATUS_MAP, NO_ERROR
 from .entity import PetKitDescSensorBase, PetkitEntity
 from .utils import get_raw_feed_plan, map_litter_event, map_work_state
 
@@ -36,28 +34,58 @@ if TYPE_CHECKING:
     from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
     from .coordinator import PetkitDataUpdateCoordinator
-    from .data import PetkitConfigEntry
+    from .data import PetkitConfigEntry, PetkitDevices
 
 
 @dataclass(frozen=True, kw_only=True)
 class PetKitSensorDesc(PetKitDescSensorBase, SensorEntityDescription):
     """A class that describes sensor entities."""
 
-    entity_picture: callable[Any] | None = None
+    entity_picture: Callable[[PetkitDevices], str | None] | None = None
+    restore_state: bool = False
 
 
-SENSOR_MAPPING: dict[
-    type[Feeder | Litter | WaterFountain | Pet], list[PetKitSensorDesc]
-] = {
-    Feeder: [
-        PetKitSensorDesc(
-            key="Device status",
-            translation_key="device_status",
-            entity_category=EntityCategory.DIAGNOSTIC,
-            value=lambda device: DEVICE_STATUS_MAP.get(
-                device.state.pim, "Unknown Status"
-            ),
+COMMON_ENTITIES = [
+    PetKitSensorDesc(
+        key="Device status",
+        translation_key="device_status",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        value=lambda device: DEVICE_STATUS_MAP.get(device.state.pim, "Unknown Status"),
+    ),
+    PetKitSensorDesc(
+        key="Rssi",
+        translation_key="rssi",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        state_class=SensorStateClass.MEASUREMENT,
+        device_class=SensorDeviceClass.SIGNAL_STRENGTH,
+        native_unit_of_measurement=SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
+        value=lambda device: device.state.wifi.rsq,
+    ),
+    PetKitSensorDesc(
+        key="Error message",
+        translation_key="error_message",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        value=lambda device: (
+            device.state.error_msg
+            if hasattr(device.state, "error_msg") and device.state.error_msg is not None
+            else NO_ERROR
         ),
+        force_add=[K2],
+    ),
+    PetKitSensorDesc(
+        key="End date care plus subscription",
+        translation_key="end_date_care_plus_subscription",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        value=lambda device: datetime.fromtimestamp(
+            device.cloud_product.work_indate, tz=timezone.utc
+        ).strftime("%Y-%m-%d %H:%M:%S"),
+    ),
+]
+
+
+SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitSensorDesc]] = {
+    Feeder: [
+        *COMMON_ENTITIES,
         PetKitSensorDesc(
             key="Desiccant left days",
             translation_key="desiccant_left_days",
@@ -74,26 +102,6 @@ SENSOR_MAPPING: dict[
                 if device.state.pim == 2
                 else "Not in use"
             ),
-        ),
-        PetKitSensorDesc(
-            key="Rssi",
-            translation_key="rssi",
-            entity_category=EntityCategory.DIAGNOSTIC,
-            state_class=SensorStateClass.MEASUREMENT,
-            device_class=SensorDeviceClass.SIGNAL_STRENGTH,
-            native_unit_of_measurement=SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
-            value=lambda device: device.state.wifi.rsq,
-        ),
-        PetKitSensorDesc(
-            key="Error message",
-            translation_key="error_message",
-            entity_category=EntityCategory.DIAGNOSTIC,
-            value=lambda device: (
-                device.state.error_msg
-                if device.state.error_msg is not None
-                else "No error"
-            ),
-            force_add=DEVICES_FEEDER,
         ),
         PetKitSensorDesc(
             key="Times dispensed",
@@ -245,14 +253,6 @@ SENSOR_MAPPING: dict[
             ),
         ),
         PetKitSensorDesc(
-            key="End date care plus subscription",
-            translation_key="end_date_care_plus_subscription",
-            entity_category=EntityCategory.DIAGNOSTIC,
-            value=lambda device: datetime.fromtimestamp(
-                device.cloud_product.work_indate, tz=timezone.utc
-            ).strftime("%Y-%m-%d %H:%M:%S"),
-        ),
-        PetKitSensorDesc(
             key="Food left",
             translation_key="food_left",
             entity_category=EntityCategory.DIAGNOSTIC,
@@ -268,21 +268,14 @@ SENSOR_MAPPING: dict[
         ),
     ],
     Litter: [
+        *COMMON_ENTITIES,
         PetKitSensorDesc(
-            key="Device status",
-            translation_key="device_status",
+            key="Smart spray battery",
+            translation_key="smart_spray_battery",
             entity_category=EntityCategory.DIAGNOSTIC,
-            value=lambda device: DEVICE_STATUS_MAP.get(
-                device.state.pim, "Unknown Status"
-            ),
-        ),
-        PetKitSensorDesc(
-            key="End date care plus subscription",
-            translation_key="end_date_care_plus_subscription",
-            entity_category=EntityCategory.DIAGNOSTIC,
-            value=lambda device: datetime.fromtimestamp(
-                device.cloud_product.work_indate, tz=timezone.utc
-            ).strftime("%Y-%m-%d %H:%M:%S"),
+            device_class=SensorDeviceClass.BATTERY,
+            native_unit_of_measurement=PERCENTAGE,
+            value=lambda device: device.k3_device.battery,
         ),
         PetKitSensorDesc(
             key="Litter level",
@@ -290,6 +283,7 @@ SENSOR_MAPPING: dict[
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=PERCENTAGE,
             value=lambda device: device.state.sand_percent,
+            ignore_types=[T5, T6]
         ),
         PetKitSensorDesc(
             key="Litter weight",
@@ -298,25 +292,6 @@ SENSOR_MAPPING: dict[
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=UnitOfMass.KILOGRAMS,
             value=lambda device: round((device.state.sand_weight / 1000), 1),
-        ),
-        PetKitSensorDesc(
-            key="Rssi",
-            translation_key="rssi",
-            entity_category=EntityCategory.DIAGNOSTIC,
-            state_class=SensorStateClass.MEASUREMENT,
-            native_unit_of_measurement=SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
-            value=lambda device: device.state.wifi.rsq,
-        ),
-        PetKitSensorDesc(
-            key="Error message",
-            translation_key="error_message",
-            entity_category=EntityCategory.DIAGNOSTIC,
-            value=lambda device: (
-                device.state.error_msg
-                if device.state.error_msg is not None
-                else "No error"
-            ),
-            force_add=DEVICES_LITTER_BOX,
         ),
         PetKitSensorDesc(
             key="State",
@@ -378,6 +353,7 @@ SENSOR_MAPPING: dict[
                 else None
             ),
             only_for_types=[T4],
+            restore_state=True,
         ),
         PetKitSensorDesc(
             key="Last used by",
@@ -388,6 +364,7 @@ SENSOR_MAPPING: dict[
                 else None
             ),
             only_for_types=[T6],
+            restore_state=True,
         ),
         PetKitSensorDesc(
             key="Total package",
@@ -405,6 +382,7 @@ SENSOR_MAPPING: dict[
         ),
     ],
     WaterFountain: [
+        *COMMON_ENTITIES,
         PetKitSensorDesc(
             key="Today pump run time",
             translation_key="today_pump_run_time",
@@ -451,6 +429,53 @@ SENSOR_MAPPING: dict[
                 else None
             ),
         ),
+        PetKitSensorDesc(
+            key="Battery",
+            translation_key="battery",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            device_class=SensorDeviceClass.BATTERY,
+            native_unit_of_measurement=PERCENTAGE,
+            value=lambda device: device.electricity.battery_percent,
+        ),
+    ],
+    Purifier: [
+        *COMMON_ENTITIES,
+        PetKitSensorDesc(
+            key="Humidity",
+            translation_key="humidity",
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=PERCENTAGE,
+            device_class=SensorDeviceClass.HUMIDITY,
+            value=lambda device: round(device.state.humidity / 10),
+        ),
+        PetKitSensorDesc(
+            key="Temperature",
+            translation_key="temperature",
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+            device_class=SensorDeviceClass.TEMPERATURE,
+            value=lambda device: round(device.state.temp / 10),
+        ),
+        PetKitSensorDesc(
+            key="Air purified",
+            translation_key="air_purified",
+            state_class=SensorStateClass.TOTAL,
+            native_unit_of_measurement=UnitOfVolume.CUBIC_METERS,
+            device_class=SensorDeviceClass.VOLUME,
+            value=lambda device: round(device.state.refresh),
+        ),
+        PetKitSensorDesc(
+            key="Purifier liquid",
+            translation_key="purifier_liquid",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=PERCENTAGE,
+            value=lambda device: (
+                device.state.liquid
+                if device.state.liquid is not None and 0 <= device.state.liquid <= 100
+                else None
+            ),
+        ),
     ],
     Pet: [
         PetKitSensorDesc(
@@ -461,6 +486,7 @@ SENSOR_MAPPING: dict[
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=UnitOfMass.KILOGRAMS,
             value=lambda pet: round((pet.last_measured_weight / 1000), 2),
+            restore_state=True,
         ),
         PetKitSensorDesc(
             key="Pet last use duration",
@@ -470,12 +496,14 @@ SENSOR_MAPPING: dict[
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=UnitOfTime.SECONDS,
             value=lambda pet: pet.last_duration_usage,
+            restore_state=True,
         ),
         PetKitSensorDesc(
             key="Pet last device used",
             translation_key="pet_last_device_used",
             entity_picture=lambda pet: pet.avatar,
             value=lambda pet: pet.last_device_used,
+            restore_state=True,
         ),
         PetKitSensorDesc(
             key="Pet last use date",
@@ -486,6 +514,7 @@ SENSOR_MAPPING: dict[
                 if pet.last_litter_usage != 0
                 else None
             ),
+            restore_state=True,
         ),
     ],
 }
@@ -513,7 +542,8 @@ async def async_setup_entry(
     async_add_entities(entities)
 
 
-class PetkitSensor(PetkitEntity, SensorEntity):
+
+class PetkitSensor(PetkitEntity, RestoreSensor):
     """Petkit Smart Devices BinarySensor class."""
 
     entity_description: PetKitSensorDesc
@@ -549,11 +579,20 @@ class PetkitSensor(PetkitEntity, SensorEntity):
     @property
     def unique_id(self) -> str:
         """Return a unique ID for the binary_sensor."""
-        return (
-            f"{self.device.device_type}_{self.device.sn}_{self.entity_description.key}"
-        )
+        return f"{self.device.device_nfo.device_type}_{self.device.sn}_{self.entity_description.key}"
 
     @property
     def native_unit_of_measurement(self) -> str | None:
         """Return the unit of measurement."""
         return self.entity_description.native_unit_of_measurement
+
+    async def async_added_to_hass(self) -> None:
+        """Run when entity about to be added to hass."""
+
+        if self.entity_description.restore_state:
+            await super().async_added_to_hass()
+
+            if last_state := await self.async_get_last_sensor_data():
+                self._attr_native_value = last_state.native_value
+            else:
+                self._attr_native_value = 0

@@ -8,12 +8,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 import aiofiles
-from pypetkitapi.const import D4H, D4SH
-from pypetkitapi.containers import Pet
-from pypetkitapi.feeder_container import Feeder
-from pypetkitapi.litter_container import Litter
-from pypetkitapi.medias import MediaHandler
-from pypetkitapi.water_fountain_container import WaterFountain
+from pypetkitapi import D4H, D4SH, Feeder, Litter, MediaHandler, Pet, WaterFountain
 
 from homeassistant.components.image import ImageEntity, ImageEntityDescription
 
@@ -25,7 +20,7 @@ if TYPE_CHECKING:
     from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
     from .coordinator import PetkitDataUpdateCoordinator
-    from .data import PetkitConfigEntry
+    from .data import PetkitConfigEntry, PetkitDevices
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -35,8 +30,11 @@ class PetKitImageDesc(PetKitDescSensorBase, ImageEntityDescription):
     event_key: str | None = None  # Event key to get the image from
 
 
-IMAGE_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitImageDesc]] = {
+COMMON_ENTITIES = []
+
+IMAGE_MAPPING: dict[type[PetkitDevices], list[PetKitImageDesc]] = {
     Feeder: [
+        *COMMON_ENTITIES,
         PetKitImageDesc(
             key="Last visit event",
             event_key="pet",
@@ -56,8 +54,7 @@ IMAGE_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitImageDesc]
             only_for_types=[D4SH, D4H],
         ),
     ],
-    Litter: [],
-    WaterFountain: [],
+    Litter: [*COMMON_ENTITIES],
 }
 
 
@@ -107,9 +104,7 @@ class PetkitImage(PetkitEntity, ImageEntity):
     @property
     def unique_id(self) -> str:
         """Return a unique ID for the binary_sensor."""
-        return (
-            f"{self.device.device_type}_{self.device.sn}_{self.entity_description.key}"
-        )
+        return f"{self.device.device_nfo.device_type}_{self.device.sn}_{self.entity_description.key}"
 
     @property
     def image_last_updated(self) -> datetime.datetime | None:
@@ -130,7 +125,7 @@ class PetkitImage(PetkitEntity, ImageEntity):
         if self._last_image_filename:
             image_path = Path(__file__).parent / "images" / self._last_image_filename
             LOGGER.debug(
-                f"Getting image for {self.device.device_type} Path is :{image_path}"
+                f"Getting image for {self.device.device_nfo.device_type} Path is :{image_path}"
             )
         else:
             image_path = Path(__file__).parent / "images" / "no-image-found.png"

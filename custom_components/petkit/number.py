@@ -6,11 +6,22 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any
 
-from pypetkitapi.command import DeviceCommand, FeederCommand
-from pypetkitapi.const import D3, D4H, D4S, D4SH, FEEDER, T6
-from pypetkitapi.feeder_container import Feeder
-from pypetkitapi.litter_container import Litter
-from pypetkitapi.water_fountain_container import WaterFountain
+from pypetkitapi import (
+    D3,
+    D4H,
+    D4S,
+    D4SH,
+    FEEDER,
+    T5,
+    T6,
+    DeviceCommand,
+    Feeder,
+    FeederCommand,
+    Litter,
+    Pet,
+    Purifier,
+    WaterFountain,
+)
 
 from homeassistant.components.number import (
     NumberDeviceClass,
@@ -20,7 +31,7 @@ from homeassistant.components.number import (
 )
 from homeassistant.const import EntityCategory, UnitOfTime
 
-from .const import LOGGER, ONLINE_STATE
+from .const import LOGGER, POWER_ONLINE_STATE
 from .entity import PetKitDescSensorBase, PetkitEntity
 
 if TYPE_CHECKING:
@@ -28,37 +39,37 @@ if TYPE_CHECKING:
     from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
     from .coordinator import PetkitDataUpdateCoordinator
-    from .data import PetkitConfigEntry
+    from .data import PetkitConfigEntry, PetkitDevices
 
 
 @dataclass(frozen=True, kw_only=True)
 class PetKitNumberDesc(PetKitDescSensorBase, NumberEntityDescription):
     """A class that describes number entities."""
 
-    native_value: Callable[[Feeder | Litter | WaterFountain], float | None] | None = (
-        None
-    )
-    action: (
-        Callable[[PetkitConfigEntry, Feeder | Litter | WaterFountain, str], Any] | None
-    )
+    native_value: Callable[[PetkitDevices], float | None] | None = None
+    action: Callable[[PetkitConfigEntry, PetkitDevices, str], Any] | None
 
 
-NUMBER_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitNumberDesc]] = {
-    Feeder: [
-        PetKitNumberDesc(
-            key="Volume",
-            translation_key="volume",
-            entity_category=EntityCategory.CONFIG,
-            native_min_value=1,
-            native_max_value=9,
-            native_step=1,
-            mode=NumberMode.SLIDER,
-            native_value=lambda device: device.settings.volume,
-            action=lambda api, device, value: api.send_api_request(
-                device.id, DeviceCommand.UPDATE_SETTING, {"volume": int(value)}
-            ),
-            only_for_types=[D3, D4H, D4SH],
+COMMON_ENTITIES = [
+    PetKitNumberDesc(
+        key="Volume",
+        translation_key="volume",
+        entity_category=EntityCategory.CONFIG,
+        native_min_value=1,
+        native_max_value=9,
+        native_step=1,
+        mode=NumberMode.SLIDER,
+        native_value=lambda device: device.settings.volume,
+        action=lambda api, device, value: api.send_api_request(
+            device.id, DeviceCommand.UPDATE_SETTING, {"volume": int(value)}
         ),
+        only_for_types=[T5, T6, D3, D4H, D4SH],
+    ),
+]
+
+NUMBER_MAPPING: dict[type[PetkitDevices], list[PetKitNumberDesc]] = {
+    Feeder: [
+        *COMMON_ENTITIES,
         PetKitNumberDesc(
             key="Surplus",
             translation_key="surplus",
@@ -104,6 +115,7 @@ NUMBER_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitNumberDes
         ),
     ],
     Litter: [
+        *COMMON_ENTITIES,
         PetKitNumberDesc(
             key="Cleaning Delay",
             translation_key="cleaning_delay",
@@ -118,22 +130,10 @@ NUMBER_MAPPING: dict[type[Feeder | Litter | WaterFountain], list[PetKitNumberDes
                 device, DeviceCommand.UPDATE_SETTING, {"stillTime": int(value * 60)}
             ),
         ),
-        PetKitNumberDesc(
-            key="Volume",
-            translation_key="volume",
-            entity_category=EntityCategory.CONFIG,
-            native_min_value=1,
-            native_max_value=9,
-            native_step=1,
-            mode=NumberMode.SLIDER,
-            native_value=lambda device: device.settings.volume,
-            action=lambda api, device, value: api.send_api_request(
-                device.id, DeviceCommand.UPDATE_SETTING, {"volume": int(value)}
-            ),
-            only_for_types=[T6],
-        ),
     ],
-    WaterFountain: [],
+    WaterFountain: [*COMMON_ENTITIES],
+    Purifier: [*COMMON_ENTITIES],
+    Pet: [*COMMON_ENTITIES],
 }
 
 
@@ -179,9 +179,7 @@ class PetkitNumber(PetkitEntity, NumberEntity):
     @property
     def unique_id(self) -> str:
         """Return a unique ID for the binary_sensor."""
-        return (
-            f"{self.device.device_type}_{self.device.sn}_{self.entity_description.key}"
-        )
+        return f"{self.device.device_nfo.device_type}_{self.device.sn}_{self.entity_description.key}"
 
     @property
     def mode(self) -> NumberMode:
@@ -220,7 +218,7 @@ class PetkitNumber(PetkitEntity, NumberEntity):
         """Return if this button is available or not"""
         device_data = self.coordinator.data.get(self.device.id)
         if hasattr(device_data.state, "pim"):
-            return device_data.state.pim in ONLINE_STATE
+            return device_data.state.pim in POWER_ONLINE_STATE
         return True
 
     async def async_set_native_value(self, value: str) -> None:

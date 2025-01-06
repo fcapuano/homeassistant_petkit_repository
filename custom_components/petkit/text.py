@@ -6,15 +6,25 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any
 
-from pypetkitapi.command import FeederCommand
-from pypetkitapi.const import D3, D4, D4H, D4S, D4SH, FEEDER, FEEDER_MINI
-from pypetkitapi.feeder_container import Feeder
-from pypetkitapi.litter_container import Litter
-from pypetkitapi.water_fountain_container import WaterFountain
+from pypetkitapi import (
+    D3,
+    D4,
+    D4H,
+    D4S,
+    D4SH,
+    FEEDER,
+    FEEDER_MINI,
+    Feeder,
+    FeederCommand,
+    Litter,
+    Pet,
+    Purifier,
+    WaterFountain,
+)
 
 from homeassistant.components.text import TextEntity, TextEntityDescription
 
-from .const import INPUT_FEED_PATTERN, LOGGER, ONLINE_STATE
+from .const import INPUT_FEED_PATTERN, LOGGER, POWER_ONLINE_STATE
 from .entity import PetKitDescSensorBase, PetkitEntity
 
 if TYPE_CHECKING:
@@ -33,8 +43,11 @@ class PetkitTextDesc(PetKitDescSensorBase, TextEntityDescription):
     action: Callable[[PetkitConfigEntry, PetkitDevices, str], Any] | None = None
 
 
+COMMON_ENTITIES = []
+
 TEXT_MAPPING: dict[type[PetkitDevices], list[PetkitTextDesc]] = {
     Feeder: [
+        *COMMON_ENTITIES,
         PetkitTextDesc(
             key="Manual feed single",
             translation_key="manual_feed_single",
@@ -79,8 +92,10 @@ TEXT_MAPPING: dict[type[PetkitDevices], list[PetkitTextDesc]] = {
             only_for_types=[D4S, D4SH],
         ),
     ],
-    Litter: [],
-    WaterFountain: [],
+    Litter: [*COMMON_ENTITIES],
+    WaterFountain: [*COMMON_ENTITIES],
+    Purifier: [*COMMON_ENTITIES],
+    Pet: [*COMMON_ENTITIES],
 }
 
 
@@ -126,9 +141,7 @@ class PetkitText(PetkitEntity, TextEntity):
     @property
     def unique_id(self) -> str:
         """Return a unique ID for the binary_sensor."""
-        return (
-            f"{self.device.device_type}_{self.device.sn}_{self.entity_description.key}"
-        )
+        return f"{self.device.device_nfo.device_type}_{self.device.sn}_{self.entity_description.key}"
 
     @property
     def native_max(self) -> int:
@@ -159,24 +172,24 @@ class PetkitText(PetkitEntity, TextEntity):
         """Return if this button is available or not"""
         device_data = self.coordinator.data.get(self.device.id)
         if hasattr(device_data.state, "pim"):
-            return device_data.state.pim in ONLINE_STATE
+            return device_data.state.pim in POWER_ONLINE_STATE
         return True
 
     async def async_set_value(self, value: str) -> None:
         """Set manual feeding amount."""
 
-        if self.device.device_type in [D4, D4H]:
+        if self.device.device_nfo.device_type in [D4, D4H]:
             # D4/D4H => 10,20,30,40,50
             valid_values = [10, 20, 30, 40, 50]
-        elif self.device.device_type == FEEDER_MINI:
+        elif self.device.device_nfo.device_type == FEEDER_MINI:
             # FeederMini => 0,5,10,15,20,25,30,35,40,45,50
             valid_values = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
-        elif self.device.device_type == D3:
+        elif self.device.device_nfo.device_type == D3:
             # D3 => 5 to 200
             valid_values = list(range(5, 201))
         else:
             # Other, D4sh => 1,2,3,4,5,7,8,9,10
-            valid_values = [1, 2, 3, 4, 5, 7, 8, 9, 10]
+            valid_values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
         if int(value) not in valid_values:
             raise ValueError(
