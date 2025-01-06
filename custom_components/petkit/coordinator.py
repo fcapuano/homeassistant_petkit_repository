@@ -7,8 +7,8 @@ from typing import TYPE_CHECKING
 
 from pypetkitapi import Feeder, Litter, Pet, Purifier, PypetkitError, WaterFountain
 
-from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.helpers import device_registry as dr
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN, LOGGER
 
@@ -51,7 +51,9 @@ class PetkitDataUpdateCoordinator(DataUpdateCoordinator):
             if stale_devices := self.previous_devices - current_devices:
                 device_registry = dr.async_get(self.hass)
                 for device_id in stale_devices:
-                    device = device_registry.async_get(identifiers={(DOMAIN, device_id)})
+                    device = device_registry.async_get(
+                        identifiers={(DOMAIN, device_id)}
+                    )
                     if device:
                         device_registry.async_update_device(
                             device_id=device.id,
@@ -59,4 +61,3 @@ class PetkitDataUpdateCoordinator(DataUpdateCoordinator):
                         )
                 self.previous_devices = current_devices
             return data
-
