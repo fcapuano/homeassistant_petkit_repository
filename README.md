@@ -6,7 +6,6 @@
 
 [![GitHub Release][releases-shield]][releases] [![HACS Custom](https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge&color=41BDF5)](https://hacs.xyz/docs/faq/custom_repositories)
 
-[![GitHub Activity][commits-shield]][commits] ![Project Maintenance][maintenance-shield] [![License][license-shield]](LICENSE)
 
 ### Need help ? Join us :
 
@@ -144,6 +143,9 @@ If you want to contribute to this please read the [Contribution guidelines](CONT
 
 ## Code quality
 
+
+[![GitHub Activity][commits-shield]][commits] ![Project Maintenance][maintenance-shield] [![License][license-shield]](LICENSE)
+
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Jezza34000_homeassistant_petkit&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Jezza34000_homeassistant_petkit)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Jezza34000_homeassistant_petkit&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Jezza34000_homeassistant_petkit)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Jezza34000_homeassistant_petkit&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Jezza34000_homeassistant_petkit)
@@ -169,13 +171,13 @@ Thanks to :
 ---
 
 [homeassistant_petkit]: https://github.com/Jezza34000/homeassistant_petkit
-[commits-shield]: https://img.shields.io/github/commit-activity/y/Jezza34000/homeassistant_petkit.svg?style=for-the-badge&color=788B95
+[commits-shield]: https://img.shields.io/github/commit-activity/y/Jezza34000/homeassistant_petkit.svg?style=flat
 [commits]: https://github.com/Jezza34000/homeassistant_petkit/commits/main
 [discord]: https://discord.gg/Va8DrmtweP
 [discord-shield]: https://img.shields.io/discord/1318098700379361362.svg?style=for-the-badge&label=Discord&logo=discord&color=5865F2
 [forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg?style=for-the-badge&label=Home%20Assistant%20Community&logo=homeassistant&color=18bcf2
 [forum]: https://community.home-assistant.io/
-[license-shield]: https://img.shields.io/github/license/Jezza34000/homeassistant_petkit.svg?style=for-the-badge&color=788B95
-[maintenance-shield]: https://img.shields.io/badge/maintainer-Jezza34000-blue.svg?style=for-the-badge&color=788B95
+[license-shield]: https://img.shields.io/github/license/Jezza34000/homeassistant_petkit.svg??style=flat
+[maintenance-shield]: https://img.shields.io/badge/maintainer-Jezza34000-blue.svg?style=flat
 [releases-shield]: https://img.shields.io/github/release/Jezza34000/homeassistant_petkit.svg?style=for-the-badge&color=41BDF5
 [releases]: https://github.com/Jezza34000/homeassistant_petkit/releases
