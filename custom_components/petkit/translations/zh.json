@@ -1,0 +1,579 @@
+{
+  "config": {
+    "error": {
+      "account_exists": "账号已存在",
+      "connection": "无法连接到服务器",
+      "unknown": "发生未知错误，请检查日志"
+    },
+    "step": {
+      "user": {
+        "data": {
+          "password": "密码",
+          "region": "区域",
+          "timezone": "时区",
+          "username": "用户名/ID"
+        },
+        "description": "请输入你的小佩账号信息"
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "battery": {
+        "name": "电池"
+      },
+      "battery_installed": {
+        "name": "电池已安装"
+      },
+      "camera_status": {
+        "name": "摄像头状态"
+      },
+      "care_plus_subscription": {
+        "name": "Care+ 订阅"
+      },
+      "deodorizer": {
+        "name": "除臭剂"
+      },
+      "eating": {
+        "name": "进食"
+      },
+      "feeding": {
+        "name": "出粮"
+      },
+      "food_level": {
+        "name": "粮仓等级"
+      },
+      "food_level_1": {
+        "name": "1号粮仓"
+      },
+      "food_level_2": {
+        "name": "2号粮仓"
+      },
+      "lack_warning": {
+        "name": "Water lack warning"
+      },
+      "liquid_empty": {
+        "name": "Deodorizer liquid empty"
+      },
+      "liquid_lack": {
+        "name": "Deodorizer liquid lack"
+      },
+      "litter": {
+        "name": "猫厕所"
+      },
+      "low_battery": {
+        "name": "低电量"
+      },
+      "low_power": {
+        "name": "Power"
+      },
+      "manually_paused": {
+        "name": "手动暂停"
+      },
+      "on_ac_power": {
+        "name": "接入交流电"
+      },
+      "pura_air_liquid": {
+        "name": "Pura Air liquid"
+      },
+      "replace_filter": {
+        "name": "Replace filter"
+      },
+      "sand_lack": {
+        "name": "猫砂缺少"
+      },
+      "waste_bin": {
+        "name": "垃圾箱已满"
+      },
+      "waste_bin_presence": {
+        "name": "垃圾箱在位"
+      },
+      "water_level": {
+        "name": "Water level"
+      }
+    },
+    "button": {
+      "action_continue": {
+        "name": "Action : 继续"
+      },
+      "action_pause": {
+        "name": "Action : 暂停"
+      },
+      "action_reset": {
+        "name": "Action : 复位"
+      },
+      "call_pet": {
+        "name": "Call pet"
+      },
+      "cancel_manual_feed": {
+        "name": "取消手动加餐"
+      },
+      "deodorize": {
+        "name": "除臭"
+      },
+      "dump_litter": {
+        "name": "Dump litter"
+      },
+      "exit_maintenance": {
+        "name": "Maintenance : Exit"
+      },
+      "food_replenished": {
+        "name": "立即加餐"
+      },
+      "reset_desiccant": {
+        "name": "复位干燥剂"
+      },
+      "reset_odor_eliminator": {
+        "name": "Reset odor eliminator"
+      },
+      "start_maintenance": {
+        "name": "Maintenance : Start"
+      },
+      "start_scoop": {
+        "name": "Scoop"
+      }
+    },
+    "fan": {
+      "air_purifier_fan": {
+        "name": "Air purifier"
+      }
+    },
+    "image": {
+      "last_eat_event": {
+        "name": "上次进食事件"
+      },
+      "last_feed_event": {
+        "name": "上次出粮事件"
+      },
+      "last_visit_event": {
+        "name": "上次路过事件"
+      }
+    },
+    "number": {
+      "cleaning_delay": {
+        "name": "Cleaning Delay"
+      },
+      "manual_feed": {
+        "name": "手动加餐（份）"
+      },
+      "min_eating_duration": {
+        "name": "Min Eating Duration"
+      },
+      "surplus": {
+        "name": "碗内余粮"
+      },
+      "volume": {
+        "name": "音量"
+      }
+    },
+    "select": {
+      "avoid_repeat_cleaning_interval": {
+        "name": "Avoid repeat cleaning interval"
+      },
+      "eat_detection_sensitivity": {
+        "name": "进食侦测灵敏度"
+      },
+      "litter_type": {
+        "name": "Litter type"
+      },
+      "move_detection_sensitivity": {
+        "name": "移动侦测灵敏度"
+      },
+      "pet_detection_sensitivity": {
+        "name": "宠物侦测灵敏度"
+      },
+      "surplus_level": {
+        "name": "碗内余粮控制等级"
+      }
+    },
+    "sensor": {
+      "air_purified": {
+        "name": "Air purified"
+      },
+      "amount_eaten": {
+        "name": "进食量"
+      },
+      "average_time": {
+        "name": "平均使用时间"
+      },
+      "avg_eating_time": {
+        "name": "平均进食时间"
+      },
+      "battery_level": {
+        "name": "电量"
+      },
+      "deodorant_left_days": {
+        "name": "Deodorant left days"
+      },
+      "deodorizer_level": {
+        "name": "Deodorizer level"
+      },
+      "desiccant_left_days": {
+        "name": "干燥剂剩余天数"
+      },
+      "device_status": {
+        "name": "设备状态"
+      },
+      "drink_times": {
+        "name": "饮水次数"
+      },
+      "end_date_care_plus_subscription": {
+        "name": "Care+ 订阅结束日期"
+      },
+      "error": {
+        "name": "错误"
+      },
+      "error_message": {
+        "name": "错误",
+        "state": {
+          "no_error": "没有错误"
+        }
+      },
+      "feeder_error": {
+        "name": "喂食器错误"
+      },
+      "filter_percent": {
+        "name": "Filter remaining"
+      },
+      "food_bowl_percentage": {
+        "name": "粮碗百分比"
+      },
+      "food_in_bowl": {
+        "name": "碗内有粮"
+      },
+      "food_left": {
+        "name": "Food left"
+      },
+      "last_update": {
+        "name": "上次更新"
+      },
+      "last_used_by": {
+        "name": "上次使用于"
+      },
+      "litter_last_event": {
+        "name": "Last event",
+        "state": {
+          "auto_cleaning_canceled": "Auto cleaning canceled",
+          "auto_cleaning_canceled_kitten": "Auto cleaning canceled: kitten",
+          "auto_cleaning_completed": "Auto cleaning completed",
+          "auto_cleaning_failed_full": "Auto cleaning failed: full",
+          "auto_cleaning_failed_hall_l": "Auto cleaning failed: hall L",
+          "auto_cleaning_failed_hall_t": "Auto cleaning failed: hall T",
+          "auto_cleaning_terminated": "Auto cleaning terminated",
+          "auto_odor_failed": "Auto odor failed",
+          "clean_over": "Clean",
+          "deodorant_finished": "Deodorant finished",
+          "deodorant_finished_liquid_lack": "Deodorant finished: liquid lack",
+          "litter_empty_completed": "Litter empty completed",
+          "litter_empty_failed_full": "Litter empty failed: full",
+          "litter_empty_failed_hall_l": "Litter empty failed: hall L",
+          "litter_empty_failed_hall_t": "Litter empty failed: hall T",
+          "litter_empty_terminated": "Litter empty terminated",
+          "manual_cleaning_canceled": "Manual cleaning canceled",
+          "manual_cleaning_completed": "Manual cleaning completed",
+          "manual_cleaning_failed_full": "Manual cleaning failed: full",
+          "manual_cleaning_failed_hall_l": "Manual cleaning failed: hall L",
+          "manual_cleaning_failed_hall_t": "Manual cleaning failed: hall T",
+          "manual_cleaning_terminated": "Manual cleaning terminated",
+          "manual_odor_completed": "Manual odor completed",
+          "manual_odor_completed_liquid_lack": "Manual odor completed: liquid lack",
+          "manual_odor_failed": "Manual odor failed",
+          "periodic_cleaning_canceled": "Periodic cleaning canceled",
+          "periodic_cleaning_canceled_kitten": "Periodic cleaning canceled: kitten",
+          "periodic_cleaning_completed": "Periodic cleaning completed",
+          "periodic_cleaning_terminated": "Periodic cleaning terminated",
+          "periodic_odor_completed": "Periodic odor completed",
+          "periodic_odor_completed_liquid_lack": "Periodic odor completed: liquid lack",
+          "periodic_odor_failed": "Periodic odor failed",
+          "reset_completed": "Reset completed",
+          "reset_failed_full": "Reset failed: full",
+          "reset_failed_hall_l": "Reset failed: hall L",
+          "reset_failed_hall_t": "Reset failed: hall T",
+          "reset_over": "Reset",
+          "reset_terminated": "Reset terminated",
+          "scheduled_cleaning_failed_full": "Scheduled cleaning failed: full",
+          "scheduled_cleaning_failed_hall_l": "Scheduled cleaning failed: hall L",
+          "scheduled_cleaning_failed_hall_t": "Scheduled cleaning failed: hall T"
+        }
+      },
+      "litter_level": {
+        "name": "Litter level"
+      },
+      "litter_state": {
+        "name": "State",
+        "state": {
+          "calibrating": "Calibrating",
+          "cleaning": "Cleaning",
+          "cleaning_paused": "Cleaning Paused",
+          "cleaning_paused_cover": "Cleaning Paused - Cover",
+          "cleaning_paused_pet_approach": "Cleaning Paused - Pet Approach",
+          "cleaning_paused_pet_entered": "Cleaning Paused - Pet Entered",
+          "cleaning_paused_pet_using": "Cleaning Paused - Pet Using",
+          "cleaning_paused_system_error": "Cleaning Paused - System Error",
+          "dumping": "Dumping",
+          "dumping_paused": "Dumping Paused",
+          "dumping_paused_cover": "Dumping Paused - Cover",
+          "dumping_paused_pet_approach": "Dumping Paused - Pet Approach",
+          "dumping_paused_pet_entered": "Dumping Paused - Pet Entered",
+          "dumping_paused_pet_using": "Dumping Paused - Pet Using",
+          "dumping_paused_system_error": "Dumping Paused - System Error",
+          "idle": "Idle",
+          "leveling": "Leveling",
+          "maintenance": "Maintenance",
+          "maintenance_paused": "Maintenance Paused",
+          "maintenance_paused_cover": "Maintenance Paused - Cover",
+          "maintenance_paused_pet_approach": "Maintenance Paused - Pet Approach",
+          "maintenance_paused_pet_entered": "Maintenance Paused - Pet Entered",
+          "maintenance_paused_pet_using": "Maintenance Paused - Pet Using",
+          "maintenance_paused_system_error": "Maintenance Paused - System Error",
+          "paused": "Paused",
+          "paused_cover": "Paused - Cover",
+          "paused_pet_approach": "Paused - Pet Approach",
+          "paused_pet_entered": "Paused - Pet Entered",
+          "paused_pet_using": "Paused - Pet Using",
+          "paused_system_error": "Paused - System Error",
+          "resetting": "Resetting",
+          "resetting_device": "Resetting Device",
+          "unknown": "Unknown"
+        }
+      },
+      "litter_weight": {
+        "name": "Litter weight"
+      },
+      "manual_dispensed": {
+        "name": "Manual dispensed"
+      },
+      "manual_dispensed_hopper_1": {
+        "name": "Manually Dispensed Hopper 1"
+      },
+      "manual_dispensed_hopper_2": {
+        "name": "Manually Dispensed Hopper 2"
+      },
+      "package_used": {
+        "name": "Package used"
+      },
+      "pet_last_device_used": {
+        "name": "Last litter used"
+      },
+      "pet_last_use_date": {
+        "name": "Last use date"
+      },
+      "pet_last_use_duration": {
+        "name": "上次使用时长"
+      },
+      "pet_last_weight_measurement": {
+        "name": "上次称重"
+      },
+      "planned_dispensed": {
+        "name": "Planned dispensed"
+      },
+      "planned_dispensed_hopper_1": {
+        "name": "Planned Dispensed Hopper 1"
+      },
+      "planned_dispensed_hopper_2": {
+        "name": "Planned Dispensed Hopper 2"
+      },
+      "purified_water": {
+        "name": "Purified water"
+      },
+      "purifier_liquid": {
+        "name": "Purifier liquid"
+      },
+      "raw_distribution_data": {
+        "name": "RAW distribution data"
+      },
+      "rssi": {
+        "name": "RSSI"
+      },
+      "smart_spray_battery": {
+        "name": "Smart spray battery"
+      },
+      "spray_deodorant_liquid": {
+        "name": "Spray deodorant liquid"
+      },
+      "times_dispensed": {
+        "name": "出粮次数"
+      },
+      "times_eaten": {
+        "name": "进食次数"
+      },
+      "times_used": {
+        "name": "使用次数"
+      },
+      "total_dispensed": {
+        "name": "出粮量"
+      },
+      "total_dispensed_hopper_1": {
+        "name": "Total Dispensed Hopper 1"
+      },
+      "total_dispensed_hopper_2": {
+        "name": "Total Dispensed Hopper 2"
+      },
+      "total_package": {
+        "name": "Total package"
+      },
+      "total_planned": {
+        "name": "Total planned"
+      },
+      "total_planned_hopper_1": {
+        "name": "Total Planned Hopper 1"
+      },
+      "total_planned_hopper_2": {
+        "name": "Total Planned Hopper 2"
+      },
+      "total_time": {
+        "name": "Total use"
+      }
+    },
+    "switch": {
+      "auto_clean": {
+        "name": "Auto clean"
+      },
+      "auto_odor": {
+        "name": "Auto odor"
+      },
+      "avoid_repeat_clean": {
+        "name": "Avoid repeat cleaning"
+      },
+      "camera": {
+        "name": "摄像头"
+      },
+      "child_lock": {
+        "name": "童锁"
+      },
+      "cont_rotation": {
+        "name": "Continuous rotation"
+      },
+      "deep_cleaning": {
+        "name": "Deep cleaning"
+      },
+      "deep_deodor": {
+        "name": "Deep deodor"
+      },
+      "deodorant_notify": {
+        "name": "Notif on deodorant replacement need"
+      },
+      "desiccant_notif": {
+        "name": "干燥剂更换提醒"
+      },
+      "dispensing_notif": {
+        "name": "出粮通知"
+      },
+      "display": {
+        "name": "Display"
+      },
+      "do_not_disturb": {
+        "name": "免打扰"
+      },
+      "feed_sound": {
+        "name": "Feed sound"
+      },
+      "feed_tone": {
+        "name": "Feed tone"
+      },
+      "highlight": {
+        "name": "每日精彩"
+      },
+      "indicator_light": {
+        "name": "指示灯"
+      },
+      "kitten_mode": {
+        "name": "Kitten Mode"
+      },
+      "lack_liquid_notify": {
+        "name": "缺少净化剂通知"
+      },
+      "lack_sand_notify": {
+        "name": "缺少猫砂通知"
+      },
+      "light_weight": {
+        "name": "Light Weight"
+      },
+      "litter_full_notify": {
+        "name": "垃圾箱满通知"
+      },
+      "low_battery_notif": {
+        "name": "低电量通知"
+      },
+      "microphone": {
+        "name": "麦克风"
+      },
+      "move_notif": {
+        "name": "移动通知"
+      },
+      "night_vision": {
+        "name": "夜视模式"
+      },
+      "periodic_cleaning": {
+        "name": "Periodic Cleaning"
+      },
+      "periodic_odor": {
+        "name": "Periodic Odor"
+      },
+      "pet_eat_notif": {
+        "name": "进食事件通知"
+      },
+      "pet_in_notify": {
+        "name": "Notif on pet toileting"
+      },
+      "pet_tracking": {
+        "name": "宠物侦测"
+      },
+      "pet_visit_notif": {
+        "name": "宠物事件通知"
+      },
+      "power": {
+        "name": "Power"
+      },
+      "refill_notif": {
+        "name": "Notif on refill need"
+      },
+      "shortage_alarm": {
+        "name": "空粮报警"
+      },
+      "surplus_control": {
+        "name": "碗内余粮控制"
+      },
+      "system_notification": {
+        "name": "系统提示音"
+      },
+      "video_timestamp": {
+        "name": "时间戳显示"
+      },
+      "voice_dispense": {
+        "name": "出粮自动呼唤宠物"
+      },
+      "waste_covering": {
+        "name": "Waste covering"
+      },
+      "work_log_notify": {
+        "name": "Notif on executing scheduled tasks"
+      },
+      "work_notify": {
+        "name": "Notif on device cleaning"
+      }
+    },
+    "text": {
+      "manual_feed_dual_h1": {
+        "name": "Manual feed hopper 1"
+      },
+      "manual_feed_dual_h2": {
+        "name": "Manual feed hopper 2"
+      },
+      "manual_feed_single": {
+        "name": "Manual feed"
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "petkit_options": {
+        "data": {
+          "polling_interval": "轮询间隔 (秒)",
+          "region": "区域",
+          "timezone": "时区"
+        }
+      }
+    }
+  }
+}
