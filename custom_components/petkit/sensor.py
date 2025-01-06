@@ -6,13 +6,24 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Any, Callable
 
-from pypetkitapi import D4S, K2, T4, T6, Feeder, Litter, Pet, Purifier, WaterFountain, T5
+from pypetkitapi import (
+    D4S,
+    K2,
+    T4,
+    T5,
+    T6,
+    Feeder,
+    Litter,
+    Pet,
+    Purifier,
+    WaterFountain,
+)
 
 from homeassistant.components.sensor import (
+    RestoreSensor,
     SensorDeviceClass,
     SensorEntityDescription,
     SensorStateClass,
-    RestoreSensor
 )
 from homeassistant.const import (
     PERCENTAGE,
@@ -283,7 +294,7 @@ SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitSensorDesc]] = {
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=PERCENTAGE,
             value=lambda device: device.state.sand_percent,
-            ignore_types=[T5, T6]
+            ignore_types=[T5, T6],
         ),
         PetKitSensorDesc(
             key="Litter weight",
@@ -363,7 +374,7 @@ SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitSensorDesc]] = {
                 if device.device_pet_graph_out
                 else None
             ),
-            only_for_types=[T6],
+            only_for_types=[T5, T6],
             restore_state=True,
         ),
         PetKitSensorDesc(
@@ -540,7 +551,6 @@ async def async_setup_entry(
         if entity_description.is_supported(device)  # Check if the entity is supported
     ]
     async_add_entities(entities)
-
 
 
 class PetkitSensor(PetkitEntity, RestoreSensor):
