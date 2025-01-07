@@ -8,6 +8,36 @@ on:
 permissions: {}
 
 jobs:
+
+  python-semantic-release:
+    runs-on: ubuntu-latest
+    concurrency: python-semantic-release
+    steps:
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ secrets.VERSION_MANAGER_APP_ID }}
+          private-key: ${{ secrets.VERSION_MANAGER_APP_PRIVATE_KEY }}
+
+      - name: Setup | Checkout Repository at workflow sha
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.sha }}
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Setup | Force correct release branch on workflow sha
+        run: |
+          git checkout -B ${{ github.ref_name }} ${{ github.sha }}
+
+      - name: Action | Semantic Version Release
+        id: release
+        uses: python-semantic-release/python-semantic-release@v9
+        with:
+          github_token: ${{ steps.app-token.outputs.token }}
+          git_committer_name: "github-actions"
+          git_committer_email: "actions@users.noreply.github.com"
+          
   release:
     name: "Release"
     runs-on: "ubuntu-latest"
