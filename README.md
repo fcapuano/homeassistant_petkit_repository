@@ -25,8 +25,8 @@ Video feature is not supported yet. it's planned for a future release. (REQUIRE 
 > [!NOTE]
 > Legend :
 >
-> - 📸 = Still picture feature supported
-> - 📹 = Video clip feature supported
+> - ✅📸 = Still picture feature supported
+> - ☑️📹 = Video clip feature supported
 
 ### 🍗 Feeders :
 
@@ -35,16 +35,16 @@ Video feature is not supported yet. it's planned for a future release. (REQUIRE 
 - [x] Fresh Element Infinity
 - [x] Fresh Element Solo
 - [x] Fresh Element Gemini
-- [x] YumShare Solo (with camera) 📸
-- [x] YumShare Dual-hopper (with camera) 📸
+- [x] YumShare Solo (with camera) ✅📸
+- [x] YumShare Dual-hopper (with camera) ✅📸
 
 ### 🚽 Litters :
 
 - [x] PuraX
 - [x] PuraMax
 - [x] PuraMax 2
-- [x] Purobot Max Pro (with camera)
-- [x] Purobot Ultra (with camera)
+- [x] Purobot Max Pro (with camera) ✅📸
+- [x] Purobot Ultra (with camera) ✅📸
 
 ### ⛲ Fountains :
 
