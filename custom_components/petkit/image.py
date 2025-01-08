@@ -8,7 +8,17 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 import aiofiles
-from pypetkitapi import D4H, D4SH, Feeder, Litter, MediaHandler, Pet, WaterFountain
+from pypetkitapi import (
+    D4H,
+    D4SH,
+    T5,
+    T6,
+    Feeder,
+    Litter,
+    MediaHandler,
+    Pet,
+    WaterFountain,
+)
 
 from homeassistant.components.image import ImageEntity, ImageEntityDescription
 
@@ -54,7 +64,15 @@ IMAGE_MAPPING: dict[type[PetkitDevices], list[PetKitImageDesc]] = {
             only_for_types=[D4SH, D4H],
         ),
     ],
-    Litter: [*COMMON_ENTITIES],
+    Litter: [
+        *COMMON_ENTITIES,
+        PetKitImageDesc(
+            key="Last usage event",
+            event_key="toileting",
+            translation_key="last_toileting_event",
+            only_for_types=[T5, T6],
+        ),
+    ],
 }
 
 

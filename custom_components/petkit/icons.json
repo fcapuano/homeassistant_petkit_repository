@@ -164,7 +164,16 @@
       }
     },
     "image": {
-      "last_picture_event": {
+      "last_eat_event": {
+        "default": "mdi:camera"
+      },
+      "last_feed_event": {
+        "default": "mdi:camera"
+      },
+      "last_toileting_event": {
+        "default": "mdi:camera"
+      },
+      "last_visit_event": {
         "default": "mdi:camera"
       }
     },
