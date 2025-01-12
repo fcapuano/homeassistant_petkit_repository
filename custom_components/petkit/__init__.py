@@ -17,7 +17,6 @@ from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.loader import async_get_loaded_integration
 
-from .const import CODE_TO_COUNTRY_DICT
 from .coordinator import PetkitDataUpdateCoordinator
 from .data import PetkitData
 
