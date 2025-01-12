@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from pypetkitapi import PetkitAuthenticationError, PetKitClient, PypetkitError
+from pypetkitapi.exceptions import PetkitAuthenticationUnregisteredEmailError
 import voluptuous as vol
 
 from homeassistant import config_entries, data_entry_flow
@@ -14,9 +15,14 @@ from homeassistant.const import (
 )
 from homeassistant.helpers import selector
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
-from pypetkitapi.exceptions import PetkitAuthenticationUnregisteredEmailError
 
-from .const import CODE_TO_COUNTRY_DICT, ALL_TIMEZONES_LST, DOMAIN, LOGGER, COUNTRY_TO_CODE_DICT
+from .const import (
+    ALL_TIMEZONES_LST,
+    CODE_TO_COUNTRY_DICT,
+    COUNTRY_TO_CODE_DICT,
+    DOMAIN,
+    LOGGER,
+)
 
 
 class PetkitFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
@@ -38,7 +44,10 @@ class PetkitFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         )
 
         if user_input is not None:
-            user_region = COUNTRY_TO_CODE_DICT.get(user_input.get(CONF_REGION, None)) or country_from_ha
+            user_region = (
+                COUNTRY_TO_CODE_DICT.get(user_input.get(CONF_REGION, None))
+                or country_from_ha
+            )
 
             # Check if the account already exists
             existing_entries = self._async_current_entries()
@@ -54,7 +63,10 @@ class PetkitFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                         region=user_region,
                         timezone=user_input.get(CONF_TIME_ZONE, tz_from_ha),
                     )
-                except (PetkitAuthenticationError, PetkitAuthenticationUnregisteredEmailError) as exception:
+                except (
+                    PetkitAuthenticationError,
+                    PetkitAuthenticationUnregisteredEmailError,
+                ) as exception:
                     LOGGER.error(exception)
                     _errors["base"] = str(exception)
                 except PypetkitError as exception:
@@ -86,7 +98,10 @@ class PetkitFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             data_schema.update(
                 {
                     vol.Required(
-                        CONF_REGION, default=CODE_TO_COUNTRY_DICT.get(country_from_ha, country_from_ha)
+                        CONF_REGION,
+                        default=CODE_TO_COUNTRY_DICT.get(
+                            country_from_ha, country_from_ha
+                        ),
                     ): selector.SelectSelector(
                         selector.SelectSelectorConfig(
                             options=sorted(CODE_TO_COUNTRY_DICT.values())
