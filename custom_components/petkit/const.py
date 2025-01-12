@@ -175,7 +175,7 @@ EVENT_MAPPING = {
 
 
 # Country code mapping / Timezone
-ALL_COUNTRY_CODES_DICT = {
+CODE_TO_COUNTRY_DICT = {
     "AD": "Andorra",
     "AE": "United Arab Emirates",
     "AF": "Afghanistan",
@@ -415,7 +415,7 @@ ALL_COUNTRY_CODES_DICT = {
     "VC": "Saint Vincent and the Grenadines",
     "VE": "Venezuela",
     "VG": "British Virgin Islands",
-    "VI": "U.S. Virgin Islands",
+    "VI": "Virgin Islands",
     "VN": "Vietnam",
     "VU": "Vanuatu",
     "WF": "Wallis and Futuna",
@@ -426,6 +426,7 @@ ALL_COUNTRY_CODES_DICT = {
     "ZM": "Zambia",
     "ZW": "Zimbabwe",
 }
+COUNTRY_TO_CODE_DICT = {v: k for k, v in CODE_TO_COUNTRY_DICT.items()}
 
 
 ALL_TIMEZONES_LST = [

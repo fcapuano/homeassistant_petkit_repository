@@ -17,7 +17,7 @@ from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.loader import async_get_loaded_integration
 
-from .const import ALL_COUNTRY_CODES_DICT
+from .const import CODE_TO_COUNTRY_DICT
 from .coordinator import PetkitDataUpdateCoordinator
 from .data import PetkitData
 
@@ -45,9 +45,7 @@ async def async_setup_entry(
 ) -> bool:
     """Set up this integration using UI."""
 
-    country_from_ha = ALL_COUNTRY_CODES_DICT.get(
-        hass.config.country if hass.config.country is not None else "Unknown"
-    )
+    country_from_ha = hass.config.country
     tz_from_ha = hass.config.time_zone
 
     coordinator = PetkitDataUpdateCoordinator(

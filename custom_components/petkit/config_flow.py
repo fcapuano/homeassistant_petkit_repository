@@ -14,8 +14,9 @@ from homeassistant.const import (
 )
 from homeassistant.helpers import selector
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from pypetkitapi.exceptions import PetkitAuthenticationUnregisteredEmailError
 
-from .const import ALL_COUNTRY_CODES_DICT, ALL_TIMEZONES_LST, DOMAIN, LOGGER
+from .const import CODE_TO_COUNTRY_DICT, ALL_TIMEZONES_LST, DOMAIN, LOGGER, COUNTRY_TO_CODE_DICT
 
 
 class PetkitFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
@@ -30,15 +31,15 @@ class PetkitFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         """Handle a flow initialized by the user."""
         _errors = {}
 
-        country_from_ha = ALL_COUNTRY_CODES_DICT.get(
-            self.hass.config.country, "Unknown"
-        )
+        country_from_ha = self.hass.config.country
         tz_from_ha = self.hass.config.time_zone
         LOGGER.debug(
-            f"Country code from HA : {self.hass.config.country} Detected country : {country_from_ha} Default timezone: {tz_from_ha}"
+            f"Country code from HA : {self.hass.config.country} Default timezone: {tz_from_ha}"
         )
 
         if user_input is not None:
+            user_region = COUNTRY_TO_CODE_DICT.get(user_input.get(CONF_REGION, None)) or country_from_ha
+
             # Check if the account already exists
             existing_entries = self._async_current_entries()
             for entry in existing_entries:
@@ -50,10 +51,10 @@ class PetkitFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                     await self._test_credentials(
                         username=user_input[CONF_USERNAME],
                         password=user_input[CONF_PASSWORD],
-                        region=user_input.get(CONF_REGION, country_from_ha),
+                        region=user_region,
                         timezone=user_input.get(CONF_TIME_ZONE, tz_from_ha),
                     )
-                except PetkitAuthenticationError as exception:
+                except (PetkitAuthenticationError, PetkitAuthenticationUnregisteredEmailError) as exception:
                     LOGGER.error(exception)
                     _errors["base"] = str(exception)
                 except PypetkitError as exception:
@@ -85,10 +86,10 @@ class PetkitFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             data_schema.update(
                 {
                     vol.Required(
-                        CONF_REGION, default=country_from_ha
+                        CONF_REGION, default=CODE_TO_COUNTRY_DICT.get(country_from_ha, country_from_ha)
                     ): selector.SelectSelector(
                         selector.SelectSelectorConfig(
-                            options=sorted(ALL_COUNTRY_CODES_DICT.values())
+                            options=sorted(CODE_TO_COUNTRY_DICT.values())
                         ),
                     ),
                     vol.Required(
