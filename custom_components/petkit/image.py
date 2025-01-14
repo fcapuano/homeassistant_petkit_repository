@@ -9,13 +9,12 @@ from typing import TYPE_CHECKING
 
 import aiofiles
 from pypetkitapi import (
-    D4H,
-    D4SH,
-    T5,
-    T6,
+    FEEDER_WITH_CAMERA,
+    LITTER_WITH_CAMERA,
+    DownloadDecryptMedia,
     Feeder,
     Litter,
-    MediaHandler,
+    MediaFile,
     Pet,
     WaterFountain,
 )
@@ -49,19 +48,19 @@ IMAGE_MAPPING: dict[type[PetkitDevices], list[PetKitImageDesc]] = {
             key="Last visit event",
             event_key="pet",
             translation_key="last_visit_event",
-            only_for_types=[D4SH, D4H],
+            only_for_types=FEEDER_WITH_CAMERA,
         ),
         PetKitImageDesc(
             key="Last eat event",
             event_key="eat",
             translation_key="last_eat_event",
-            only_for_types=[D4SH, D4H],
+            only_for_types=FEEDER_WITH_CAMERA,
         ),
         PetKitImageDesc(
             key="Last feed event",
             event_key="feed",
             translation_key="last_feed_event",
-            only_for_types=[D4SH, D4H],
+            only_for_types=FEEDER_WITH_CAMERA,
         ),
     ],
     Litter: [
@@ -70,7 +69,7 @@ IMAGE_MAPPING: dict[type[PetkitDevices], list[PetKitImageDesc]] = {
             key="Last usage event",
             event_key="toileting",
             translation_key="last_toileting_event",
-            only_for_types=[T5, T6],
+            only_for_types=LITTER_WITH_CAMERA,
         ),
     ],
 }
@@ -115,7 +114,11 @@ class PetkitImage(PetkitEntity, ImageEntity):
         self.coordinator = coordinator
         self.entity_description = entity_description
         self.device = device
-        self.media_handler = MediaHandler(Path(__file__).parent / "images")
+        self.media_downloader = DownloadDecryptMedia(
+            (Path(__file__).parent / "media"),
+            self.coordinator.config_entry.runtime_data.client,
+        )
+        self.media_list = []
         self._last_image_timestamp: datetime.datetime | None = None
         self._last_image_filename: str | None = None
 
@@ -132,24 +135,36 @@ class PetkitImage(PetkitEntity, ImageEntity):
     async def async_image(self) -> bytes | None:
         """Return bytes of image asynchronously."""
         event_key = self.entity_description.event_key
+        media_table = self.coordinator.media_table
 
-        await self.media_handler.get_last_image(
-            self.coordinator.data.get(self.device.id)
-        )
-        await self._get_filename_and_timestamp_for_event_key(
-            self.media_handler.media_files, event_key
-        )
+        # Filter media files by device_id and event_key
+        matching_media_files = [
+            media_file
+            for media_file in media_table
+            if media_file.device_id == self.device.id
+            and media_file.event_type == event_key
+        ]
 
-        if self._last_image_filename:
-            image_path = Path(__file__).parent / "images" / self._last_image_filename
-            LOGGER.debug(
-                f"Getting image for {self.device.device_nfo.device_type} Path is :{image_path}"
-            )
-        else:
-            image_path = Path(__file__).parent / "images" / "no-image-found.png"
+        if not matching_media_files:
             LOGGER.info(
-                f"No filename found for event key : '{event_key}', maybe there is no event ?"
+                f"No media files found for device id = {self.device.id} and event key = {event_key}"
             )
+            return None
+
+        # Find the media file with the most recent timestamp
+        latest_media_file = max(
+            matching_media_files, key=lambda media_file: media_file.timestamp
+        )
+
+        image_path = latest_media_file.full_file_path
+        self._last_image_timestamp = datetime.datetime.fromtimestamp(
+            latest_media_file.timestamp
+        )
+        self._last_image_filename = image_path.name
+
+        LOGGER.debug(
+            f"Getting image for {self.device.device_nfo.device_type} Path is :{image_path}"
+        )
 
         try:
             async with aiofiles.open(image_path, "rb") as image_file:
@@ -157,6 +172,15 @@ class PetkitImage(PetkitEntity, ImageEntity):
         except FileNotFoundError:
             LOGGER.error("Unable to read image file")
             return None
+
+    async def get_latest_media_file(self, event_type: str) -> MediaFile | None:
+        """Find the MediaFile with the most recent timestamp for the specified event_type."""
+        filtered_files = [
+            media for media in self.media_list if media.event_type == event_type
+        ]
+        if not filtered_files:
+            return None
+        return max(filtered_files, key=lambda media: media.timestamp)
 
     async def _get_filename_and_timestamp_for_event_key(self, media_files, event_key):
         """Parse media files and return the filename and timestamp for the given event key."""
