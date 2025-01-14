@@ -20,8 +20,8 @@ from pypetkitapi import (
 )
 
 from homeassistant.components.sensor import (
-    RestoreSensor,
     SensorDeviceClass,
+    SensorEntity,
     SensorEntityDescription,
     SensorStateClass,
 )
@@ -553,7 +553,7 @@ async def async_setup_entry(
     async_add_entities(entities)
 
 
-class PetkitSensor(PetkitEntity, RestoreSensor):
+class PetkitSensor(PetkitEntity, SensorEntity):
     """Petkit Smart Devices BinarySensor class."""
 
     entity_description: PetKitSensorDesc
@@ -595,14 +595,3 @@ class PetkitSensor(PetkitEntity, RestoreSensor):
     def native_unit_of_measurement(self) -> str | None:
         """Return the unit of measurement."""
         return self.entity_description.native_unit_of_measurement
-
-    async def async_added_to_hass(self) -> None:
-        """Run when entity about to be added to hass."""
-
-        if self.entity_description.restore_state:
-            await super().async_added_to_hass()
-
-            if last_state := await self.async_get_last_sensor_data():
-                self._attr_native_value = last_state.native_value
-            else:
-                self._attr_native_value = 0
