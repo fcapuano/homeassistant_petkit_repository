@@ -71,7 +71,7 @@ TEXT_MAPPING: dict[type[PetkitDevices], list[PetkitTextDesc]] = {
             native_value="0",
             action=lambda api, device, amount_value: api.send_api_request(
                 device.id,
-                FeederCommand.MANUAL_FEED_DUAL,
+                FeederCommand.MANUAL_FEED,
                 {"amount1": int(amount_value), "amount2": 0},
             ),
             only_for_types=[D4S, D4SH],
@@ -86,7 +86,7 @@ TEXT_MAPPING: dict[type[PetkitDevices], list[PetkitTextDesc]] = {
             native_value="0",
             action=lambda api, device, amount_value: api.send_api_request(
                 device.id,
-                FeederCommand.MANUAL_FEED_DUAL,
+                FeederCommand.MANUAL_FEED,
                 {"amount1": 0, "amount2": int(amount_value)},
             ),
             only_for_types=[D4S, D4SH],
