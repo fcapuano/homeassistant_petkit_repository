@@ -3,10 +3,25 @@
 from __future__ import annotations
 
 from datetime import timedelta
+from pathlib import Path
 from typing import TYPE_CHECKING
 
-from pypetkitapi import Feeder, Litter, Pet, Purifier, PypetkitError, WaterFountain
+from pypetkitapi import (
+    DownloadDecryptMedia,
+    Feeder,
+    Litter,
+    MediaFile,
+    Pet,
+    PetkitAuthenticationUnregisteredEmailError,
+    PetkitRegionalServerNotFoundError,
+    PetkitSessionError,
+    PetkitSessionExpiredError,
+    Purifier,
+    PypetkitError,
+    WaterFountain,
+)
 
+from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -22,6 +37,7 @@ class PetkitDataUpdateCoordinator(DataUpdateCoordinator):
     """Class to manage fetching data from the API."""
 
     config_entry: PetkitConfigEntry
+    media_files: MediaFile
 
     def __init__(
         self,
@@ -43,11 +59,22 @@ class PetkitDataUpdateCoordinator(DataUpdateCoordinator):
         """Update data via library."""
         try:
             await self.config_entry.runtime_data.client.get_devices_data()
+        except (
+            PetkitSessionExpiredError,
+            PetkitSessionError,
+            PetkitAuthenticationUnregisteredEmailError,
+            PetkitRegionalServerNotFoundError,
+        ) as exception:
+            raise ConfigEntryAuthFailed(exception) from exception
         except PypetkitError as exception:
             raise UpdateFailed(exception) from exception
         else:
             data = self.config_entry.runtime_data.client.petkit_entities
             current_devices = set(data)
+
+            await self._async_update_media_files(current_devices)
+
+            # Check if there are any stale devices
             if stale_devices := self.previous_devices - current_devices:
                 device_registry = dr.async_get(self.hass)
                 for device_id in stale_devices:
@@ -61,3 +88,31 @@ class PetkitDataUpdateCoordinator(DataUpdateCoordinator):
                         )
                 self.previous_devices = current_devices
             return data
+
+    async def _async_update_media_files(self, devices_lst: set) -> None:
+        """Update media files."""
+        client = self.config_entry.runtime_data.client
+        media_path = Path(__file__).parent / "media"
+
+        for device in devices_lst:
+            if not hasattr(client.petkit_entities[device], "medias"):
+                LOGGER.debug(f"Device id = {device} does not support medias")
+                continue
+
+            media_lst = client.petkit_entities[device].medias
+
+            if not media_lst:
+                LOGGER.debug(f"No medias found for device id = {device}")
+                continue
+
+            LOGGER.debug(f"Gathering medias files onto disk for device id = {device}")
+            await client.media_manager.get_all_media_files_disk(media_path, device)
+            self.media_table = client.media_manager.media_table
+            to_dl = await client.media_manager.download_missing_files(media_lst)
+
+            dl_mgt = DownloadDecryptMedia(media_path, client)
+            for media in to_dl:
+                LOGGER.debug(f"Downloading : {media}")
+                await dl_mgt.download_file(media)
+            LOGGER.debug(f"Downloaded all medias for device id = {device} is OK")
+        LOGGER.debug("Update media files finished for all devices")
