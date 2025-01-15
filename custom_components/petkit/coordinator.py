@@ -11,6 +11,7 @@ from pypetkitapi import (
     Feeder,
     Litter,
     MediaFile,
+    MediaType,
     Pet,
     PetkitAuthenticationUnregisteredEmailError,
     PetkitRegionalServerNotFoundError,
@@ -37,7 +38,7 @@ class PetkitDataUpdateCoordinator(DataUpdateCoordinator):
     """Class to manage fetching data from the API."""
 
     config_entry: PetkitConfigEntry
-    media_files: MediaFile
+    media_table: list[MediaFile] = []
 
     def __init__(
         self,
@@ -72,7 +73,8 @@ class PetkitDataUpdateCoordinator(DataUpdateCoordinator):
             data = self.config_entry.runtime_data.client.petkit_entities
             current_devices = set(data)
 
-            await self._async_update_media_files(current_devices)
+            # Run _async_update_media_files in the background
+            self.hass.async_create_task(self._async_update_media_files(current_devices))
 
             # Check if there are any stale devices
             if stale_devices := self.previous_devices - current_devices:
@@ -94,6 +96,8 @@ class PetkitDataUpdateCoordinator(DataUpdateCoordinator):
         client = self.config_entry.runtime_data.client
         media_path = Path(__file__).parent / "media"
 
+        self.media_table.clear()
+
         for device in devices_lst:
             if not hasattr(client.petkit_entities[device], "medias"):
                 LOGGER.debug(f"Device id = {device} does not support medias")
@@ -107,16 +111,15 @@ class PetkitDataUpdateCoordinator(DataUpdateCoordinator):
 
             LOGGER.debug(f"Gathering medias files onto disk for device id = {device}")
             await client.media_manager.get_all_media_files_disk(media_path, device)
-            self.media_table = client.media_manager.media_table
-            to_dl = await client.media_manager.download_missing_files(media_lst)
+            to_dl = await client.media_manager.prepare_missing_files(media_lst, MediaType.IMAGE, None)
 
             dl_mgt = DownloadDecryptMedia(media_path, client)
             for media in to_dl:
                 LOGGER.debug(f"Downloading : {media}")
-                await dl_mgt.download_file(media)
+                await dl_mgt.download_file(media, MediaType.IMAGE)
             LOGGER.debug(
                 f"Downloaded all medias for device id = {device} is OK (got {len(to_dl)} files to download)"
             )
+            await client.media_manager.get_all_media_files_disk(media_path, device)
+            self.media_table.extend((client.media_manager.media_table))
         LOGGER.debug("Update media files finished for all devices")
-        await client.media_manager.get_all_media_files_disk(media_path, device)
-        self.media_table = client.media_manager.media_table
