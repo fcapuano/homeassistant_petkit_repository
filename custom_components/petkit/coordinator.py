@@ -114,5 +114,9 @@ class PetkitDataUpdateCoordinator(DataUpdateCoordinator):
             for media in to_dl:
                 LOGGER.debug(f"Downloading : {media}")
                 await dl_mgt.download_file(media)
-            LOGGER.debug(f"Downloaded all medias for device id = {device} is OK")
+            LOGGER.debug(
+                f"Downloaded all medias for device id = {device} is OK (got {len(to_dl)} files to download)"
+            )
         LOGGER.debug("Update media files finished for all devices")
+        await client.media_manager.get_all_media_files_disk(media_path, device)
+        self.media_table = client.media_manager.media_table
