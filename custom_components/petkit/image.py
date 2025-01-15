@@ -136,10 +136,11 @@ class PetkitImage(PetkitEntity, ImageEntity):
         """Return bytes of image asynchronously."""
         event_key = self.entity_description.event_key
         media_table = self.coordinator.media_table
+        no_img = Path(__file__).parent / "media" / "no-image.png"
 
         if not media_table:
             LOGGER.error("No media files found")
-            return None
+            return await self._read_file(no_img)
 
         # Filter media files by device_id and event_key
         matching_media_files = [
@@ -153,7 +154,7 @@ class PetkitImage(PetkitEntity, ImageEntity):
             LOGGER.info(
                 f"No media files found for device id = {self.device.id} and event key = {event_key}"
             )
-            return None
+            return await self._read_file(no_img)
 
         # Find the media file with the most recent timestamp
         latest_media_file = max(
@@ -169,7 +170,11 @@ class PetkitImage(PetkitEntity, ImageEntity):
         LOGGER.debug(
             f"Getting image for {self.device.device_nfo.device_type} Path is :{image_path}"
         )
+        return await self._read_file(image_path)
 
+
+    @staticmethod
+    async def _read_file(image_path) -> bytes | None:
         try:
             async with aiofiles.open(image_path, "rb") as image_file:
                 return await image_file.read()
