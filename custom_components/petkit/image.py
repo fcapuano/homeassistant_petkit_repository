@@ -137,6 +137,10 @@ class PetkitImage(PetkitEntity, ImageEntity):
         event_key = self.entity_description.event_key
         media_table = self.coordinator.media_table
 
+        if not media_table:
+            LOGGER.error("No media files found")
+            return None
+
         # Filter media files by device_id and event_key
         matching_media_files = [
             media_file
