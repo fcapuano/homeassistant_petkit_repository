@@ -18,6 +18,7 @@ PETKIT_DEVICES_MAPPING = {
     "0feedermini": "Fresh Element Mini Pro",
     "0t3": "Pura X",
     "0t4": "Puramax",
+    "1t4": "Puramax",
     "2t4": "Puramax 2",
     "0t5": "Purobot Max",
     "0t6": "Purobot Ultra",
