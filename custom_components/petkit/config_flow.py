@@ -71,7 +71,6 @@ class PetkitFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                         timezone=user_input.get(CONF_TIME_ZONE, tz_from_ha),
                     )
                 except (
-                    PypetkitError,
                     PetkitTimeoutError,
                     PetkitSessionError,
                     PetkitSessionExpiredError,
