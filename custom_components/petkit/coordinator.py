@@ -111,7 +111,9 @@ class PetkitDataUpdateCoordinator(DataUpdateCoordinator):
 
             LOGGER.debug(f"Gathering medias files onto disk for device id = {device}")
             await client.media_manager.get_all_media_files_disk(media_path, device)
-            to_dl = await client.media_manager.prepare_missing_files(media_lst, MediaType.IMAGE, None)
+            to_dl = await client.media_manager.prepare_missing_files(
+                media_lst, MediaType.IMAGE, None
+            )
 
             dl_mgt = DownloadDecryptMedia(media_path, client)
             for media in to_dl:
@@ -121,5 +123,5 @@ class PetkitDataUpdateCoordinator(DataUpdateCoordinator):
                 f"Downloaded all medias for device id = {device} is OK (got {len(to_dl)} files to download)"
             )
             await client.media_manager.get_all_media_files_disk(media_path, device)
-            self.media_table.extend((client.media_manager.media_table))
+            self.media_table.extend(client.media_manager.media_table)
         LOGGER.debug("Update media files finished for all devices")

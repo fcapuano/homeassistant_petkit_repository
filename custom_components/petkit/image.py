@@ -172,7 +172,6 @@ class PetkitImage(PetkitEntity, ImageEntity):
         )
         return await self._read_file(image_path)
 
-
     @staticmethod
     async def _read_file(image_path) -> bytes | None:
         try:
