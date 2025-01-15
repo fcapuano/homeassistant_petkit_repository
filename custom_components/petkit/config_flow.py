@@ -2,8 +2,15 @@
 
 from __future__ import annotations
 
-from pypetkitapi import PetkitAuthenticationError, PetKitClient, PypetkitError
-from pypetkitapi.exceptions import PetkitAuthenticationUnregisteredEmailError
+from pypetkitapi import (
+    PetkitAuthenticationUnregisteredEmailError,
+    PetKitClient,
+    PetkitRegionalServerNotFoundError,
+    PetkitSessionError,
+    PetkitSessionExpiredError,
+    PetkitTimeoutError,
+    PypetkitError,
+)
 import voluptuous as vol
 
 from homeassistant import config_entries, data_entry_flow
@@ -64,8 +71,12 @@ class PetkitFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                         timezone=user_input.get(CONF_TIME_ZONE, tz_from_ha),
                     )
                 except (
-                    PetkitAuthenticationError,
+                    PypetkitError,
+                    PetkitTimeoutError,
+                    PetkitSessionError,
+                    PetkitSessionExpiredError,
                     PetkitAuthenticationUnregisteredEmailError,
+                    PetkitRegionalServerNotFoundError,
                 ) as exception:
                     LOGGER.error(exception)
                     _errors["base"] = str(exception)
