@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import timedelta
 from typing import TYPE_CHECKING
 
 from pypetkitapi import PetKitClient
@@ -9,6 +10,7 @@ from pypetkitapi import PetKitClient
 from homeassistant.const import (
     CONF_PASSWORD,
     CONF_REGION,
+    CONF_SCAN_INTERVAL,
     CONF_TIME_ZONE,
     CONF_USERNAME,
     Platform,
@@ -17,6 +19,7 @@ from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.loader import async_get_loaded_integration
 
+from .const import DOMAIN, LOGGER, CONF_BLE_RELAY_ENABLED
 from .coordinator import PetkitDataUpdateCoordinator
 from .data import PetkitData
 
@@ -49,6 +52,10 @@ async def async_setup_entry(
 
     coordinator = PetkitDataUpdateCoordinator(
         hass=hass,
+        logger=LOGGER,
+        name=DOMAIN,
+        update_interval=timedelta(seconds=entry.options[CONF_SCAN_INTERVAL]),
+        config_entry=entry,
     )
     entry.runtime_data = PetkitData(
         client=PetKitClient(

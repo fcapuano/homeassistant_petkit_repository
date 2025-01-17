@@ -4,6 +4,13 @@ from logging import Logger, getLogger
 
 LOGGER: Logger = getLogger(__package__)
 DOMAIN = "petkit"
+CONF_BLE_RELAY_ENABLED = "ble_relay_enabled"
+CONF_SCAN_INTERVAL_BLUETOOTH = "scan_interval_bluetooth"
+CONF_MEDIA_DL_VIDEO = "media_dl_video"
+CONF_MEDIA_DL_IMAGE = "media_dl_image"
+CONF_MEDIA_EV_TYPE = "media_ev_type"
+
+DEFAULT_EVENTS = ["Pet", "Eat", "Feed", "Toileting", "Move"]
 
 # Petkit devices types to name translation
 PETKIT_DEVICES_MAPPING = {

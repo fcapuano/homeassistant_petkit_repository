@@ -10,7 +10,7 @@
         "data": {
           "password": "Password",
           "region": "Region",
-          "timezone": "Timezone",
+          "time_zone": "Timezone",
           "username": "Username/Id"
         },
         "description": "Please enter your PetKit account details."
@@ -570,11 +570,21 @@
   },
   "options": {
     "step": {
-      "petkit_options": {
+      "init": {
         "data": {
-          "polling_interval": "Polling interval (seconds)",
+          "ble_relay_enabled": "Enable BLE relay",
+          "media_dl_image": "Get device's images",
+          "media_dl_video": "Get device's videos",
+          "media_ev_type": "Event type to download",
           "region": "Region",
-          "timezone": "Timezone"
+          "scan_interval": "Polling interval (seconds)",
+          "scan_interval_bluetooth": "Bluetooth refresh interval (minutes)",
+          "time_zone": "Timezone"
+        },
+        "data_description": {
+          "ble_relay_enabled": "This option is only for fountain, bluetooth relay is only available if you own device can act as relay (feeder, litter) see Petkit app for more information",
+          "media_dl_image": "Download all image from your devices, filtered by event selected below (do not require an active Care+ subscription)",
+          "media_dl_video": "Download all videos from your devices, filtered by event selected below. (required an active Care+ subscription)"
         }
       }
     }

@@ -5,7 +5,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 import datetime
 from pathlib import Path
-from typing import TYPE_CHECKING
+from types import MappingProxyType
+from typing import TYPE_CHECKING, Any
 
 import aiofiles
 from pypetkitapi import (
@@ -21,7 +22,7 @@ from pypetkitapi import (
 
 from homeassistant.components.image import ImageEntity, ImageEntityDescription
 
-from .const import LOGGER
+from .const import CONF_MEDIA_DL_IMAGE, LOGGER
 from .entity import PetKitDescSensorBase, PetkitEntity
 
 if TYPE_CHECKING:
@@ -86,6 +87,7 @@ async def async_setup_entry(
         PetkitImage(
             coordinator=entry.runtime_data.coordinator,
             entity_description=entity_description,
+            config_entry=entry.options,
             device=device,
         )
         for device in devices
@@ -106,6 +108,7 @@ class PetkitImage(PetkitEntity, ImageEntity):
         self,
         coordinator: PetkitDataUpdateCoordinator,
         entity_description: PetKitImageDesc,
+        config_entry: MappingProxyType[str, Any],
         device: Feeder | Litter | WaterFountain | Pet,
     ) -> None:
         """Initialize the switch class."""
@@ -113,6 +116,7 @@ class PetkitImage(PetkitEntity, ImageEntity):
         ImageEntity.__init__(self, coordinator.hass)
         self.coordinator = coordinator
         self.entity_description = entity_description
+        self.config_entry = config_entry
         self.device = device
         self.media_downloader = DownloadDecryptMedia(
             (Path(__file__).parent / "media"),
@@ -131,6 +135,13 @@ class PetkitImage(PetkitEntity, ImageEntity):
     def image_last_updated(self) -> datetime.datetime | None:
         """Return timestamp of last image update."""
         return self._last_image_timestamp
+
+    @property
+    def available(self) -> bool:
+        """Return if this button is available or not"""
+        if self.config_entry.get(CONF_MEDIA_DL_IMAGE, False):
+            return True
+        return False
 
     async def async_image(self) -> bytes | None:
         """Return bytes of image asynchronously."""

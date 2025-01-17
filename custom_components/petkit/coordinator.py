@@ -2,15 +2,12 @@
 
 from __future__ import annotations
 
-from datetime import timedelta
 from pathlib import Path
-from typing import TYPE_CHECKING
 
 from pypetkitapi import (
     DownloadDecryptMedia,
     Feeder,
     Litter,
-    MediaFile,
     MediaType,
     Pet,
     PetkitAuthenticationUnregisteredEmailError,
@@ -19,6 +16,7 @@ from pypetkitapi import (
     PetkitSessionExpiredError,
     Purifier,
     PypetkitError,
+    RecordType,
     WaterFountain,
 )
 
@@ -26,33 +24,45 @@ from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from .const import DOMAIN, LOGGER
-
-if TYPE_CHECKING:
-    from homeassistant.core import HomeAssistant
-
-    from .data import PetkitConfigEntry
+from . import CONF_BLE_RELAY_ENABLED
+from .const import (
+    CONF_MEDIA_DL_IMAGE,
+    CONF_MEDIA_DL_VIDEO,
+    CONF_MEDIA_EV_TYPE,
+    DEFAULT_EVENTS,
+    DOMAIN,
+    LOGGER,
+)
 
 
 class PetkitDataUpdateCoordinator(DataUpdateCoordinator):
     """Class to manage fetching data from the API."""
 
-    config_entry: PetkitConfigEntry
-    media_table: list[MediaFile] = []
-
-    def __init__(
-        self,
-        hass: HomeAssistant,
-    ) -> None:
-        """Initialize."""
-        super().__init__(
-            hass=hass,
-            logger=LOGGER,
-            name=DOMAIN,
-            update_interval=timedelta(seconds=30),
-            always_update=True,
+    def __init__(self, hass, logger, name, update_interval, config_entry):
+        """Initialize the data update coordinator."""
+        super().__init__(hass, logger, name=name, update_interval=update_interval)
+        self.config_entry = config_entry
+        self.bluetooth_relay_enabled = config_entry.options.get(
+            CONF_BLE_RELAY_ENABLED, True
         )
-        self.previous_devices: set[str] = set()
+        self.media_table = []
+        self.media_type = []
+        self.event_type = []
+        self.previous_devices = set()
+        self._get_media_config(config_entry.options)
+
+    def _get_media_config(self, options) -> None:
+        """Get media configuration."""
+        event_type_config = options.get(CONF_MEDIA_EV_TYPE, DEFAULT_EVENTS)
+        dl_image = options.get(CONF_MEDIA_DL_IMAGE, True)
+        dl_video = options.get(CONF_MEDIA_DL_VIDEO, True)
+
+        self.event_type = [RecordType(element.lower()) for element in event_type_config]
+
+        if dl_image:
+            self.media_type.append(MediaType.IMAGE)
+        if dl_video:
+            self.media_type.append(MediaType.VIDEO)
 
     async def _async_update_data(
         self,
@@ -112,13 +122,13 @@ class PetkitDataUpdateCoordinator(DataUpdateCoordinator):
             LOGGER.debug(f"Gathering medias files onto disk for device id = {device}")
             await client.media_manager.get_all_media_files_disk(media_path, device)
             to_dl = await client.media_manager.prepare_missing_files(
-                media_lst, MediaType.IMAGE, None
+                media_lst, self.media_type, self.event_type
             )
 
             dl_mgt = DownloadDecryptMedia(media_path, client)
             for media in to_dl:
                 LOGGER.debug(f"Downloading : {media}")
-                await dl_mgt.download_file(media, MediaType.IMAGE)
+                await dl_mgt.download_file(media, self.media_type)
             LOGGER.debug(
                 f"Downloaded all medias for device id = {device} is OK (got {len(to_dl)} files to download)"
             )
