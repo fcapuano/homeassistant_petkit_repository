@@ -18,7 +18,7 @@
 Picture feature is supported for feeders with camera (does not require an active subscription to Care+) \
 Video feature is not supported yet. it's planned for a future release. (REQUIRE an active subscription to Care+)
 
-<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/master/images/last_event.png"></a>
+<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/last_event.png"></a>
 
 ## Supported devices
 
@@ -67,7 +67,7 @@ Video feature is not supported yet. it's planned for a future release. (REQUIRE 
 
 Add feeding Schedule card for feeders :
 
-<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/master/images/feed_plan.png"></a>
+<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/feed_plan.png"></a>
 
 Add this card to your HA with HACS : https://github.com/cristianchelu/dispenser-schedule-card (thanks to @cristianchelu)
 
