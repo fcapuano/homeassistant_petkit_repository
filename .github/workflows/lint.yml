@@ -9,8 +9,8 @@ on:
       - "main"
 
 permissions:
-    actions: write
-    contents: write 
+  actions: write
+  contents: write
 
 jobs:
   tests:
@@ -24,8 +24,8 @@ jobs:
     steps:
       - uses: "actions/checkout@v4"
         with:
-            fetch-depth: 0
-            
+          fetch-depth: 0
+
       - name: Cache pip
         uses: actions/cache@v4
         with:
@@ -48,4 +48,4 @@ jobs:
       - name: Bump version using semantic-release
         uses: python-semantic-release/python-semantic-release@master
         with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
