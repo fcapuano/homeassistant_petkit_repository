@@ -267,8 +267,32 @@ push = true
     "{pep440_version}",
 ]
 
+[project]
+name = "petitkit"
+version = "1.5.0"
+
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = { find = { include = ["custom_components.*"] } }
+
 [tool.tox]
-envlist = ["pre-commit"]
+min_version = "4.20"
+requires = ["tox>=4.23.2"]
+env_list = ["3.11", "3.12", "precommit"]
+
+#[tool.tox.env_run_base]
+#description = "Run test under {base_python}"
+#deps = ["pytest>=8.3.4", "pytest-cov>=6.0.0"]
+#commands = [["pytest", "--cov=pypetkitapi",  "--cov-config=.coveragerc",  "--cov-report=xml",  "--cov-branch"]]
+
+[tool.tox.env.precommit]
+description = "run pre-commit hooks"
+deps = ["pre-commit>=4.0.1"]
+skip_install = true
+commands = [["pre-commit", "run", "--all-files"]]
 
 [testenv.pre-commit]
 deps = ["pre-commit"]
