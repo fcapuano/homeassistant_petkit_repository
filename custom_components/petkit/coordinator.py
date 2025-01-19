@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import timedelta
 from pathlib import Path
 
 from pypetkitapi import (
@@ -24,12 +25,13 @@ from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from . import CONF_BLE_RELAY_ENABLED
 from .const import (
+    CONF_BLE_RELAY_ENABLED,
     CONF_MEDIA_DL_IMAGE,
     CONF_MEDIA_DL_VIDEO,
     CONF_MEDIA_EV_TYPE,
     DEFAULT_EVENTS,
+    DEFAULT_SCAN_INTERVAL,
     DOMAIN,
     LOGGER,
 )
@@ -50,6 +52,7 @@ class PetkitDataUpdateCoordinator(DataUpdateCoordinator):
         self.event_type = []
         self.previous_devices = set()
         self._get_media_config(config_entry.options)
+        self.fast_track_tic = 0
 
     def _get_media_config(self, options) -> None:
         """Get media configuration."""
@@ -68,6 +71,16 @@ class PetkitDataUpdateCoordinator(DataUpdateCoordinator):
         self,
     ) -> dict[int, Feeder | Litter | WaterFountain | Purifier | Pet]:
         """Update data via library."""
+
+        if self.fast_track_tic > 0:
+            self.fast_track_tic -= 1
+            LOGGER.debug(f"Fast track tic remaining = {self.fast_track_tic}")
+        elif self.fast_track_tic <= 0 and self.update_interval != timedelta(
+            seconds=DEFAULT_SCAN_INTERVAL
+        ):
+            self.update_interval = timedelta(seconds=DEFAULT_SCAN_INTERVAL)
+            LOGGER.debug("Fast track tic reset to default scan interval")
+
         try:
             await self.config_entry.runtime_data.client.get_devices_data()
         except (
@@ -106,7 +119,7 @@ class PetkitDataUpdateCoordinator(DataUpdateCoordinator):
         client = self.config_entry.runtime_data.client
         media_path = Path(__file__).parent / "media"
 
-        self.media_table.clear()
+        temp_media_table = []
 
         for device in devices_lst:
             if not hasattr(client.petkit_entities[device], "medias"):
@@ -127,11 +140,12 @@ class PetkitDataUpdateCoordinator(DataUpdateCoordinator):
 
             dl_mgt = DownloadDecryptMedia(media_path, client)
             for media in to_dl:
-                LOGGER.debug(f"Downloading : {media}")
                 await dl_mgt.download_file(media, self.media_type)
             LOGGER.debug(
                 f"Downloaded all medias for device id = {device} is OK (got {len(to_dl)} files to download)"
             )
             await client.media_manager.get_all_media_files_disk(media_path, device)
-            self.media_table.extend(client.media_manager.media_table)
+            temp_media_table.extend(client.media_manager.media_table)
+
+        self.media_table = temp_media_table
         LOGGER.debug("Update media files finished for all devices")
