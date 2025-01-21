@@ -42,6 +42,7 @@ from .const import (
     CONF_MEDIA_DL_VIDEO,
     CONF_MEDIA_EV_TYPE,
     CONF_SCAN_INTERVAL_BLUETOOTH,
+    CONF_SCAN_INTERVAL_MEDIA,
     COUNTRY_TO_CODE_DICT,
     DEFAULT_EVENTS,
     DOMAIN,
@@ -67,6 +68,12 @@ class PetkitOptionsFlowHandler(OptionsFlow):
                         CONF_SCAN_INTERVAL,
                         default=self.config_entry.options.get(CONF_SCAN_INTERVAL, 30),
                     ): vol.All(int, vol.Range(min=5, max=3600)),
+                    vol.Required(
+                        CONF_SCAN_INTERVAL_MEDIA,
+                        default=self.config_entry.options.get(
+                            CONF_SCAN_INTERVAL_MEDIA, 5
+                        ),
+                    ): vol.All(int, vol.Range(min=2, max=60)),
                     vol.Required(
                         CONF_BLE_RELAY_ENABLED,
                         default=self.config_entry.options.get(
@@ -182,6 +189,7 @@ class PetkitFlowHandler(ConfigFlow, domain=DOMAIN):
                             CONF_SCAN_INTERVAL_BLUETOOTH: 15,
                             CONF_MEDIA_DL_VIDEO: True,
                             CONF_MEDIA_DL_IMAGE: True,
+                            CONF_SCAN_INTERVAL_MEDIA: 5,
                             CONF_MEDIA_EV_TYPE: ["Pet", "Eat", "Feed", "Toileting"],
                         },
                     )
