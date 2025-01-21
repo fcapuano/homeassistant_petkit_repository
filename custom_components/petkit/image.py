@@ -29,7 +29,7 @@ if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
     from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-    from .coordinator import PetkitDataUpdateCoordinator
+    from .coordinator import PetkitMediaUpdateCoordinator
     from .data import PetkitConfigEntry, PetkitDevices
 
 
@@ -85,7 +85,7 @@ async def async_setup_entry(
     devices = entry.runtime_data.client.petkit_entities.values()
     entities = [
         PetkitImage(
-            coordinator=entry.runtime_data.coordinator,
+            coordinator=entry.runtime_data.coordinator_media,
             entity_description=entity_description,
             config_entry=entry.options,
             device=device,
@@ -106,7 +106,7 @@ class PetkitImage(PetkitEntity, ImageEntity):
 
     def __init__(
         self,
-        coordinator: PetkitDataUpdateCoordinator,
+        coordinator: PetkitMediaUpdateCoordinator,
         entity_description: PetKitImageDesc,
         config_entry: MappingProxyType[str, Any],
         device: Feeder | Litter | WaterFountain | Pet,
@@ -156,9 +156,8 @@ class PetkitImage(PetkitEntity, ImageEntity):
         # Filter media files by device_id and event_key
         matching_media_files = [
             media_file
-            for media_file in media_table
-            if media_file.device_id == self.device.id
-            and media_file.event_type == event_key
+            for media_file in media_table.get(self.device.id, [])
+            if media_file.event_type == event_key
         ]
 
         if not matching_media_files:
