@@ -579,12 +579,14 @@
           "region": "Region",
           "scan_interval": "Polling interval (seconds)",
           "scan_interval_bluetooth": "Bluetooth refresh interval (minutes)",
+          "scan_interval_media": "Media refresh interval (minutes)",
           "time_zone": "Timezone"
         },
         "data_description": {
           "ble_relay_enabled": "This option is only for fountain, bluetooth relay is only available if you own device can act as relay (feeder, litter) see Petkit app for more information",
           "media_dl_image": "Download all image from your devices, filtered by event selected below (do not require an active Care+ subscription)",
-          "media_dl_video": "Download all videos from your devices, filtered by event selected below. (required an active Care+ subscription)"
+          "media_dl_video": "Download all videos from your devices, filtered by event selected below. (required an active Care+ subscription)",
+          "scan_interval_media": "Interval to download new media of devices (images and videos) from Petkit's servers"
         }
       }
     }
