@@ -9,6 +9,12 @@ CONF_SCAN_INTERVAL_BLUETOOTH = "scan_interval_bluetooth"
 CONF_MEDIA_DL_VIDEO = "media_dl_video"
 CONF_MEDIA_DL_IMAGE = "media_dl_image"
 CONF_MEDIA_EV_TYPE = "media_ev_type"
+CONF_SCAN_INTERVAL_MEDIA = "scan_interval_media"
+
+# Update interval
+DEFAULT_SCAN_INTERVAL = 30
+MAX_SCAN_INTERVAL = 120
+MIN_SCAN_INTERVAL = 5
 
 DEFAULT_EVENTS = ["Pet", "Eat", "Feed", "Toileting", "Move"]
 
