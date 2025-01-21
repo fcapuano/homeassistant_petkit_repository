@@ -13,8 +13,7 @@ if TYPE_CHECKING:
     from homeassistant.config_entries import ConfigEntry
     from homeassistant.loader import Integration
 
-    from .coordinator import PetkitDataUpdateCoordinator
-
+    from .coordinator import PetkitDataUpdateCoordinator, PetkitMediaUpdateCoordinator, PetkitBluetoothUpdateCoordinator
 
 type PetkitConfigEntry = ConfigEntry[PetkitData]
 
@@ -28,4 +27,6 @@ class PetkitData:
 
     client: PetKitClient
     coordinator: PetkitDataUpdateCoordinator
+    coordinator_media: PetkitMediaUpdateCoordinator
+    coordinator_bluetooth = PetkitBluetoothUpdateCoordinator
     integration: Integration
