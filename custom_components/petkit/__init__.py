@@ -19,8 +19,13 @@ from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.loader import async_get_loaded_integration
 
-from .const import DOMAIN, LOGGER
-from .coordinator import PetkitDataUpdateCoordinator
+from .const import (
+    CONF_SCAN_INTERVAL_BLUETOOTH,
+    CONF_SCAN_INTERVAL_MEDIA,
+    DOMAIN,
+    LOGGER,
+)
+from .coordinator import PetkitDataUpdateCoordinator, PetkitMediaUpdateCoordinator
 from .data import PetkitData
 
 if TYPE_CHECKING:
@@ -53,9 +58,25 @@ async def async_setup_entry(
     coordinator = PetkitDataUpdateCoordinator(
         hass=hass,
         logger=LOGGER,
-        name=DOMAIN,
+        name=f"{DOMAIN}.devices",
         update_interval=timedelta(seconds=entry.options[CONF_SCAN_INTERVAL]),
         config_entry=entry,
+    )
+    coordinator_media = PetkitMediaUpdateCoordinator(
+        hass=hass,
+        logger=LOGGER,
+        name=f"{DOMAIN}.medias",
+        update_interval=timedelta(minutes=entry.options[CONF_SCAN_INTERVAL_MEDIA]),
+        config_entry=entry,
+        data_coordinator=coordinator,
+    )
+    coordinator_bluetooth = PetkitMediaUpdateCoordinator(
+        hass=hass,
+        logger=LOGGER,
+        name=f"{DOMAIN}.bluetooth",
+        update_interval=timedelta(minutes=entry.options[CONF_SCAN_INTERVAL_BLUETOOTH]),
+        config_entry=entry,
+        data_coordinator=coordinator,
     )
     entry.runtime_data = PetkitData(
         client=PetKitClient(
@@ -67,9 +88,14 @@ async def async_setup_entry(
         ),
         integration=async_get_loaded_integration(hass, entry.domain),
         coordinator=coordinator,
+        coordinator_media=coordinator_media,
+        coordinator_bluetooth=coordinator_bluetooth,
     )
 
     await coordinator.async_config_entry_first_refresh()
+    await coordinator_media.async_config_entry_first_refresh()
+    await coordinator_bluetooth.async_config_entry_first_refresh()
+
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     entry.async_on_unload(entry.add_update_listener(async_reload_entry))
 
