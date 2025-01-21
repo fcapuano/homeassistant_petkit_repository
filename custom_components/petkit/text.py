@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass
+from datetime import timedelta
 from typing import TYPE_CHECKING, Any
 
 from pypetkitapi import (
@@ -24,7 +25,7 @@ from pypetkitapi import (
 
 from homeassistant.components.text import TextEntity, TextEntityDescription
 
-from .const import INPUT_FEED_PATTERN, LOGGER, POWER_ONLINE_STATE
+from .const import INPUT_FEED_PATTERN, LOGGER, MIN_SCAN_INTERVAL, POWER_ONLINE_STATE
 from .entity import PetKitDescSensorBase, PetkitEntity
 
 if TYPE_CHECKING:
@@ -196,6 +197,8 @@ class PetkitText(PetkitEntity, TextEntity):
                 f"Feeding value '{value}' is not valid for this feeder. Valid values are: {valid_values}"
             )
 
+        self.coordinator.update_interval = timedelta(seconds=MIN_SCAN_INTERVAL)
+        self.coordinator.fast_poll_tic = 12
         LOGGER.debug(
             "Setting value for : %s with value : %s", self.entity_description.key, value
         )

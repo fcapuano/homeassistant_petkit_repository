@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from datetime import timedelta
 from typing import TYPE_CHECKING
 
 from pypetkitapi import D4S, D4SH, T4, T6, Feeder, Litter, Pet, Purifier, WaterFountain
@@ -14,6 +15,7 @@ from homeassistant.components.binary_sensor import (
 )
 from homeassistant.const import EntityCategory
 
+from .const import MIN_SCAN_INTERVAL
 from .entity import PetKitDescSensorBase, PetkitEntity
 
 if TYPE_CHECKING:
@@ -27,6 +29,8 @@ if TYPE_CHECKING:
 @dataclass(frozen=True, kw_only=True)
 class PetKitBinarySensorDesc(PetKitDescSensorBase, BinarySensorEntityDescription):
     """A class that describes sensor entities."""
+
+    enable_fast_track: bool = False
 
 
 COMMON_ENTITIES = [
@@ -63,6 +67,7 @@ BINARY_SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitBinarySensorDesc]] =
             translation_key="feeding",
             device_class=BinarySensorDeviceClass.RUNNING,
             value=lambda device: device.state.feeding,
+            enable_fast_track=True,
         ),
         PetKitBinarySensorDesc(
             key="Battery installed",
@@ -75,6 +80,7 @@ BINARY_SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitBinarySensorDesc]] =
             translation_key="eating",
             device_class=BinarySensorDeviceClass.OCCUPANCY,
             value=lambda device: device.state.eating,
+            enable_fast_track=True,
         ),
         PetKitBinarySensorDesc(
             key="Food level",
@@ -217,5 +223,11 @@ class PetkitBinarySensor(PetkitEntity, BinarySensorEntity):
         """Return the state of the binary sensor."""
         device_data = self.coordinator.data.get(self.device.id)
         if device_data:
-            return self.entity_description.value(device_data)
+            value = self.entity_description.value(device_data)
+            # TODO : FIX ?
+            if self.entity_description.enable_fast_track and value:
+                self.coordinator.update_interval = timedelta(seconds=MIN_SCAN_INTERVAL)
+                self.coordinator.fast_poll_tic = 12
+
+            return value
         return None
