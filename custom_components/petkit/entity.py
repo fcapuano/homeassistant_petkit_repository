@@ -19,7 +19,7 @@ from homeassistant.helpers.entity import EntityDescription
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN, LOGGER, PETKIT_DEVICES_MAPPING
-from .coordinator import PetkitDataUpdateCoordinator
+from .coordinator import PetkitDataUpdateCoordinator, PetkitMediaUpdateCoordinator, PetkitBluetoothUpdateCoordinator
 
 _DevicesT = TypeVar("_DevicesT", bound=Feeder | Litter | WaterFountain | Purifier | Pet)
 
@@ -99,13 +99,18 @@ class PetKitDescSensorBase(EntityDescription):
         return True
 
 
-class PetkitEntity(CoordinatorEntity[PetkitDataUpdateCoordinator], Generic[_DevicesT]):
+class PetkitEntity(
+    CoordinatorEntity[PetkitDataUpdateCoordinator | PetkitMediaUpdateCoordinator | PetkitBluetoothUpdateCoordinator],
+    Generic[_DevicesT],
+):
     """Petkit Entity class."""
 
     _attr_has_entity_name = True
 
     def __init__(
-        self, coordinator: PetkitDataUpdateCoordinator, device: _DevicesT
+        self,
+        coordinator: PetkitDataUpdateCoordinator | PetkitMediaUpdateCoordinator | PetkitBluetoothUpdateCoordinator,
+        device: _DevicesT,
     ) -> None:
         """Initialize."""
         super().__init__(coordinator)
