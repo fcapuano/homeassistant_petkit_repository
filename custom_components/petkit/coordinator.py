@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from datetime import timedelta
 from pathlib import Path
+from typing import Any
 
 from pypetkitapi import (
     DownloadDecryptMedia,
@@ -167,3 +168,22 @@ class PetkitMediaUpdateCoordinator(DataUpdateCoordinator):
             )
 
         LOGGER.debug("Update media files finished for all devices")
+
+
+class PetkitBluetoothUpdateCoordinator(DataUpdateCoordinator):
+    """Class to manage fetching data from the API."""
+
+    def __init__(
+        self, hass, logger, name, update_interval, config_entry, data_coordinator
+    ):
+        """Initialize the data update coordinator."""
+        super().__init__(hass, logger, name=name, update_interval=update_interval)
+        self.config_entry = config_entry
+        self.data_coordinator = data_coordinator
+
+    async def _async_update_data(
+        self,
+    ) -> dict[str, Any]:
+        """Update data via library."""
+
+        return {"test": "test"}
