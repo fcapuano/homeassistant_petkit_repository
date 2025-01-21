@@ -25,7 +25,11 @@ from .const import (
     DOMAIN,
     LOGGER,
 )
-from .coordinator import PetkitDataUpdateCoordinator, PetkitMediaUpdateCoordinator
+from .coordinator import (
+    PetkitBluetoothUpdateCoordinator,
+    PetkitDataUpdateCoordinator,
+    PetkitMediaUpdateCoordinator,
+)
 from .data import PetkitData
 
 if TYPE_CHECKING:
@@ -70,7 +74,7 @@ async def async_setup_entry(
         config_entry=entry,
         data_coordinator=coordinator,
     )
-    coordinator_bluetooth = PetkitMediaUpdateCoordinator(
+    coordinator_bluetooth = PetkitBluetoothUpdateCoordinator(
         hass=hass,
         logger=LOGGER,
         name=f"{DOMAIN}.bluetooth",
