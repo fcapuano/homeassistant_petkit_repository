@@ -30,7 +30,7 @@ if TYPE_CHECKING:
 class PetKitBinarySensorDesc(PetKitDescSensorBase, BinarySensorEntityDescription):
     """A class that describes sensor entities."""
 
-    enable_fast_track: bool = False
+    enable_fast_poll: bool = False
 
 
 COMMON_ENTITIES = [
@@ -67,7 +67,7 @@ BINARY_SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitBinarySensorDesc]] =
             translation_key="feeding",
             device_class=BinarySensorDeviceClass.RUNNING,
             value=lambda device: device.state.feeding,
-            enable_fast_track=True,
+            enable_fast_poll=True,
         ),
         PetKitBinarySensorDesc(
             key="Battery installed",
@@ -80,7 +80,7 @@ BINARY_SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitBinarySensorDesc]] =
             translation_key="eating",
             device_class=BinarySensorDeviceClass.OCCUPANCY,
             value=lambda device: device.state.eating,
-            enable_fast_track=True,
+            enable_fast_poll=True,
         ),
         PetKitBinarySensorDesc(
             key="Food level",
@@ -224,8 +224,12 @@ class PetkitBinarySensor(PetkitEntity, BinarySensorEntity):
         device_data = self.coordinator.data.get(self.device.id)
         if device_data:
             value = self.entity_description.value(device_data)
-            # TODO : FIX ?
-            if self.entity_description.enable_fast_track and value:
+
+            if (
+                self.entity_description.enable_fast_poll
+                and value
+                and self.coordinator.fast_poll_tic < 1
+            ):
                 self.coordinator.update_interval = timedelta(seconds=MIN_SCAN_INTERVAL)
                 self.coordinator.fast_poll_tic = 12
 
