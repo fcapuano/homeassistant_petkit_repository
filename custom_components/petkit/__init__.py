@@ -20,10 +20,12 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.loader import async_get_loaded_integration
 
 from .const import (
+    BT_SECTION,
     CONF_SCAN_INTERVAL_BLUETOOTH,
     CONF_SCAN_INTERVAL_MEDIA,
     DOMAIN,
     LOGGER,
+    MEDIA_SECTION,
 )
 from .coordinator import (
     PetkitBluetoothUpdateCoordinator,
@@ -70,7 +72,9 @@ async def async_setup_entry(
         hass=hass,
         logger=LOGGER,
         name=f"{DOMAIN}.medias",
-        update_interval=timedelta(minutes=entry.options[CONF_SCAN_INTERVAL_MEDIA]),
+        update_interval=timedelta(
+            minutes=entry.options[MEDIA_SECTION][CONF_SCAN_INTERVAL_MEDIA]
+        ),
         config_entry=entry,
         data_coordinator=coordinator,
     )
@@ -78,7 +82,9 @@ async def async_setup_entry(
         hass=hass,
         logger=LOGGER,
         name=f"{DOMAIN}.bluetooth",
-        update_interval=timedelta(minutes=entry.options[CONF_SCAN_INTERVAL_BLUETOOTH]),
+        update_interval=timedelta(
+            minutes=entry.options[BT_SECTION][CONF_SCAN_INTERVAL_BLUETOOTH]
+        ),
         config_entry=entry,
         data_coordinator=coordinator,
     )

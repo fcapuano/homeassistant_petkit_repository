@@ -30,13 +30,16 @@ from homeassistant.const import (
     CONF_USERNAME,
 )
 from homeassistant.core import callback
+from homeassistant.data_entry_flow import section
 from homeassistant.helpers import selector
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.selector import BooleanSelector, BooleanSelectorConfig
 
 from .const import (
     ALL_TIMEZONES_LST,
+    BT_SECTION,
     CODE_TO_COUNTRY_DICT,
+    CONF_ADAPTIVE_SCAN,
     CONF_BLE_RELAY_ENABLED,
     CONF_MEDIA_DL_IMAGE,
     CONF_MEDIA_DL_VIDEO,
@@ -44,9 +47,17 @@ from .const import (
     CONF_SCAN_INTERVAL_BLUETOOTH,
     CONF_SCAN_INTERVAL_MEDIA,
     COUNTRY_TO_CODE_DICT,
+    DEFAULT_ADAPTATIVE_SCAN,
+    DEFAULT_BLUETOOTH_RELAY,
+    DEFAULT_DL_IMAGE,
+    DEFAULT_DL_VIDEO,
     DEFAULT_EVENTS,
+    DEFAULT_SCAN_INTERVAL,
+    DEFAULT_SCAN_INTERVAL_BLUETOOTH,
+    DEFAULT_SCAN_INTERVAL_MEDIA,
     DOMAIN,
     LOGGER,
+    MEDIA_SECTION,
 )
 
 
@@ -66,55 +77,85 @@ class PetkitOptionsFlowHandler(OptionsFlow):
                 {
                     vol.Required(
                         CONF_SCAN_INTERVAL,
-                        default=self.config_entry.options.get(CONF_SCAN_INTERVAL, 30),
-                    ): vol.All(int, vol.Range(min=5, max=3600)),
-                    vol.Required(
-                        CONF_SCAN_INTERVAL_MEDIA,
                         default=self.config_entry.options.get(
-                            CONF_SCAN_INTERVAL_MEDIA, 5
+                            CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL
                         ),
-                    ): vol.All(int, vol.Range(min=2, max=60)),
+                    ): vol.All(int, vol.Range(min=15, max=3600)),
                     vol.Required(
-                        CONF_BLE_RELAY_ENABLED,
+                        CONF_ADAPTIVE_SCAN,
                         default=self.config_entry.options.get(
-                            CONF_BLE_RELAY_ENABLED, True
+                            CONF_ADAPTIVE_SCAN, DEFAULT_ADAPTATIVE_SCAN
                         ),
                     ): BooleanSelector(BooleanSelectorConfig()),
-                    vol.Required(
-                        CONF_SCAN_INTERVAL_BLUETOOTH,
-                        default=self.config_entry.options.get(
-                            CONF_SCAN_INTERVAL_BLUETOOTH, 15
+                    vol.Required(MEDIA_SECTION): section(
+                        vol.Schema(
+                            {
+                                vol.Required(
+                                    CONF_SCAN_INTERVAL_MEDIA,
+                                    default=self.config_entry.options.get(
+                                        MEDIA_SECTION, {}
+                                    ).get(
+                                        CONF_SCAN_INTERVAL_MEDIA,
+                                        DEFAULT_SCAN_INTERVAL_MEDIA,
+                                    ),
+                                ): vol.All(int, vol.Range(min=5, max=120)),
+                                vol.Required(
+                                    CONF_MEDIA_DL_IMAGE,
+                                    default=self.config_entry.options.get(
+                                        MEDIA_SECTION, {}
+                                    ).get(CONF_MEDIA_DL_IMAGE, DEFAULT_DL_IMAGE),
+                                ): BooleanSelector(BooleanSelectorConfig()),
+                                vol.Required(
+                                    CONF_MEDIA_DL_VIDEO,
+                                    default=self.config_entry.options.get(
+                                        MEDIA_SECTION, {}
+                                    ).get(CONF_MEDIA_DL_VIDEO, DEFAULT_DL_VIDEO),
+                                ): BooleanSelector(BooleanSelectorConfig()),
+                                vol.Optional(
+                                    CONF_MEDIA_EV_TYPE,
+                                    default=self.config_entry.options.get(
+                                        MEDIA_SECTION, {}
+                                    ).get(CONF_MEDIA_EV_TYPE, DEFAULT_EVENTS),
+                                ): selector.SelectSelector(
+                                    selector.SelectSelectorConfig(
+                                        multiple=True,
+                                        sort=False,
+                                        options=[
+                                            "Pet",
+                                            "Eat",
+                                            "Feed",
+                                            "Toileting",
+                                            "Move",
+                                        ],
+                                    )
+                                ),
+                            }
                         ),
-                    ): vol.All(int, vol.Range(min=2, max=60)),
-                    vol.Required(
-                        CONF_MEDIA_DL_VIDEO,
-                        default=self.config_entry.options.get(
-                            CONF_MEDIA_DL_VIDEO, True
+                        {"collapsed": False},
+                    ),
+                    vol.Required(BT_SECTION): section(
+                        vol.Schema(
+                            {
+                                vol.Required(
+                                    CONF_BLE_RELAY_ENABLED,
+                                    default=self.config_entry.options.get(
+                                        BT_SECTION, {}
+                                    ).get(
+                                        CONF_BLE_RELAY_ENABLED, DEFAULT_BLUETOOTH_RELAY
+                                    ),
+                                ): BooleanSelector(BooleanSelectorConfig()),
+                                vol.Required(
+                                    CONF_SCAN_INTERVAL_BLUETOOTH,
+                                    default=self.config_entry.options.get(
+                                        BT_SECTION, {}
+                                    ).get(
+                                        CONF_SCAN_INTERVAL_BLUETOOTH,
+                                        DEFAULT_SCAN_INTERVAL_BLUETOOTH,
+                                    ),
+                                ): vol.All(int, vol.Range(min=1, max=120)),
+                            }
                         ),
-                    ): BooleanSelector(BooleanSelectorConfig()),
-                    vol.Required(
-                        CONF_MEDIA_DL_IMAGE,
-                        default=self.config_entry.options.get(
-                            CONF_MEDIA_DL_IMAGE, True
-                        ),
-                    ): BooleanSelector(BooleanSelectorConfig()),
-                    vol.Optional(
-                        CONF_MEDIA_EV_TYPE,
-                        default=self.config_entry.options.get(
-                            CONF_MEDIA_EV_TYPE, DEFAULT_EVENTS
-                        ),
-                    ): selector.SelectSelector(
-                        selector.SelectSelectorConfig(
-                            multiple=True,
-                            sort=False,
-                            options=[
-                                "Pet",
-                                "Eat",
-                                "Feed",
-                                "Toileting",
-                                "Move",
-                            ],
-                        )
+                        {"collapsed": False},
                     ),
                 }
             ),
@@ -184,13 +225,18 @@ class PetkitFlowHandler(ConfigFlow, domain=DOMAIN):
                         title=user_input[CONF_USERNAME],
                         data=user_input,
                         options={
-                            CONF_SCAN_INTERVAL: 30,
-                            CONF_BLE_RELAY_ENABLED: True,
-                            CONF_SCAN_INTERVAL_BLUETOOTH: 15,
-                            CONF_MEDIA_DL_VIDEO: True,
-                            CONF_MEDIA_DL_IMAGE: True,
-                            CONF_SCAN_INTERVAL_MEDIA: 5,
-                            CONF_MEDIA_EV_TYPE: ["Pet", "Eat", "Feed", "Toileting"],
+                            CONF_SCAN_INTERVAL: DEFAULT_SCAN_INTERVAL,
+                            CONF_ADAPTIVE_SCAN: DEFAULT_ADAPTATIVE_SCAN,
+                            MEDIA_SECTION: {
+                                CONF_SCAN_INTERVAL_MEDIA: DEFAULT_SCAN_INTERVAL_MEDIA,
+                                CONF_MEDIA_DL_IMAGE: DEFAULT_DL_IMAGE,
+                                CONF_MEDIA_DL_VIDEO: DEFAULT_DL_VIDEO,
+                                CONF_MEDIA_EV_TYPE: DEFAULT_EVENTS,
+                            },
+                            BT_SECTION: {
+                                CONF_BLE_RELAY_ENABLED: DEFAULT_BLUETOOTH_RELAY,
+                                CONF_SCAN_INTERVAL_BLUETOOTH: DEFAULT_SCAN_INTERVAL_BLUETOOTH,
+                            },
                         },
                     )
 

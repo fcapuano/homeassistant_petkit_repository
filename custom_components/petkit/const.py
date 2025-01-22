@@ -4,19 +4,36 @@ from logging import Logger, getLogger
 
 LOGGER: Logger = getLogger(__package__)
 DOMAIN = "petkit"
+
+MEDIA_PATH = "media"
+
+# Configuration
+CONF_SCAN_INTERVAL_MEDIA = "scan_interval_media"
+CONF_ADAPTIVE_SCAN = "adaptive_scan"
+
+BT_SECTION = "bluetooth_options"
 CONF_BLE_RELAY_ENABLED = "ble_relay_enabled"
 CONF_SCAN_INTERVAL_BLUETOOTH = "scan_interval_bluetooth"
+
+MEDIA_SECTION = "medias_options"
 CONF_MEDIA_DL_VIDEO = "media_dl_video"
 CONF_MEDIA_DL_IMAGE = "media_dl_image"
 CONF_MEDIA_EV_TYPE = "media_ev_type"
-CONF_SCAN_INTERVAL_MEDIA = "scan_interval_media"
+
+
+# Default configuration values
+DEFAULT_SCAN_INTERVAL = 60
+DEFAULT_SCAN_INTERVAL_MEDIA = 15
+DEFAULT_SCAN_INTERVAL_BLUETOOTH = 30
+DEFAULT_EVENTS = ["Pet", "Eat", "Feed", "Toileting", "Move"]
+DEFAULT_DL_VIDEO = False
+DEFAULT_DL_IMAGE = True
+DEFAULT_ADAPTATIVE_SCAN = True
+DEFAULT_BLUETOOTH_RELAY = True
 
 # Update interval
-DEFAULT_SCAN_INTERVAL = 30
 MAX_SCAN_INTERVAL = 120
 MIN_SCAN_INTERVAL = 5
-
-DEFAULT_EVENTS = ["Pet", "Eat", "Feed", "Toileting", "Move"]
 
 # Petkit devices types to name translation
 PETKIT_DEVICES_MAPPING = {
