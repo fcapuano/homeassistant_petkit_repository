@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from datetime import timedelta
+import asyncio
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
@@ -28,13 +29,20 @@ from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import (
+    BT_SECTION,
+    CONF_BLE_RELAY_ENABLED,
     CONF_MEDIA_DL_IMAGE,
     CONF_MEDIA_DL_VIDEO,
     CONF_MEDIA_EV_TYPE,
+    DEFAULT_BLUETOOTH_RELAY,
+    DEFAULT_DL_IMAGE,
+    DEFAULT_DL_VIDEO,
     DEFAULT_EVENTS,
     DEFAULT_SCAN_INTERVAL,
     DOMAIN,
     LOGGER,
+    MEDIA_PATH,
+    MEDIA_SECTION,
 )
 
 
@@ -112,9 +120,10 @@ class PetkitMediaUpdateCoordinator(DataUpdateCoordinator):
 
     def _get_media_config(self, options) -> None:
         """Get media configuration."""
-        event_type_config = options.get(CONF_MEDIA_EV_TYPE, DEFAULT_EVENTS)
-        dl_image = options.get(CONF_MEDIA_DL_IMAGE, True)
-        dl_video = options.get(CONF_MEDIA_DL_VIDEO, True)
+        media_options = options.get(MEDIA_SECTION, {})
+        event_type_config = media_options.get(CONF_MEDIA_EV_TYPE, DEFAULT_EVENTS)
+        dl_image = media_options.get(CONF_MEDIA_DL_IMAGE, DEFAULT_DL_IMAGE)
+        dl_video = media_options.get(CONF_MEDIA_DL_VIDEO, DEFAULT_DL_VIDEO)
 
         self.event_type = [RecordType(element.lower()) for element in event_type_config]
 
@@ -136,7 +145,7 @@ class PetkitMediaUpdateCoordinator(DataUpdateCoordinator):
     async def _async_update_media_files(self, devices_lst: set) -> None:
         """Update media files."""
         client = self.config_entry.runtime_data.client
-        media_path = Path(__file__).parent / "media"
+        media_path = Path(MEDIA_PATH)
 
         for device in devices_lst:
             if not hasattr(client.petkit_entities[device], "medias"):
@@ -171,19 +180,52 @@ class PetkitMediaUpdateCoordinator(DataUpdateCoordinator):
 
 
 class PetkitBluetoothUpdateCoordinator(DataUpdateCoordinator):
-    """Class to manage fetching data from the API."""
+    """Class to manage bluetooth connection for Petkit Smart Devices."""
 
     def __init__(
         self, hass, logger, name, update_interval, config_entry, data_coordinator
     ):
         """Initialize the data update coordinator."""
         super().__init__(hass, logger, name=name, update_interval=update_interval)
-        self.config_entry = config_entry
+        self.config = config_entry
         self.data_coordinator = data_coordinator
+        self.last_update_timestamps = {}
 
     async def _async_update_data(
         self,
-    ) -> dict[str, Any]:
-        """Update data via library."""
+    ) -> dict[int, Any]:
+        """Update data via connecting to bluetooth (over API)."""
+        updated_fountain = {}
 
-        return {"test": "test"}
+        if not self.config.options.get(BT_SECTION, {}).get(
+            CONF_BLE_RELAY_ENABLED, DEFAULT_BLUETOOTH_RELAY
+        ):
+            LOGGER.debug("BLE relay is disabled by configuration")
+            return updated_fountain
+
+        LOGGER.debug("Update bluetooth connection for all fountains")
+        for device_id in self.data_coordinator.current_devices:
+            device = self.config.runtime_data.client.petkit_entities.get(device_id)
+            if isinstance(device, WaterFountain):
+                LOGGER.debug(
+                    f"Updating bluetooth connection for device id = {device_id}"
+                )
+                self.hass.async_create_task(
+                    self._async_update_bluetooth_connection(device_id)
+                )
+        return self.last_update_timestamps
+
+    async def _async_update_bluetooth_connection(self, device_id: str) -> bool:
+        """Update bluetooth connection."""
+        if await self.config.runtime_data.client.bluetooth_manager.open_ble_connection(
+            device_id
+        ):
+            await asyncio.sleep(5)
+            await self.config.runtime_data.client.bluetooth_manager.close_ble_connection(
+                device_id
+            )
+            LOGGER.debug(f"Bluetooth connection for device id = {device_id} is OK")
+            self.last_update_timestamps[device_id] = datetime.now(timezone.utc)
+            return True
+        LOGGER.debug(f"Bluetooth connection for device id = {device_id} failed")
+        return False
