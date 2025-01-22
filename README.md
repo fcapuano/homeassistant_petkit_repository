@@ -15,18 +15,26 @@
 
 [![Sponsor Jezza34000](https://img.shields.io/badge/sponsor-Jezza34000-blue.svg?style=for-the-badge&logo=githubsponsors&color=EA4AAA)](https://github.com/sponsors/Jezza34000) [![Static Badge](https://img.shields.io/badge/Donate-buy_me_a_coffee-yellow.svg?style=for-the-badge&logo=buy-me-a-coffee)](https://buymeacoffee.com/jezza)
 
-Picture feature is supported for feeders with camera (does not require an active subscription to Care+) \
-Video feature is not supported yet. it's planned for a future release. (REQUIRE an active subscription to Care+)
 
-<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/last_event.png"></a>
+---
 
-## Supported devices
+## 📣 Video & Image support is Here!
+### Access all your media from Petkit devices directly in Home Assistant!
+Easily view and manage all your videos and images of your beloved pets right from the Media tab in Home Assistant.
+
+<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/media_video.png" width="650"/></a>
+<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/media_image.png" width="650"/></a>
 
 > [!NOTE]
-> Legend :
 >
-> - ✅📸 = Still picture feature supported
-> - ☑️📹 = Video clip feature supported
+> 🖼️ Picture feature is supported for all devices with camera, **does not** require an active subscription to Care+ \
+> 🎞️ Video feature is supported for all devices with camera, **REQUIRE** an active subscription to Care+\
+> 📹 Real-time video stream is not supported yet.
+
+
+---
+
+## Supported devices
 
 ### 🍗 Feeders :
 
@@ -35,16 +43,16 @@ Video feature is not supported yet. it's planned for a future release. (REQUIRE 
 - [x] Fresh Element Infinity
 - [x] Fresh Element Solo
 - [x] Fresh Element Gemini
-- [x] YumShare Solo (with camera) ✅📸
-- [x] YumShare Dual-hopper (with camera) ✅📸
+- [x] YumShare Solo (with camera) ✅📸 ☑️📹
+- [x] YumShare Dual-hopper (with camera) ✅📸 ☑️📹
 
 ### 🚽 Litters :
 
 - [x] PuraX
 - [x] PuraMax
 - [x] PuraMax 2
-- [x] Purobot Max Pro (with camera) ✅📸
-- [x] Purobot Ultra (with camera) ✅📸
+- [x] Purobot Max Pro (with camera) ✅📸 ☑️📹
+- [x] Purobot Ultra (with camera) ✅📸 ☑️📹
 
 ### ⛲ Fountains :
 
@@ -55,13 +63,18 @@ Video feature is not supported yet. it's planned for a future release. (REQUIRE 
 - [x] Eversweet Max
 
 > [!IMPORTANT]
-> Fountain only support reading data, no control is available yet.
-> Control is planned for a future release.
+> Fountain only support reading data, no control is available yet. Control will be added soon !
 
 ### 🧴 Purifiers :
 
 - [x] Air Magicube
 - [x] Air Smart Spray
+
+> [!NOTE]
+> Legend :
+>
+> - ✅📸 = Still picture feature supported
+> - ☑️📹 = Video clip feature supported
 
 ## Feeders special features
 
@@ -121,6 +134,32 @@ Or follow these steps:
 > 3. Once the family is created, click on the Add Family Member button.
 > 4. Add your secondary Petkit account.
 > 5. Finally, log into the Home Assistant integration using your secondary account.
+
+## Configuration options
+
+**Basic configuration :**
+
+* Polling interval : The interval in seconds to poll the Petkit API. (default: 60)
+* Adaptative scan : Enable adaptative scan to reduce polling interval when device is active or an event is detected. (default: true)
+
+<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/config.png"/></a>
+
+**Advanced configuration (media options) :**
+
+* Media refresh interval : The interval in minutes to refresh media list. (default: 5)
+* Fetch image : Enable image fetching for feeders/litter with camera. (default: true)
+* Fetch video : Enable video fetching for feeders/litter  with camera. (default: false)
+* Event type for download : The type of event to download media. (default: Pet, Eat, Feed, Toileting)
+
+<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/media_options.png"/></a>
+
+**Advanced configuration (bluetooth relay options) :**
+
+* Enable bluetooth relay : Enable bluetooth relay for fountain with bluetooth, you need a relay device. (default: true)
+* Bluetooth refresh interval : The interval in minutes to scan bluetooth devices. (default: 30)
+
+<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/bt_options.png"/></a>
+
 
 ## Available languages
 
