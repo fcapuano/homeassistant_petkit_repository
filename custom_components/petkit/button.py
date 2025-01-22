@@ -5,7 +5,6 @@ from __future__ import annotations
 import asyncio
 from collections.abc import Callable
 from dataclasses import dataclass
-from datetime import timedelta
 from typing import TYPE_CHECKING
 
 from pypetkitapi import (
@@ -32,7 +31,7 @@ from pypetkitapi import (
 
 from homeassistant.components.button import ButtonEntity, ButtonEntityDescription
 
-from .const import LOGGER, MIN_SCAN_INTERVAL, POWER_ONLINE_STATE
+from .const import LOGGER, POWER_ONLINE_STATE
 from .entity import PetKitDescSensorBase, PetkitEntity
 
 if TYPE_CHECKING:
@@ -269,8 +268,7 @@ class PetkitButton(PetkitEntity, ButtonEntity):
     async def async_press(self) -> None:
         """Handle the button press."""
         LOGGER.debug("Button pressed: %s", self.entity_description.key)
-        self.coordinator.update_interval = timedelta(seconds=MIN_SCAN_INTERVAL)
-        self.coordinator.fast_poll_tic = 12
+        self.coordinator.enable_smart_polling(12)
         await self.entity_description.action(
             self.coordinator.config_entry.runtime_data.client, self.device
         )

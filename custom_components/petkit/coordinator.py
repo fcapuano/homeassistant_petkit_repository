@@ -34,15 +34,18 @@ from .const import (
     CONF_MEDIA_DL_IMAGE,
     CONF_MEDIA_DL_VIDEO,
     CONF_MEDIA_EV_TYPE,
+    CONF_SMART_POLLING,
     DEFAULT_BLUETOOTH_RELAY,
     DEFAULT_DL_IMAGE,
     DEFAULT_DL_VIDEO,
     DEFAULT_EVENTS,
     DEFAULT_SCAN_INTERVAL,
+    DEFAULT_SMART_POLLING,
     DOMAIN,
     LOGGER,
     MEDIA_PATH,
     MEDIA_SECTION,
+    MIN_SCAN_INTERVAL,
 )
 
 
@@ -57,19 +60,38 @@ class PetkitDataUpdateCoordinator(DataUpdateCoordinator):
         self.curent_devices = set()
         self.fast_poll_tic = 0
 
-    async def _async_update_data(
-        self,
-    ) -> dict[int, Feeder | Litter | WaterFountain | Purifier | Pet]:
-        """Update data via library."""
+    def enable_smart_polling(self, nb_tic: int) -> None:
+        """Enable smart polling."""
+        if self.fast_poll_tic > 0:
+            LOGGER.debug(f"Fast poll tic already enabled for {self.fast_poll_tic} tics")
+            return
 
+        if not self.config_entry.options.get(CONF_SMART_POLLING, DEFAULT_SMART_POLLING):
+            LOGGER.debug("Smart polling is disabled by configuration")
+            return
+
+        self.update_interval = timedelta(seconds=MIN_SCAN_INTERVAL)
+        self.fast_poll_tic = nb_tic
+        LOGGER.debug(
+            f"Fast poll tic enabled for {nb_tic} tics (at {MIN_SCAN_INTERVAL}sec interval)"
+        )
+
+    async def update_smart_polling(self) -> None:
+        """Update smart polling."""
         if self.fast_poll_tic > 0:
             self.fast_poll_tic -= 1
-            LOGGER.debug(f"Fast track tic remaining = {self.fast_poll_tic}")
+            LOGGER.debug(f"Fast poll tic remaining = {self.fast_poll_tic}")
         elif self.fast_poll_tic <= 0 and self.update_interval != timedelta(
             seconds=DEFAULT_SCAN_INTERVAL
         ):
             self.update_interval = timedelta(seconds=DEFAULT_SCAN_INTERVAL)
-            LOGGER.debug("Fast track tic reset to default scan interval")
+            LOGGER.debug("Fast poll tic ended, reset to default scan interval")
+
+    async def _async_update_data(
+        self,
+    ) -> dict[int, Feeder | Litter | WaterFountain | Purifier | Pet]:
+        """Update data via library."""
+        await self.update_smart_polling()
 
         try:
             await self.config_entry.runtime_data.client.get_devices_data()

@@ -39,15 +39,14 @@ from .const import (
     ALL_TIMEZONES_LST,
     BT_SECTION,
     CODE_TO_COUNTRY_DICT,
-    CONF_ADAPTIVE_SCAN,
     CONF_BLE_RELAY_ENABLED,
     CONF_MEDIA_DL_IMAGE,
     CONF_MEDIA_DL_VIDEO,
     CONF_MEDIA_EV_TYPE,
     CONF_SCAN_INTERVAL_BLUETOOTH,
     CONF_SCAN_INTERVAL_MEDIA,
+    CONF_SMART_POLLING,
     COUNTRY_TO_CODE_DICT,
-    DEFAULT_ADAPTATIVE_SCAN,
     DEFAULT_BLUETOOTH_RELAY,
     DEFAULT_DL_IMAGE,
     DEFAULT_DL_VIDEO,
@@ -55,6 +54,7 @@ from .const import (
     DEFAULT_SCAN_INTERVAL,
     DEFAULT_SCAN_INTERVAL_BLUETOOTH,
     DEFAULT_SCAN_INTERVAL_MEDIA,
+    DEFAULT_SMART_POLLING,
     DOMAIN,
     LOGGER,
     MEDIA_SECTION,
@@ -82,9 +82,9 @@ class PetkitOptionsFlowHandler(OptionsFlow):
                         ),
                     ): vol.All(int, vol.Range(min=15, max=3600)),
                     vol.Required(
-                        CONF_ADAPTIVE_SCAN,
+                        CONF_SMART_POLLING,
                         default=self.config_entry.options.get(
-                            CONF_ADAPTIVE_SCAN, DEFAULT_ADAPTATIVE_SCAN
+                            CONF_SMART_POLLING, DEFAULT_SMART_POLLING
                         ),
                     ): BooleanSelector(BooleanSelectorConfig()),
                     vol.Required(MEDIA_SECTION): section(
@@ -226,7 +226,7 @@ class PetkitFlowHandler(ConfigFlow, domain=DOMAIN):
                         data=user_input,
                         options={
                             CONF_SCAN_INTERVAL: DEFAULT_SCAN_INTERVAL,
-                            CONF_ADAPTIVE_SCAN: DEFAULT_ADAPTATIVE_SCAN,
+                            CONF_SMART_POLLING: DEFAULT_SMART_POLLING,
                             MEDIA_SECTION: {
                                 CONF_SCAN_INTERVAL_MEDIA: DEFAULT_SCAN_INTERVAL_MEDIA,
                                 CONF_MEDIA_DL_IMAGE: DEFAULT_DL_IMAGE,

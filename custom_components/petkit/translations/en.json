@@ -580,13 +580,13 @@
     "step": {
       "init": {
         "data": {
-          "adaptive_scan": "Adaptive scan",
           "region": "Region",
-          "scan_interval": "Polling interval (seconds)",
+          "scan_interval": "Default polling interval (seconds)",
+          "smart_polling": "Smart polling",
           "time_zone": "Timezone"
         },
         "data_description": {
-          "adaptive_scan": "Adaptive scan will adjust the polling interval based on the devices's event/action."
+          "smart_polling": "Smart polling will automatically adjust the polling interval based on the devices's event/action."
         },
         "sections": {
           "bluetooth_options": {

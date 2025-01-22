@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import timedelta
 from typing import TYPE_CHECKING
 
 from pypetkitapi import D4S, D4SH, T4, T6, Feeder, Litter, Pet, Purifier, WaterFountain
@@ -15,7 +14,6 @@ from homeassistant.components.binary_sensor import (
 )
 from homeassistant.const import EntityCategory
 
-from .const import MIN_SCAN_INTERVAL
 from .entity import PetKitDescSensorBase, PetkitEntity
 
 if TYPE_CHECKING:
@@ -230,8 +228,7 @@ class PetkitBinarySensor(PetkitEntity, BinarySensorEntity):
                 and value
                 and self.coordinator.fast_poll_tic < 1
             ):
-                self.coordinator.update_interval = timedelta(seconds=MIN_SCAN_INTERVAL)
-                self.coordinator.fast_poll_tic = 12
+                self.coordinator.enable_smart_polling(12)
 
             return value
         return None
