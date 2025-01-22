@@ -213,7 +213,7 @@ Thanks to :
 [discord]: https://discord.gg/Va8DrmtweP
 [discord-shield]: https://img.shields.io/discord/1318098700379361362.svg?style=for-the-badge&label=Discord&logo=discord&color=5865F2
 [forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg?style=for-the-badge&label=Home%20Assistant%20Community&logo=homeassistant&color=18bcf2
-[forum]: https://community.home-assistant.io/
+[forum]: https://community.home-assistant.io/t/petkit-integration/834431
 [license-shield]: https://img.shields.io/github/license/Jezza34000/homeassistant_petkit.svg??style=flat
 [maintenance-shield]: https://img.shields.io/badge/maintainer-Jezza34000-blue.svg?style=flat
 [releases-shield]: https://img.shields.io/github/release/Jezza34000/homeassistant_petkit.svg?style=for-the-badge&color=41BDF5
