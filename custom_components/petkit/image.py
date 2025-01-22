@@ -147,7 +147,7 @@ class PetkitImage(PetkitEntity, ImageEntity):
         """Return bytes of image asynchronously."""
         event_key = self.entity_description.event_key
         media_table = self.coordinator.media_table
-        no_img = Path(__file__).parent / "media" / "no-image.png"
+        no_img = Path(__file__).parent / "img" / "no-image.png"
 
         if not media_table:
             LOGGER.error("No media files found")
