@@ -13,6 +13,11 @@
           "time_zone": "Timezone",
           "username": "Username/Id"
         },
+        "data_description": {
+          "region": "This field is automatically completed based on your Home Assistant configuration. If you have a different region, please select it from the list.",
+          "time_zone": "This field is automatically completed based on your Home Assistant configuration. If you have a different timezone, please select it from the list.",
+          "username": "Enter your PetKit account email, or id if your are a Chinese user"
+        },
         "description": "Please enter your PetKit account details."
       }
     }
@@ -246,6 +251,9 @@
       },
       "food_left": {
         "name": "Food left"
+      },
+      "last_connection": {
+        "name": "Last ble relay connection"
       },
       "last_update": {
         "name": "Last update"
@@ -572,22 +580,43 @@
     "step": {
       "init": {
         "data": {
-          "ble_relay_enabled": "Enable BLE relay",
-          "media_dl_image": "Get device's images",
-          "media_dl_video": "Get device's videos",
-          "media_ev_type": "Event type to download",
+          "adaptive_scan": "Adaptive scan",
           "region": "Region",
           "scan_interval": "Polling interval (seconds)",
-          "scan_interval_bluetooth": "Bluetooth refresh interval (minutes)",
-          "scan_interval_media": "Media refresh interval (minutes)",
           "time_zone": "Timezone"
         },
         "data_description": {
-          "ble_relay_enabled": "This option is only for fountain, bluetooth relay is only available if you own device can act as relay (feeder, litter) see Petkit app for more information",
-          "media_dl_image": "Download all image from your devices, filtered by event selected below (do not require an active Care+ subscription)",
-          "media_dl_video": "Download all videos from your devices, filtered by event selected below. (required an active Care+ subscription)",
-          "scan_interval_media": "Interval to download new media of devices (images and videos) from Petkit's servers"
-        }
+          "adaptive_scan": "Adaptive scan will adjust the polling interval based on the devices's event/action."
+        },
+        "sections": {
+          "bluetooth_options": {
+            "data": {
+              "ble_relay_enabled": "Enable bluetooth relay",
+              "scan_interval_bluetooth": "Bluetooth refresh interval (minutes)"
+            },
+            "data_description": {
+              "ble_relay_enabled": "If disabled, fountain updates will only occur when the device is refreshed via the app."
+            },
+            "description": "These options are only effective if you have a fountain and at least one device that can act as a bluetooth relay (e.g., feeder, litter box). Refer to the Petkit app for more information.",
+            "name": "Bluetooth options"
+          },
+          "medias_options": {
+            "data": {
+              "media_dl_image": "Fetch images",
+              "media_dl_video": "Fetch videos",
+              "media_ev_type": "Event type for download",
+              "scan_interval_media": "Media refresh interval (minutes)"
+            },
+            "data_description": {
+              "media_dl_image": "Download all images from your devices, filtered by the selected events below (no active Care+ subscription required).",
+              "media_dl_video": "Download all videos from your devices, filtered by the selected events below. (required an active Care+ subscription)",
+              "scan_interval_media": "Interval for downloading new media (images and videos) from Petkit's servers."
+            },
+            "description": "These options are only effective if you have at least one device (e.g., feeder, litter box) capable of capturing images & videos",
+            "name": "Media options"
+          }
+        },
+        "title": "Petkit integration configuration"
       }
     }
   }

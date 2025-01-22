@@ -283,6 +283,9 @@
           "warning": "mdi:alert"
         }
       },
+      "last_connection": {
+        "default": "mdi:bluetooth"
+      },
       "last_eat_event": {
         "default": "mdi:calendar-star"
       },

@@ -7,11 +7,13 @@ from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Any, Callable
 
 from pypetkitapi import (
+    CTW3,
     D4S,
     K2,
     T4,
     T5,
     T6,
+    W5,
     Feeder,
     Litter,
     Pet,
@@ -44,7 +46,10 @@ if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
     from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-    from .coordinator import PetkitDataUpdateCoordinator
+    from .coordinator import (
+        PetkitBluetoothUpdateCoordinator,
+        PetkitDataUpdateCoordinator,
+    )
     from .data import PetkitConfigEntry, PetkitDevices
 
 
@@ -54,6 +59,7 @@ class PetKitSensorDesc(PetKitDescSensorBase, SensorEntityDescription):
 
     entity_picture: Callable[[PetkitDevices], str | None] | None = None
     restore_state: bool = False
+    bluetooth_coordinator: bool = False
 
 
 COMMON_ENTITIES = [
@@ -448,6 +454,19 @@ SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitSensorDesc]] = {
             native_unit_of_measurement=PERCENTAGE,
             value=lambda device: device.electricity.battery_percent,
         ),
+        PetKitSensorDesc(
+            key="Last connection",
+            translation_key="last_connection",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            device_class=SensorDeviceClass.TIMESTAMP,
+            value=lambda device, coordinator_bluetooth: (
+                coordinator_bluetooth.last_update_timestamps.get(device.id)
+                if coordinator_bluetooth.last_update_timestamps.get(device.id)
+                else None
+            ),
+            bluetooth_coordinator=True,
+            force_add=[CTW3, W5],
+        ),
     ],
     Purifier: [
         *COMMON_ENTITIES,
@@ -541,6 +560,7 @@ async def async_setup_entry(
     entities = [
         PetkitSensor(
             coordinator=entry.runtime_data.coordinator,
+            coordinator_bluetooth=entry.runtime_data.coordinator_bluetooth,
             entity_description=entity_description,
             device=device,
         )
@@ -561,18 +581,24 @@ class PetkitSensor(PetkitEntity, SensorEntity):
     def __init__(
         self,
         coordinator: PetkitDataUpdateCoordinator,
+        coordinator_bluetooth: PetkitBluetoothUpdateCoordinator,
         entity_description: PetKitSensorDesc,
-        device: Feeder | Litter | WaterFountain,
+        device: PetkitDevices,
     ) -> None:
         """Initialize the binary_sensor class."""
         super().__init__(coordinator, device)
         self.coordinator = coordinator
+        self.coordinator_bluetooth = coordinator_bluetooth
         self.entity_description = entity_description
         self.device = device
 
     @property
     def native_value(self) -> Any:
         """Return the state of the sensor."""
+        if self.entity_description.bluetooth_coordinator:
+            return self.entity_description.value(
+                self.device, self.coordinator_bluetooth
+            )
         device_data = self.coordinator.data.get(self.device.id)
         if device_data:
             return self.entity_description.value(device_data)
