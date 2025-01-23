@@ -59,7 +59,7 @@ from .const import (
     DEFAULT_SMART_POLLING,
     DOMAIN,
     LOGGER,
-    MEDIA_SECTION,
+    MEDIA_SECTION, CONF_MEDIA_PATH, DEFAULT_MEDIA_PATH,
 )
 
 
@@ -92,6 +92,12 @@ class PetkitOptionsFlowHandler(OptionsFlow):
                     vol.Required(MEDIA_SECTION): section(
                         vol.Schema(
                             {
+                                vol.Required(
+                                    CONF_MEDIA_PATH,
+                                    default=self.config_entry.options.get(
+                                        MEDIA_SECTION, {}
+                                    ).get(CONF_MEDIA_PATH, DEFAULT_MEDIA_PATH),
+                                ): vol.All(str),
                                 vol.Required(
                                     CONF_SCAN_INTERVAL_MEDIA,
                                     default=self.config_entry.options.get(
@@ -236,6 +242,7 @@ class PetkitFlowHandler(ConfigFlow, domain=DOMAIN):
                             CONF_SCAN_INTERVAL: DEFAULT_SCAN_INTERVAL,
                             CONF_SMART_POLLING: DEFAULT_SMART_POLLING,
                             MEDIA_SECTION: {
+                                CONF_MEDIA_PATH: DEFAULT_MEDIA_PATH,
                                 CONF_SCAN_INTERVAL_MEDIA: DEFAULT_SCAN_INTERVAL_MEDIA,
                                 CONF_MEDIA_DL_IMAGE: DEFAULT_DL_IMAGE,
                                 CONF_MEDIA_DL_VIDEO: DEFAULT_DL_VIDEO,

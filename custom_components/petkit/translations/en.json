@@ -602,6 +602,7 @@
           },
           "medias_options": {
             "data": {
+              "media_path": "Media path",
               "delete_media_after": "Delete media after (days)",
               "media_dl_image": "Fetch images",
               "media_dl_video": "Fetch videos",
@@ -609,6 +610,7 @@
               "scan_interval_media": "Media refresh interval (minutes)"
             },
             "data_description": {
+              "media_path": "Path where the media will be stored. If not specified, the media will be stored in /media Home Assistant folder.",
               "delete_media_after": "Delete downloaded media after the specified number of days. (0 = never delete)",
               "media_dl_image": "Download all images from your devices, filtered by the selected events below (no active Care+ subscription required).",
               "media_dl_video": "Download all videos from your devices, filtered by the selected events below. (required an active Care+ subscription)",

@@ -48,9 +48,8 @@ from .const import (
     DEFAULT_SMART_POLLING,
     DOMAIN,
     LOGGER,
-    MEDIA_PATH,
     MEDIA_SECTION,
-    MIN_SCAN_INTERVAL,
+    MIN_SCAN_INTERVAL, DEFAULT_MEDIA_PATH, CONF_MEDIA_PATH,
 )
 
 
@@ -144,6 +143,7 @@ class PetkitMediaUpdateCoordinator(DataUpdateCoordinator):
         self.previous_devices = set()
         self.media_table = {}
         self.delete_after = 0
+        self.media_path = Path()
         # Load configuration
         self._get_media_config(config_entry.options)
 
@@ -153,6 +153,7 @@ class PetkitMediaUpdateCoordinator(DataUpdateCoordinator):
         event_type_config = media_options.get(CONF_MEDIA_EV_TYPE, DEFAULT_EVENTS)
         dl_image = media_options.get(CONF_MEDIA_DL_IMAGE, DEFAULT_DL_IMAGE)
         dl_video = media_options.get(CONF_MEDIA_DL_VIDEO, DEFAULT_DL_VIDEO)
+        self.media_path = Path(media_options.get(CONF_MEDIA_PATH, DEFAULT_MEDIA_PATH))
         self.delete_after = media_options.get(CONF_DELETE_AFTER, DEFAULT_DELETE_AFTER)
 
         self.event_type = [RecordType(element.lower()) for element in event_type_config]
@@ -175,7 +176,6 @@ class PetkitMediaUpdateCoordinator(DataUpdateCoordinator):
     async def _async_update_media_files(self, devices_lst: set) -> None:
         """Update media files."""
         client = self.config_entry.runtime_data.client
-        media_path = Path(MEDIA_PATH)
 
         for device in devices_lst:
             if not hasattr(client.petkit_entities[device], "medias"):
@@ -189,12 +189,12 @@ class PetkitMediaUpdateCoordinator(DataUpdateCoordinator):
                 continue
 
             LOGGER.debug(f"Gathering medias files onto disk for device id = {device}")
-            await client.media_manager.gather_all_media_from_disk(media_path, device)
+            await client.media_manager.gather_all_media_from_disk(self.media_path, device)
             to_dl = await client.media_manager.list_missing_files(
                 media_lst, self.media_type, self.event_type
             )
 
-            dl_mgt = DownloadDecryptMedia(media_path, client)
+            dl_mgt = DownloadDecryptMedia(self.media_path, client)
             for media in to_dl:
                 await dl_mgt.download_file(media, self.media_type)
             LOGGER.debug(
@@ -202,7 +202,7 @@ class PetkitMediaUpdateCoordinator(DataUpdateCoordinator):
             )
             self.media_table[device] = (
                 await client.media_manager.gather_all_media_from_disk(
-                    media_path, device
+                    self.media_path, device
                 )
             )
         LOGGER.debug("Update media files finished for all devices")
@@ -215,10 +215,9 @@ class PetkitMediaUpdateCoordinator(DataUpdateCoordinator):
             return
 
         retention_date = datetime.now() - timedelta(days=self.delete_after)
-        media_path = Path(MEDIA_PATH)
 
         for device_id in self.data_coordinator.current_devices:
-            device_media_path = media_path / str(device_id)
+            device_media_path = self.media_path / str(device_id)
             if not await aiofiles.os.path.exists(str(device_media_path)):
                 continue
 
