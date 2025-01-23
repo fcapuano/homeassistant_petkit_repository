@@ -222,8 +222,13 @@ class PetkitMediaUpdateCoordinator(DataUpdateCoordinator):
             if not await aiofiles.os.path.exists(str(device_media_path)):
                 continue
 
-            # Iterate through directories
-            for date_dir in device_media_path.iterdir():
+            try:
+                date_dirs = await asyncio.to_thread(lambda: list(device_media_path.iterdir()))
+            except FileNotFoundError:
+                LOGGER.warning(f"Device media path not found: {device_media_path}")
+                continue
+
+            for date_dir in date_dirs:
                 if date_dir.is_dir():
                     try:
                         dir_date = datetime.strptime(date_dir.name, "%Y%m%d")
