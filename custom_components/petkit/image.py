@@ -12,17 +12,15 @@ import aiofiles
 from pypetkitapi import (
     FEEDER_WITH_CAMERA,
     LITTER_WITH_CAMERA,
-    DownloadDecryptMedia,
     Feeder,
     Litter,
-    MediaFile,
     Pet,
     WaterFountain,
 )
 
 from homeassistant.components.image import ImageEntity, ImageEntityDescription
 
-from .const import CONF_MEDIA_DL_IMAGE, LOGGER
+from .const import CONF_MEDIA_DL_IMAGE, LOGGER, MEDIA_SECTION
 from .entity import PetKitDescSensorBase, PetkitEntity
 
 if TYPE_CHECKING:
@@ -118,12 +116,7 @@ class PetkitImage(PetkitEntity, ImageEntity):
         self.entity_description = entity_description
         self.config_entry = config_entry
         self.device = device
-        self.media_downloader = DownloadDecryptMedia(
-            (Path(__file__).parent / "media"),
-            self.coordinator.config_entry.runtime_data.client,
-        )
         self.media_list = []
-        self._last_image_timestamp: datetime.datetime | None = None
         self._last_image_filename: str | None = None
 
     @property
@@ -132,14 +125,9 @@ class PetkitImage(PetkitEntity, ImageEntity):
         return f"{self.device.device_nfo.device_type}_{self.device.sn}_{self.entity_description.key}"
 
     @property
-    def image_last_updated(self) -> datetime.datetime | None:
-        """Return timestamp of last image update."""
-        return self._last_image_timestamp
-
-    @property
     def available(self) -> bool:
         """Return if this button is available or not"""
-        if self.config_entry.get(CONF_MEDIA_DL_IMAGE, False):
+        if self.config_entry.get(MEDIA_SECTION, {}).get(CONF_MEDIA_DL_IMAGE, False):
             return True
         return False
 
@@ -172,7 +160,7 @@ class PetkitImage(PetkitEntity, ImageEntity):
         )
 
         image_path = latest_media_file.full_file_path
-        self._last_image_timestamp = datetime.datetime.fromtimestamp(
+        self._attr_image_last_updated = datetime.datetime.fromtimestamp(
             latest_media_file.timestamp
         )
         self._last_image_filename = image_path.name
@@ -190,20 +178,3 @@ class PetkitImage(PetkitEntity, ImageEntity):
         except FileNotFoundError:
             LOGGER.error("Unable to read image file")
             return None
-
-    async def get_latest_media_file(self, event_type: str) -> MediaFile | None:
-        """Find the MediaFile with the most recent timestamp for the specified event_type."""
-        filtered_files = [
-            media for media in self.media_list if media.event_type == event_type
-        ]
-        if not filtered_files:
-            return None
-        return max(filtered_files, key=lambda media: media.timestamp)
-
-    async def _get_filename_and_timestamp_for_event_key(self, media_files, event_key):
-        """Parse media files and return the filename and timestamp for the given event key."""
-        for media_file in media_files:
-            if media_file.record_type == event_key:
-                timestamp = datetime.datetime.fromtimestamp(media_file.timestamp)
-                self._last_image_timestamp = timestamp
-                self._last_image_filename = media_file.filename
