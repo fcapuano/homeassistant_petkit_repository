@@ -222,8 +222,11 @@ class PetkitMediaUpdateCoordinator(DataUpdateCoordinator):
             if not await aiofiles.os.path.exists(str(device_media_path)):
                 continue
 
+            def list_directory(path):
+                return list(path.iterdir())
+
             try:
-                date_dirs = await asyncio.to_thread(lambda: list(device_media_path.iterdir()))
+                date_dirs = await asyncio.to_thread(list_directory, device_media_path)
             except FileNotFoundError:
                 LOGGER.warning(f"Device media path not found: {device_media_path}")
                 continue
@@ -236,7 +239,9 @@ class PetkitMediaUpdateCoordinator(DataUpdateCoordinator):
                             LOGGER.debug(f"Deleting old media files in {date_dir}")
                             await asyncio.to_thread(shutil.rmtree, date_dir)
                     except ValueError:
-                        LOGGER.warning(f"Invalid date format in directory name: {date_dir.name}")
+                        LOGGER.warning(
+                            f"Invalid date format in directory name: {date_dir.name}"
+                        )
 
 
 class PetkitBluetoothUpdateCoordinator(DataUpdateCoordinator):
