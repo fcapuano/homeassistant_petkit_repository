@@ -5,8 +5,11 @@ from __future__ import annotations
 import asyncio
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+import shutil
 from typing import Any
 
+import aiofiles
+import aiofiles.os
 from pypetkitapi import (
     DownloadDecryptMedia,
     Feeder,
@@ -31,11 +34,13 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, Upda
 from .const import (
     BT_SECTION,
     CONF_BLE_RELAY_ENABLED,
+    CONF_DELETE_AFTER,
     CONF_MEDIA_DL_IMAGE,
     CONF_MEDIA_DL_VIDEO,
     CONF_MEDIA_EV_TYPE,
     CONF_SMART_POLLING,
     DEFAULT_BLUETOOTH_RELAY,
+    DEFAULT_DELETE_AFTER,
     DEFAULT_DL_IMAGE,
     DEFAULT_DL_VIDEO,
     DEFAULT_EVENTS,
@@ -137,8 +142,10 @@ class PetkitMediaUpdateCoordinator(DataUpdateCoordinator):
         self.media_type = []
         self.event_type = []
         self.previous_devices = set()
-        self._get_media_config(config_entry.options)
         self.media_table = {}
+        self.delete_after = 0
+        # Load configuration
+        self._get_media_config(config_entry.options)
 
     def _get_media_config(self, options) -> None:
         """Get media configuration."""
@@ -146,6 +153,7 @@ class PetkitMediaUpdateCoordinator(DataUpdateCoordinator):
         event_type_config = media_options.get(CONF_MEDIA_EV_TYPE, DEFAULT_EVENTS)
         dl_image = media_options.get(CONF_MEDIA_DL_IMAGE, DEFAULT_DL_IMAGE)
         dl_video = media_options.get(CONF_MEDIA_DL_VIDEO, DEFAULT_DL_VIDEO)
+        self.delete_after = media_options.get(CONF_DELETE_AFTER, DEFAULT_DELETE_AFTER)
 
         self.event_type = [RecordType(element.lower()) for element in event_type_config]
 
@@ -197,8 +205,33 @@ class PetkitMediaUpdateCoordinator(DataUpdateCoordinator):
                     media_path, device
                 )
             )
-
         LOGGER.debug("Update media files finished for all devices")
+        await self._async_delete_old_media()
+
+    async def _async_delete_old_media(self) -> None:
+        """Delete old media files based on the retention policy."""
+        if self.delete_after == 0:
+            LOGGER.debug("Media deletion is disabled by configuration")
+            return
+
+        retention_date = datetime.now() - timedelta(days=self.delete_after)
+        media_path = Path(MEDIA_PATH)
+
+        for device_id in self.data_coordinator.current_devices:
+            device_media_path = media_path / str(device_id)
+            if not await aiofiles.os.path.exists(str(device_media_path)):
+                continue
+
+            # Iterate through directories
+            for date_dir in device_media_path.iterdir():
+                if date_dir.is_dir():
+                    try:
+                        dir_date = datetime.strptime(date_dir.name, "%Y%m%d")
+                        if dir_date < retention_date:
+                            LOGGER.debug(f"Deleting old media files in {date_dir}")
+                            await asyncio.to_thread(shutil.rmtree, date_dir)
+                    except ValueError:
+                        LOGGER.warning(f"Invalid date format in directory name: {date_dir.name}")
 
 
 class PetkitBluetoothUpdateCoordinator(DataUpdateCoordinator):

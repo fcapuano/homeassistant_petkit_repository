@@ -40,6 +40,7 @@ from .const import (
     BT_SECTION,
     CODE_TO_COUNTRY_DICT,
     CONF_BLE_RELAY_ENABLED,
+    CONF_DELETE_AFTER,
     CONF_MEDIA_DL_IMAGE,
     CONF_MEDIA_DL_VIDEO,
     CONF_MEDIA_EV_TYPE,
@@ -48,6 +49,7 @@ from .const import (
     CONF_SMART_POLLING,
     COUNTRY_TO_CODE_DICT,
     DEFAULT_BLUETOOTH_RELAY,
+    DEFAULT_DELETE_AFTER,
     DEFAULT_DL_IMAGE,
     DEFAULT_DL_VIDEO,
     DEFAULT_EVENTS,
@@ -129,6 +131,12 @@ class PetkitOptionsFlowHandler(OptionsFlow):
                                         ],
                                     )
                                 ),
+                                vol.Required(
+                                    CONF_DELETE_AFTER,
+                                    default=self.config_entry.options.get(
+                                        MEDIA_SECTION, {}
+                                    ).get(CONF_DELETE_AFTER, DEFAULT_DELETE_AFTER),
+                                ): vol.All(int, vol.Range(min=0, max=30)),
                             }
                         ),
                         {"collapsed": False},
@@ -232,6 +240,7 @@ class PetkitFlowHandler(ConfigFlow, domain=DOMAIN):
                                 CONF_MEDIA_DL_IMAGE: DEFAULT_DL_IMAGE,
                                 CONF_MEDIA_DL_VIDEO: DEFAULT_DL_VIDEO,
                                 CONF_MEDIA_EV_TYPE: DEFAULT_EVENTS,
+                                CONF_DELETE_AFTER: DEFAULT_DELETE_AFTER,
                             },
                             BT_SECTION: {
                                 CONF_BLE_RELAY_ENABLED: DEFAULT_BLUETOOTH_RELAY,

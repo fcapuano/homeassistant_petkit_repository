@@ -602,12 +602,14 @@
           },
           "medias_options": {
             "data": {
+              "delete_media_after": "Delete media after (days)",
               "media_dl_image": "Fetch images",
               "media_dl_video": "Fetch videos",
               "media_ev_type": "Event type for download",
               "scan_interval_media": "Media refresh interval (minutes)"
             },
             "data_description": {
+              "delete_media_after": "Delete downloaded media after the specified number of days. (0 = never delete)",
               "media_dl_image": "Download all images from your devices, filtered by the selected events below (no active Care+ subscription required).",
               "media_dl_video": "Download all videos from your devices, filtered by the selected events below. (required an active Care+ subscription)",
               "scan_interval_media": "Interval for downloading new media (images and videos) from Petkit's servers."

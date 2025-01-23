@@ -5,7 +5,7 @@ from logging import Logger, getLogger
 LOGGER: Logger = getLogger(__package__)
 DOMAIN = "petkit"
 
-MEDIA_PATH = "/media"
+MEDIA_PATH = "media"
 
 # Configuration
 CONF_SCAN_INTERVAL_MEDIA = "scan_interval_media"
@@ -19,7 +19,7 @@ MEDIA_SECTION = "medias_options"
 CONF_MEDIA_DL_VIDEO = "media_dl_video"
 CONF_MEDIA_DL_IMAGE = "media_dl_image"
 CONF_MEDIA_EV_TYPE = "media_ev_type"
-
+CONF_DELETE_AFTER = "delete_media_after"
 
 # Default configuration values
 DEFAULT_SCAN_INTERVAL = 60
@@ -30,6 +30,7 @@ DEFAULT_DL_VIDEO = False
 DEFAULT_DL_IMAGE = True
 DEFAULT_SMART_POLLING = True
 DEFAULT_BLUETOOTH_RELAY = True
+DEFAULT_DELETE_AFTER = 3
 
 # Update interval
 MAX_SCAN_INTERVAL = 120
