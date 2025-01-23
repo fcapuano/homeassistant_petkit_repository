@@ -146,10 +146,16 @@ Or follow these steps:
 
 **Advanced configuration (media options) :**
 
+- Media path : The path to store media files. (default: /media)
+
+> [!IMPORTANT]
+> It's recommended to use an external storage to store media files. As the device can generate a lot of media files, it can fill up your Home Assistant storage quickly. Specially if you have "Fetch video"  option enabled.
+
 - Media refresh interval : The interval in minutes to refresh media list. (default: 5)
 - Fetch image : Enable image fetching for feeders/litter with camera. (default: true)
 - Fetch video : Enable video fetching for feeders/litter with camera. (default: false)
 - Event type for download : The type of event to download media. (default: Eat, Feed, Toileting)
+- Delete media after (days) : The number of days to keep media files. (default: 3) Set to 0 to keep all files.
 
 <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/media_options.png"/></a>
 
