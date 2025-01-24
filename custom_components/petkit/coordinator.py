@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+from copy import deepcopy
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 import shutil
@@ -200,11 +201,7 @@ class PetkitMediaUpdateCoordinator(DataUpdateCoordinator):
             LOGGER.debug(
                 f"Downloaded all medias for device id = {device} is OK (got {len(to_dl)} files to download)"
             )
-            self.media_table[device] = (
-                await client.media_manager.gather_all_media_from_disk(
-                    self.media_path, device
-                )
-            )
+            self.media_table[device] = deepcopy(await client.media_manager.gather_all_media_from_disk(self.media_path, device))
         LOGGER.debug("Update media files finished for all devices")
         await self._async_delete_old_media()
 
