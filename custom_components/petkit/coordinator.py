@@ -59,7 +59,7 @@ class PetkitDataUpdateCoordinator(DataUpdateCoordinator):
 
     def __init__(self, hass, logger, name, update_interval, config_entry):
         """Initialize the data update coordinator."""
-        super().__init__(hass, logger, name=name, update_interval=update_interval)
+        super().__init__(hass, logger, name=name, update_interval=update_interval, config_entry=config_entry)
         self.config_entry = config_entry
         self.previous_devices = set()
         self.curent_devices = set()
@@ -136,7 +136,7 @@ class PetkitMediaUpdateCoordinator(DataUpdateCoordinator):
         self, hass, logger, name, update_interval, config_entry, data_coordinator
     ):
         """Initialize the data update coordinator."""
-        super().__init__(hass, logger, name=name, update_interval=update_interval)
+        super().__init__(hass, logger, name=name, update_interval=update_interval, config_entry=config_entry)
         self.config_entry = config_entry
         self.data_coordinator = data_coordinator
         self.media_type = []
@@ -247,7 +247,7 @@ class PetkitBluetoothUpdateCoordinator(DataUpdateCoordinator):
         self, hass, logger, name, update_interval, config_entry, data_coordinator
     ):
         """Initialize the data update coordinator."""
-        super().__init__(hass, logger, name=name, update_interval=update_interval)
+        super().__init__(hass, logger, name=name, update_interval=update_interval, config_entry=config_entry)
         self.config = config_entry
         self.data_coordinator = data_coordinator
         self.last_update_timestamps = {}
