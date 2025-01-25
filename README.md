@@ -60,45 +60,6 @@ Easily view and manage all your videos and images of your beloved pets right fro
 |                | ✅ Air Smart Spray        | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/k3.png" width="40"/></a>         |
 
 
-## Supported devices
-
-### 🍗 Feeders :
-
-- Fresh Element
-
-- [x] Fresh Element
-- [x] Fresh Element Mini Pro
-- [x] Fresh Element Infinity
-- [x] Fresh Element Solo
-- [x] Fresh Element Gemini
-- [x] YumShare Solo (with camera) 📸📹
-- [x] YumShare Dual-hopper (with camera) 📸📹
-
-### 🚽 Litters :
-
-- [x] PuraX
-- [x] PuraMax
-- [x] PuraMax 2
-- [x] Purobot Max Pro (with camera) 📸📹
-- [x] Purobot Ultra (with camera) 📸📹
-
-### ⛲ Fountains :
-
-- [x] Eversweet Solo 2
-- [x] Eversweet 3 Pro
-- [x] Eversweet 3 Pro UVC
-- [x] Eversweet 5 Mini
-- [x] Eversweet Max
-
-> [!IMPORTANT]
-> Fountain only support reading data, no control is available yet. Control will be added soon !
-
-### 🧴 Purifiers :
-
-- [x] Air Magicube
-- [x] Air Smart Spray
-
-
 ## Feeders special features
 
 Add feeding Schedule card for feeders :
