@@ -39,18 +39,20 @@ from .const import (
     CONF_MEDIA_DL_IMAGE,
     CONF_MEDIA_DL_VIDEO,
     CONF_MEDIA_EV_TYPE,
+    CONF_MEDIA_PATH,
     CONF_SMART_POLLING,
     DEFAULT_BLUETOOTH_RELAY,
     DEFAULT_DELETE_AFTER,
     DEFAULT_DL_IMAGE,
     DEFAULT_DL_VIDEO,
     DEFAULT_EVENTS,
+    DEFAULT_MEDIA_PATH,
     DEFAULT_SCAN_INTERVAL,
     DEFAULT_SMART_POLLING,
     DOMAIN,
     LOGGER,
     MEDIA_SECTION,
-    MIN_SCAN_INTERVAL, DEFAULT_MEDIA_PATH, CONF_MEDIA_PATH,
+    MIN_SCAN_INTERVAL,
 )
 
 
@@ -59,7 +61,13 @@ class PetkitDataUpdateCoordinator(DataUpdateCoordinator):
 
     def __init__(self, hass, logger, name, update_interval, config_entry):
         """Initialize the data update coordinator."""
-        super().__init__(hass, logger, name=name, update_interval=update_interval, config_entry=config_entry)
+        super().__init__(
+            hass,
+            logger,
+            name=name,
+            update_interval=update_interval,
+            config_entry=config_entry,
+        )
         self.config_entry = config_entry
         self.previous_devices = set()
         self.curent_devices = set()
@@ -136,7 +144,13 @@ class PetkitMediaUpdateCoordinator(DataUpdateCoordinator):
         self, hass, logger, name, update_interval, config_entry, data_coordinator
     ):
         """Initialize the data update coordinator."""
-        super().__init__(hass, logger, name=name, update_interval=update_interval, config_entry=config_entry)
+        super().__init__(
+            hass,
+            logger,
+            name=name,
+            update_interval=update_interval,
+            config_entry=config_entry,
+        )
         self.config_entry = config_entry
         self.data_coordinator = data_coordinator
         self.media_type = []
@@ -190,7 +204,9 @@ class PetkitMediaUpdateCoordinator(DataUpdateCoordinator):
                 continue
 
             LOGGER.debug(f"Gathering medias files onto disk for device id = {device}")
-            await client.media_manager.gather_all_media_from_disk(self.media_path, device)
+            await client.media_manager.gather_all_media_from_disk(
+                self.media_path, device
+            )
             to_dl = await client.media_manager.list_missing_files(
                 media_lst, self.media_type, self.event_type
             )
@@ -201,7 +217,11 @@ class PetkitMediaUpdateCoordinator(DataUpdateCoordinator):
             LOGGER.debug(
                 f"Downloaded all medias for device id = {device} is OK (got {len(to_dl)} files to download)"
             )
-            self.media_table[device] = deepcopy(await client.media_manager.gather_all_media_from_disk(self.media_path, device))
+            self.media_table[device] = deepcopy(
+                await client.media_manager.gather_all_media_from_disk(
+                    self.media_path, device
+                )
+            )
         LOGGER.debug("Update media files finished for all devices")
         await self._async_delete_old_media()
 
@@ -247,7 +267,13 @@ class PetkitBluetoothUpdateCoordinator(DataUpdateCoordinator):
         self, hass, logger, name, update_interval, config_entry, data_coordinator
     ):
         """Initialize the data update coordinator."""
-        super().__init__(hass, logger, name=name, update_interval=update_interval, config_entry=config_entry)
+        super().__init__(
+            hass,
+            logger,
+            name=name,
+            update_interval=update_interval,
+            config_entry=config_entry,
+        )
         self.config = config_entry
         self.data_coordinator = data_coordinator
         self.last_update_timestamps = {}

@@ -23,6 +23,7 @@ from .const import (
     BT_SECTION,
     CONF_SCAN_INTERVAL_BLUETOOTH,
     CONF_SCAN_INTERVAL_MEDIA,
+    COORDINATOR,
     DOMAIN,
     LOGGER,
     MEDIA_SECTION,
@@ -108,6 +109,11 @@ async def async_setup_entry(
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     entry.async_on_unload(entry.add_update_listener(async_reload_entry))
+
+    if DOMAIN not in hass.data:
+        hass.data[DOMAIN] = {}
+
+    hass.data[DOMAIN][COORDINATOR] = coordinator_media
 
     return True
 

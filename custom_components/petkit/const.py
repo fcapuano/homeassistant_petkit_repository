@@ -4,6 +4,7 @@ from logging import Logger, getLogger
 
 LOGGER: Logger = getLogger(__package__)
 DOMAIN = "petkit"
+COORDINATOR = "coordinator"
 
 # Configuration
 CONF_SCAN_INTERVAL_MEDIA = "scan_interval_media"
