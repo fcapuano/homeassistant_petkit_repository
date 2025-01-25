@@ -20,11 +20,12 @@
 ## 📣 Video & Image support is Here!
 
 ### Access all your media from Petkit devices directly in Home Assistant!
-
 Easily view and manage all your videos and images of your beloved pets right from the Media tab in Home Assistant.
 
-<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/media_video.png" width="650"/></a>
-<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/media_image.png" width="650"/></a>
+### 🎞️ Video clips :
+<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/media_video.png" width="550"/></a>
+### 🖼️ Picture gallery :
+<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/media_image.png" width="550"/></a>
 
 > [!NOTE]
 >
@@ -95,6 +96,9 @@ alternate_unit:
   conversion_factor: 10
   approximate: true
 ```
+
+> [!NOTE]
+> Not all feeders support this feature, if you don't have the sensor `raw_distribution_data`, your feeder is not supported.
 
 ## Installation
 
