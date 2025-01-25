@@ -149,7 +149,7 @@ Or follow these steps:
 - Media path : The path to store media files. (default: /media)
 
 > [!IMPORTANT]
-> It's recommended to use an external storage to store media files. As the device can generate a lot of media files, it can fill up your Home Assistant storage quickly. Specially if you have "Fetch video"  option enabled.
+> It's recommended to use an external storage to store media files. As the device can generate a lot of media files, it can fill up your Home Assistant storage quickly. Specially if you have "Fetch video" option enabled.
 
 - Media refresh interval : The interval in minutes to refresh media list. (default: 5)
 - Fetch image : Enable image fetching for feeders/litter with camera. (default: true)
