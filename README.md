@@ -29,31 +29,58 @@ Easily view and manage all your videos and images of your beloved pets right fro
 
 > [!NOTE]
 >
-> 🖼️ Picture feature is supported for all devices with camera, **does not** require an active subscription to Care+ \
-> 🎞️ Video feature is supported for all devices with camera, **REQUIRE** an active subscription to Care+\
-> 📹 Real-time video stream is not supported yet.
+> - 🖼️ Picture feature is supported for all devices with camera, **does not** require an active subscription to Care+ \
+> - 🎞️ Video feature is supported for all devices with camera, **REQUIRE** an active subscription to Care+\
+> - 📹 Real-time video stream is **not supported** yet.
 
 ---
+
+## Supported Devices
+
+| **Category**   | **Name**                 | **Device**                                                                                                                                             |
+|----------------|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **🍗 Feeders** | ✅ Fresh Element          | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/feeder.png" width="40"/></a>     |
+|                | ✅ Fresh Element Mini Pro | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/feedermini.png" width="40"/></a> |
+|                | ✅ Fresh Element Infinity | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/d3.png" width="40"/></a>         |
+|                | ✅ Fresh Element Solo     | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/d4.png" width="40"/></a>         |
+|                | ✅ Fresh Element Gemini   | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/d4s.png" width="40"/></a>        |
+|                | ✅ YumShare Solo          | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/d4h.png" width="40"/></a>        |
+|                | ✅ YumShare Dual-hopper   | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/d4sh.png" width="40"/></a>       |
+| **🚽 Litters** | ✅ PuraX                  | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/t3.png" width="40"/></a>         |
+|                | ✅ PuraMax                | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/t4.1.png" width="40"/></a>       |
+|                | ✅ PuraMax 2              | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/t4.png" width="40"/></a>         |
+|                | ✅ Purobot Max Pro        | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/t5.png" width="40"/></a>         |
+|                | ✅ Purobot Ultra          | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/t6.png" width="40"/></a>         |
+| **⛲ Fountains**| ✅ Eversweet Solo 2       | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/5w5.png" width="40"/></a>        |
+|                | ✅ Eversweet 3 Pro        | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/4w5.png" width="40"/></a>        |
+|                | ✅ Eversweet 3 Pro UVC    | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/6w5.png" width="40"/></a>        |
+|                | ✅ Eversweet 5 Mini       | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/2w5.png" width="40"/></a>        |
+|                | ✅ Eversweet Max          | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/ctw3.png" width="40"/></a>       |
+| **🧴 Purifiers**| ✅ Air Magicube           | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/k2.png" width="40"/></a>         |
+|                | ✅ Air Smart Spray        | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/k3.png" width="40"/></a>         |
+
 
 ## Supported devices
 
 ### 🍗 Feeders :
+
+- Fresh Element
 
 - [x] Fresh Element
 - [x] Fresh Element Mini Pro
 - [x] Fresh Element Infinity
 - [x] Fresh Element Solo
 - [x] Fresh Element Gemini
-- [x] YumShare Solo (with camera) ✅📸 ☑️📹
-- [x] YumShare Dual-hopper (with camera) ✅📸 ☑️📹
+- [x] YumShare Solo (with camera) 📸📹
+- [x] YumShare Dual-hopper (with camera) 📸📹
 
 ### 🚽 Litters :
 
 - [x] PuraX
 - [x] PuraMax
 - [x] PuraMax 2
-- [x] Purobot Max Pro (with camera) ✅📸 ☑️📹
-- [x] Purobot Ultra (with camera) ✅📸 ☑️📹
+- [x] Purobot Max Pro (with camera) 📸📹
+- [x] Purobot Ultra (with camera) 📸📹
 
 ### ⛲ Fountains :
 
@@ -71,11 +98,6 @@ Easily view and manage all your videos and images of your beloved pets right fro
 - [x] Air Magicube
 - [x] Air Smart Spray
 
-> [!NOTE]
-> Legend :
->
-> - ✅📸 = Still picture feature supported
-> - ☑️📹 = Video clip feature supported
 
 ## Feeders special features
 
