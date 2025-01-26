@@ -29,6 +29,8 @@ Easily view and manage all your videos and images of your beloved pets right fro
 
 > [!NOTE]
 >
+> The media accessible on Home Assistant are ONLY those of the current day. It is not possible to download previous days.
+>
 > - 🖼️ Picture feature is supported for all devices with camera, **does not** require an active subscription to Care+
 > - 🎞️ Video feature is supported for all devices with camera, **REQUIRE** an active subscription to Care+
 > - 📹 Real-time video stream is **not supported** yet.
