@@ -64,7 +64,10 @@ class PetkitMediaSource(MediaSource):
             raise ValueError(f"File not found: {file_path}")
 
         url = async_process_play_media_url(
-            self.hass, f"/media/media/{file_path.relative_to(self.media_path)}"
+            self.hass,
+            f"/media/local/{file_path.relative_to(self.media_path)}",
+            allow_relative_url=True,
+            for_supervisor_network=True,
         )
         mime_type = self.get_mime_type(file_path.suffix)
         return PlayMedia(url, mime_type)
@@ -126,7 +129,9 @@ class PetkitMediaSource(MediaSource):
         """Build a file media item."""
         thumbnail_url = async_process_play_media_url(
             self.hass,
-            f"/media/media/{str(child.parent.relative_to(self.media_path)).replace('video', 'snapshot')}/{child.name.replace('.mp4', '.jpg')}",
+            f"/media/local/{str(child.parent.relative_to(self.media_path)).replace('video', 'snapshot')}/{child.name.replace('.mp4', '.jpg')}",
+            allow_relative_url=True,
+            for_supervisor_network=True,
         )
         media_class = self.get_media_class(child.suffix)
         media_type = self.get_media_type(child.suffix)
