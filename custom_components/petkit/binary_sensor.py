@@ -43,8 +43,9 @@ COMMON_ENTITIES = [
         translation_key="care_plus_subscription",
         entity_category=EntityCategory.DIAGNOSTIC,
         value=lambda device: (
-                isinstance(device.cloud_product.work_indate, (int, float))
-                and datetime.fromtimestamp(device.cloud_product.work_indate) > datetime.now()
+            isinstance(device.cloud_product.work_indate, (int, float))
+            and datetime.fromtimestamp(device.cloud_product.work_indate)
+            > datetime.now()
         ),
     ),
     PetKitBinarySensorDesc(
