@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from datetime import datetime
 from typing import TYPE_CHECKING
 
 from pypetkitapi import D4S, D4SH, T4, T6, Feeder, Litter, Pet, Purifier, WaterFountain
@@ -41,7 +42,10 @@ COMMON_ENTITIES = [
         key="Care plus subscription",
         translation_key="care_plus_subscription",
         entity_category=EntityCategory.DIAGNOSTIC,
-        value=lambda device: device.cloud_product.subscribe,
+        value=lambda device: (
+                isinstance(device.cloud_product.work_indate, (int, float))
+                and datetime.fromtimestamp(device.cloud_product.work_indate) > datetime.now()
+        ),
     ),
     PetKitBinarySensorDesc(
         key="Liquid empty",
