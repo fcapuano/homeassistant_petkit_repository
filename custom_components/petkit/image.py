@@ -19,7 +19,6 @@ from pypetkitapi import (
 )
 
 from homeassistant.components.image import ImageEntity, ImageEntityDescription
-
 from homeassistant.core import callback
 
 from .const import CONF_MEDIA_DL_IMAGE, LOGGER, MEDIA_SECTION
