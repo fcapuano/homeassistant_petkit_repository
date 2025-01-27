@@ -20,6 +20,8 @@ from pypetkitapi import (
 
 from homeassistant.components.image import ImageEntity, ImageEntityDescription
 
+from homeassistant.core import callback
+
 from .const import CONF_MEDIA_DL_IMAGE, LOGGER, MEDIA_SECTION
 from .entity import PetKitDescSensorBase, PetkitEntity
 
@@ -117,7 +119,15 @@ class PetkitImage(PetkitEntity, ImageEntity):
         self.config_entry = config_entry
         self.device = device
         self.media_list = []
-        self._last_image_filename: str | None = None
+        self._attr_image_last_updated = None
+        self._last_image_file: str | None = None
+        self.get_last_image()
+
+    def _handle_coordinator_update(self) -> None:
+        """Handle updated data from the coordinator."""
+        super()._handle_coordinator_update()
+        self.get_last_image()
+        self.async_write_ha_state()
 
     @property
     def unique_id(self) -> str:
@@ -131,15 +141,11 @@ class PetkitImage(PetkitEntity, ImageEntity):
             return True
         return False
 
-    async def async_image(self) -> bytes | None:
-        """Return bytes of image asynchronously."""
+    @callback
+    def get_last_image(self):
+        """Get the last image filename"""
         event_key = self.entity_description.event_key
         media_table = self.coordinator.media_table
-        no_img = Path(__file__).parent / "img" / "no-image.png"
-
-        if not media_table:
-            LOGGER.error("No media files found")
-            return await self._read_file(no_img)
 
         # Filter media files by device_id and event_key
         matching_media_files = [
@@ -152,7 +158,8 @@ class PetkitImage(PetkitEntity, ImageEntity):
             LOGGER.info(
                 f"No media files found for device id = {self.device.id} and event key = {event_key}"
             )
-            return await self._read_file(no_img)
+            self._last_image_file = None
+            return
 
         # Find the media file with the most recent timestamp
         latest_media_file = max(
@@ -163,12 +170,20 @@ class PetkitImage(PetkitEntity, ImageEntity):
         self._attr_image_last_updated = datetime.datetime.fromtimestamp(
             latest_media_file.timestamp
         )
-        self._last_image_filename = image_path.name
+        self._last_image_file = image_path
+
+    async def async_image(self) -> bytes | None:
+        """Return bytes of image asynchronously."""
+        no_img = Path(__file__).parent / "img" / "no-image.png"
+
+        if not self._last_image_file:
+            LOGGER.error("No media files found")
+            return await self._read_file(no_img)
 
         LOGGER.debug(
-            f"Getting image for {self.device.device_nfo.device_type} Path is :{image_path}"
+            f"Getting image for {self.device.device_nfo.device_type} Path is :{self._last_image_file}"
         )
-        return await self._read_file(image_path)
+        return await self._read_file(self._last_image_file)
 
     @staticmethod
     async def _read_file(image_path) -> bytes | None:
