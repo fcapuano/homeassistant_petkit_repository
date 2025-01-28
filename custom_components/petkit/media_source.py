@@ -30,6 +30,8 @@ from homeassistant.core import HomeAssistant
 
 _LOGGER = logging.getLogger(__name__)
 
+EXT_MP4 = ".mp4"
+EXT_JPG = ".jpg"
 
 async def async_get_media_source(hass: HomeAssistant) -> PetkitMediaSource:
     """Set up Petkit media source."""
@@ -182,18 +184,18 @@ class PetkitMediaSource(MediaSource):
     @staticmethod
     def get_media_class(extension: str) -> str:
         """Return the media class based on the file extension."""
-        if extension in [".mp4", ".avi", ".mkv"]:
+        if extension == EXT_MP4:
             return MediaClass.VIDEO
-        if extension in [".jpg", ".jpeg", ".png", ".gif"]:
+        if extension == EXT_JPG:
             return MediaClass.IMAGE
         return MediaClass.APP
 
     @staticmethod
     def get_media_type(extension: str) -> str:
         """Return the media type based on the file extension."""
-        if extension in [".mp4", ".avi", ".mkv"]:
+        if extension == EXT_MP4:
             return MediaType.VIDEO
-        if extension in [".jpg", ".jpeg", ".png", ".gif"]:
+        if extension == EXT_JPG:
             return MediaType.IMAGE
         return MediaType.APP
 
@@ -201,9 +203,7 @@ class PetkitMediaSource(MediaSource):
     def get_mime_type(extension: str) -> str:
         """Get MIME type for a given file extension."""
         mime_types = {
-            ".mp4": "video/mp4",
-            ".avi": "video/avi",
-            ".jpg": "image/jpeg",
-            ".jpeg": "image/jpeg",
+            EXT_MP4: "video/mp4",
+            EXT_JPG: "image/jpeg",
         }
         return mime_types.get(extension, "application/octet-stream")
