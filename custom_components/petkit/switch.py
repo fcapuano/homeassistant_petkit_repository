@@ -93,6 +93,20 @@ COMMON_ENTITIES = [
         turn_off=lambda api, device: api.send_api_request(
             device.id, DeviceCommand.UPDATE_SETTING, {"manualLock": 0}
         ),
+        ignore_types=FEEDER_MINI,
+    ),
+    PetKitSwitchDesc(
+        key="Child lock",
+        translation_key="child_lock",
+        value=lambda device: device.settings.manual_lock,
+        entity_category=EntityCategory.CONFIG,
+        turn_on=lambda api, device: api.send_api_request(
+            device.id, DeviceCommand.UPDATE_SETTING, {"settings.manualLock": 1}
+        ),
+        turn_off=lambda api, device: api.send_api_request(
+            device.id, DeviceCommand.UPDATE_SETTING, {"settings.manualLock": 0}
+        ),
+        only_for_types=FEEDER_MINI,
     ),
     PetKitSwitchDesc(
         key="Camera",
