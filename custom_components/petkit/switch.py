@@ -12,6 +12,7 @@ from pypetkitapi import (
     DeviceAction,
     DeviceCommand,
     Feeder,
+    FEEDER_MINI,
     Litter,
     Pet,
     Purifier,
@@ -53,7 +54,7 @@ COMMON_ENTITIES = [
         turn_off=lambda api, device: api.send_api_request(
             device.id, DeviceCommand.UPDATE_SETTING, {"lightMode": 0}
         ),
-        ignore_types=DEVICES_LITTER_BOX,
+        ignore_types=[*DEVICES_LITTER_BOX, FEEDER_MINI],
     ),
     PetKitSwitchDesc(
         key="Display",
@@ -67,6 +68,19 @@ COMMON_ENTITIES = [
             device.id, DeviceCommand.UPDATE_SETTING, {"lightMode": 0}
         ),
         only_for_types=DEVICES_LITTER_BOX,
+    ),
+    PetKitSwitchDesc(
+        key="Indicator light",
+        translation_key="indicator_light",
+        value=lambda device: device.settings.light_mode,
+        entity_category=EntityCategory.CONFIG,
+        turn_on=lambda api, device: api.send_api_request(
+            device.id, DeviceCommand.UPDATE_SETTING, {"settings.lightMode": 1}
+        ),
+        turn_off=lambda api, device: api.send_api_request(
+            device.id, DeviceCommand.UPDATE_SETTING, {"settings.lightMode": 0}
+        ),
+        only_for_types=FEEDER_MINI,
     ),
     PetKitSwitchDesc(
         key="Child lock",
