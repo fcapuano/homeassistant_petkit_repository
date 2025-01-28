@@ -2,6 +2,19 @@
 
 <!-- version list -->
 
+## v1.6.5 (2025-01-28)
+
+### Other
+
+- Merge pull request #26 from maxmouchet/max/dessicant-translation
+  ([`5bf7bc1`](https://github.com/Jezza34000/homeassistant_petkit/commit/5bf7bc1dc5860b436ec7bf1869d4f26493bee921))
+
+Fix French translation for desiccant
+
+- Translations/fr: fix translation for dessiccant
+  ([`42af676`](https://github.com/Jezza34000/homeassistant_petkit/commit/42af6763ef4b07a1556619b9b014ce8102f93db4))
+
+
 ## v1.6.4 (2025-01-28)
 
 ### Other
