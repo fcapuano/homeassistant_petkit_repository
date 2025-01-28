@@ -44,8 +44,3 @@ jobs:
 
       - name: "Run tox targets for ${{ matrix.python-version }}"
         run: python -m tox
-
-      - name: Bump version using semantic-release
-        uses: python-semantic-release/python-semantic-release@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
