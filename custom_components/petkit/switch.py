@@ -378,6 +378,20 @@ SWITCH_MAPPING: dict[type[PetkitDevices], list[PetKitSwitchDesc]] = {
             turn_off=lambda api, device: api.send_api_request(
                 device.id, DeviceCommand.UPDATE_SETTING, {"desiccantNotify": 0}
             ),
+            ignore_types=FEEDER_MINI,
+        ),
+        PetKitSwitchDesc(
+            key="Desiccant notif",
+            translation_key="desiccant_notif",
+            value=lambda device: device.settings.desiccant_notify,
+            entity_category=EntityCategory.CONFIG,
+            turn_on=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"settings.desiccantNotify": 1}
+            ),
+            turn_off=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"settings.desiccantNotify": 0}
+            ),
+            only_for_types=FEEDER_MINI,
         ),
     ],
     Litter: [
