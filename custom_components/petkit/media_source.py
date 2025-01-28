@@ -103,15 +103,14 @@ class PetkitMediaSource(MediaSource):
                 title = self.get_device_name_from_data(
                     self.convert_date(child.name)
                 ).capitalize()
-                media_class = (
-                    MediaClass.IMAGE
-                    if title.lower() == "snapshot"
-                    else (
-                        MediaClass.VIDEO
-                        if title.lower() == "video"
-                        else MediaClass.DIRECTORY
-                    )
-                )
+
+                if title.lower() == "snapshot":
+                    media_class = MediaClass.IMAGE
+                elif title.lower() == "video":
+                    media_class = MediaClass.VIDEO
+                else:
+                    media_class = MediaClass.DIRECTORY
+
                 children.append(
                     BrowseMediaSource(
                         domain=DOMAIN,
