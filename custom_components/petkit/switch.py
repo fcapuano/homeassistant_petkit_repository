@@ -12,6 +12,7 @@ from pypetkitapi import (
     DeviceAction,
     DeviceCommand,
     Feeder,
+    FEEDER_MINI,
     Litter,
     Pet,
     Purifier,
@@ -53,7 +54,7 @@ COMMON_ENTITIES = [
         turn_off=lambda api, device: api.send_api_request(
             device.id, DeviceCommand.UPDATE_SETTING, {"lightMode": 0}
         ),
-        ignore_types=DEVICES_LITTER_BOX,
+        ignore_types=[*DEVICES_LITTER_BOX, FEEDER_MINI],
     ),
     PetKitSwitchDesc(
         key="Display",
@@ -69,6 +70,19 @@ COMMON_ENTITIES = [
         only_for_types=DEVICES_LITTER_BOX,
     ),
     PetKitSwitchDesc(
+        key="Indicator light",
+        translation_key="indicator_light",
+        value=lambda device: device.settings.light_mode,
+        entity_category=EntityCategory.CONFIG,
+        turn_on=lambda api, device: api.send_api_request(
+            device.id, DeviceCommand.UPDATE_SETTING, {"settings.lightMode": 1}
+        ),
+        turn_off=lambda api, device: api.send_api_request(
+            device.id, DeviceCommand.UPDATE_SETTING, {"settings.lightMode": 0}
+        ),
+        only_for_types=FEEDER_MINI,
+    ),
+    PetKitSwitchDesc(
         key="Child lock",
         translation_key="child_lock",
         value=lambda device: device.settings.manual_lock,
@@ -79,6 +93,20 @@ COMMON_ENTITIES = [
         turn_off=lambda api, device: api.send_api_request(
             device.id, DeviceCommand.UPDATE_SETTING, {"manualLock": 0}
         ),
+        ignore_types=FEEDER_MINI,
+    ),
+    PetKitSwitchDesc(
+        key="Child lock",
+        translation_key="child_lock",
+        value=lambda device: device.settings.manual_lock,
+        entity_category=EntityCategory.CONFIG,
+        turn_on=lambda api, device: api.send_api_request(
+            device.id, DeviceCommand.UPDATE_SETTING, {"settings.manualLock": 1}
+        ),
+        turn_off=lambda api, device: api.send_api_request(
+            device.id, DeviceCommand.UPDATE_SETTING, {"settings.manualLock": 0}
+        ),
+        only_for_types=FEEDER_MINI,
     ),
     PetKitSwitchDesc(
         key="Camera",
@@ -227,6 +255,20 @@ SWITCH_MAPPING: dict[type[PetkitDevices], list[PetKitSwitchDesc]] = {
             turn_off=lambda api, device: api.send_api_request(
                 device.id, DeviceCommand.UPDATE_SETTING, {"feedNotify": 0}
             ),
+            ignore_types=FEEDER_MINI,
+        ),
+        PetKitSwitchDesc(
+            key="Dispensing notif",
+            translation_key="dispensing_notif",
+            value=lambda device: device.settings.feed_notify,
+            entity_category=EntityCategory.CONFIG,
+            turn_on=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"settings.feedNotify": 1}
+            ),
+            turn_off=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"settings.feedNotify": 0}
+            ),
+            only_for_types=FEEDER_MINI,
         ),
         PetKitSwitchDesc(
             key="Refill notif",
@@ -239,6 +281,20 @@ SWITCH_MAPPING: dict[type[PetkitDevices], list[PetKitSwitchDesc]] = {
             turn_off=lambda api, device: api.send_api_request(
                 device.id, DeviceCommand.UPDATE_SETTING, {"foodNotify": 0}
             ),
+            ignore_types=FEEDER_MINI,
+        ),
+        PetKitSwitchDesc(
+            key="Refill notif",
+            translation_key="refill_notif",
+            value=lambda device: device.settings.food_notify,
+            entity_category=EntityCategory.CONFIG,
+            turn_on=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"settings.foodNotify": 1}
+            ),
+            turn_off=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"settings.foodNotify": 0}
+            ),
+            only_for_types=FEEDER_MINI,
         ),
         PetKitSwitchDesc(
             key="Pet visit notif",
@@ -322,6 +378,20 @@ SWITCH_MAPPING: dict[type[PetkitDevices], list[PetKitSwitchDesc]] = {
             turn_off=lambda api, device: api.send_api_request(
                 device.id, DeviceCommand.UPDATE_SETTING, {"desiccantNotify": 0}
             ),
+            ignore_types=FEEDER_MINI,
+        ),
+        PetKitSwitchDesc(
+            key="Desiccant notif",
+            translation_key="desiccant_notif",
+            value=lambda device: device.settings.desiccant_notify,
+            entity_category=EntityCategory.CONFIG,
+            turn_on=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"settings.desiccantNotify": 1}
+            ),
+            turn_off=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"settings.desiccantNotify": 0}
+            ),
+            only_for_types=FEEDER_MINI,
         ),
     ],
     Litter: [
