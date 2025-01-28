@@ -33,6 +33,7 @@ _LOGGER = logging.getLogger(__name__)
 EXT_MP4 = ".mp4"
 EXT_JPG = ".jpg"
 
+
 async def async_get_media_source(hass: HomeAssistant) -> PetkitMediaSource:
     """Set up Petkit media source."""
     return PetkitMediaSource(hass)
