@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v1.6.7 (2025-01-28)
+
+### Other
+
+- Merge remote-tracking branch 'origin/main'
+  ([`144d4e1`](https://github.com/Jezza34000/homeassistant_petkit/commit/144d4e1192d8a3c60f2f7b379194ca7c84c8a015))
+
+
 ## v1.6.6 (2025-01-28)
 
 ### Other
