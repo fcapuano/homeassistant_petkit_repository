@@ -281,6 +281,20 @@ SWITCH_MAPPING: dict[type[PetkitDevices], list[PetKitSwitchDesc]] = {
             turn_off=lambda api, device: api.send_api_request(
                 device.id, DeviceCommand.UPDATE_SETTING, {"foodNotify": 0}
             ),
+            ignore_types=FEEDER_MINI,
+        ),
+        PetKitSwitchDesc(
+            key="Refill notif",
+            translation_key="refill_notif",
+            value=lambda device: device.settings.food_notify,
+            entity_category=EntityCategory.CONFIG,
+            turn_on=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"settings.foodNotify": 1}
+            ),
+            turn_off=lambda api, device: api.send_api_request(
+                device.id, DeviceCommand.UPDATE_SETTING, {"settings.foodNotify": 0}
+            ),
+            only_for_types=FEEDER_MINI,
         ),
         PetKitSwitchDesc(
             key="Pet visit notif",
