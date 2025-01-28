@@ -277,7 +277,7 @@ packages = { find = { include = ["custom_components.*"] } }
 [tool.tox]
 min_version = "4.20"
 requires = ["tox>=4.23.2"]
-env_list = ["3.11", "3.12", "precommit"]
+env_list = ["precommit"]
 
 #[tool.tox.env_run_base]
 #description = "Run test under {base_python}"
