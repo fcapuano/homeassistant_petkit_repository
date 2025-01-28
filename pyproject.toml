@@ -308,7 +308,7 @@ version_variables = ["custom_components/petkit/manifest.json:version"]
 mode = "update"
 
 [tool.semantic_release.branches.main]
-match = "(master)"
+match = "(main)"
 
 [tool.semantic_release.commit_parser_options]
 default_bump_level = 2  # 1: pre-release / 2: patch / 3: minor / 4: major
