@@ -9,10 +9,10 @@ from typing import TYPE_CHECKING, Any
 
 from pypetkitapi import (
     DEVICES_LITTER_BOX,
+    FEEDER_MINI,
     DeviceAction,
     DeviceCommand,
     Feeder,
-    FEEDER_MINI,
     Litter,
     Pet,
     Purifier,

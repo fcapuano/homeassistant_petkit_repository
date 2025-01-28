@@ -121,7 +121,7 @@
         "name": "Nourriture r\u00e9approvisionn\u00e9e"
       },
       "reset_desiccant": {
-        "name": "R\u00e9initialiser déshydratant"
+        "name": "R\u00e9initialiser d\u00e9shydratant"
       },
       "reset_odor_eliminator": {
         "name": "R\u00e9initialiser \u00e9liminateur d'odeurs"
@@ -209,7 +209,7 @@
         "name": "Niveau d\u00e9sodorisant"
       },
       "desiccant_left_days": {
-        "name": "Jours restants déshydratant"
+        "name": "Jours restants d\u00e9shydratant"
       },
       "device_status": {
         "name": "\u00c9tat de l'appareil"
@@ -454,7 +454,7 @@
         "name": "Notif. remplacement d\u00e9sodorisant"
       },
       "desiccant_notif": {
-        "name": "Notif. changement déshydratant"
+        "name": "Notif. changement d\u00e9shydratant"
       },
       "dispensing_notif": {
         "name": "Notif. distribution"
