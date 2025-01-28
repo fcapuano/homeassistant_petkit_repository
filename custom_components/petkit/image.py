@@ -138,6 +138,8 @@ class PetkitImage(PetkitEntity, ImageEntity):
         """Return if this button is available or not"""
         if self.config_entry.get(MEDIA_SECTION, {}).get(CONF_MEDIA_DL_IMAGE, False):
             return True
+        self._attr_image_last_updated = None
+        self._last_image_file = None
         return False
 
     @callback
@@ -157,6 +159,7 @@ class PetkitImage(PetkitEntity, ImageEntity):
             LOGGER.info(
                 f"No media files found for device id = {self.device.id} and event key = {event_key}"
             )
+            self._attr_image_last_updated = None
             self._last_image_file = None
             return
 
@@ -177,6 +180,7 @@ class PetkitImage(PetkitEntity, ImageEntity):
 
         if not self._last_image_file:
             LOGGER.error("No media files found")
+            self._attr_image_last_updated = None
             return await self._read_file(no_img)
 
         LOGGER.debug(
