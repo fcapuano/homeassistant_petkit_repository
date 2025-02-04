@@ -54,6 +54,9 @@
       "food_level_2": {
         "name": "Food level hopper 2"
       },
+      "frequent_use": {
+        "name": "Frequent use detection"
+      },
       "lack_warning": {
         "name": "Water lack warning"
       },
@@ -86,6 +89,9 @@
       },
       "sand_lack": {
         "name": "Sand lack"
+      },
+      "toilet_occupied": {
+        "name": "Toilet occupied"
       },
       "waste_bin": {
         "name": "Wastebin filled"
@@ -296,6 +302,7 @@
           "periodic_odor_completed": "Periodic odor completed",
           "periodic_odor_completed_liquid_lack": "Periodic odor completed: liquid lack",
           "periodic_odor_failed": "Periodic odor failed",
+          "pet_out": "Pet out",
           "reset_completed": "Reset completed",
           "reset_failed_full": "Reset failed: full",
           "reset_failed_hall_l": "Reset failed: hall L",

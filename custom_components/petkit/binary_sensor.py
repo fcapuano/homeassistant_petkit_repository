@@ -142,6 +142,19 @@ BINARY_SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitBinarySensorDesc]] =
             value=lambda device: device.state.box_store_state,
             only_for_types=[T6],
         ),
+        PetKitBinarySensorDesc(
+            key="Toilet occupied",
+            translation_key="toilet_occupied",
+            device_class=BinarySensorDeviceClass.OCCUPANCY,
+            value=lambda device: bool(device.state.pet_in_time),
+            enable_fast_poll=True,
+        ),
+        PetKitBinarySensorDesc(
+            key="Frequent use",
+            translation_key="frequent_use",
+            device_class=BinarySensorDeviceClass.PROBLEM,
+            value=lambda device: bool(device.state.frequent_restroom),
+        ),
     ],
     WaterFountain: [
         *COMMON_ENTITIES,
@@ -233,7 +246,7 @@ class PetkitBinarySensor(PetkitEntity, BinarySensorEntity):
                 and value
                 and self.coordinator.fast_poll_tic < 1
             ):
-                self.coordinator.enable_smart_polling(12)
+                self.coordinator.enable_smart_polling(24)
 
             return value
         return None
