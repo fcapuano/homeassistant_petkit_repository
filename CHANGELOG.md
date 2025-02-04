@@ -2,6 +2,29 @@
 
 <!-- version list -->
 
+## v1.7.0 (2025-02-04)
+
+### :arrow_up:
+
+- :arrow_up: bump precommit dependencies
+  ([`f67e8ab`](https://github.com/Jezza34000/homeassistant_petkit/commit/f67e8ab308b5ee24dc1fedfd937f909e8c2cdaaa))
+
+### :memo:
+
+- :memo: add docstring information
+  ([`c199cd0`](https://github.com/Jezza34000/homeassistant_petkit/commit/c199cd009728a9e09d0799a83e309ba464e8b5e2))
+
+### :sparkles:
+
+- :sparkles: add new sensors for litter box
+  ([`5c73fa5`](https://github.com/Jezza34000/homeassistant_petkit/commit/5c73fa519cf00c31a008c8b540fe8cf5651f9701))
+
+### :wrench:
+
+- :wrench: exclude prettier for CHANGELOG.md
+  ([`528f834`](https://github.com/Jezza34000/homeassistant_petkit/commit/528f834859686624284005dab829144862a02faa))
+
+
 ## v1.6.8 (2025-01-28)
 
 ### Other
