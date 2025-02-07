@@ -5,6 +5,7 @@ from __future__ import annotations
 import asyncio
 from collections.abc import Callable
 from dataclasses import dataclass
+from datetime import timedelta
 from typing import TYPE_CHECKING, Any
 
 from pypetkitapi import (
@@ -22,7 +23,7 @@ from pypetkitapi import (
 from homeassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from homeassistant.const import EntityCategory
 
-from .const import LOGGER, POWER_ONLINE_STATE
+from .const import LOGGER, MIN_SCAN_INTERVAL, POWER_ONLINE_STATE
 from .entity import PetKitDescSensorBase, PetkitEntity
 
 if TYPE_CHECKING:
@@ -722,5 +723,7 @@ class PetkitSwitch(PetkitEntity, SwitchEntity):
 
     async def _update_coordinator_data(self, result: bool) -> None:
         """Update the coordinator data based on the result."""
+        self.coordinator.update_interval = timedelta(seconds=MIN_SCAN_INTERVAL)
+        self.coordinator.fast_poll_tic = 3
         await asyncio.sleep(1)
         await self.coordinator.async_request_refresh()
