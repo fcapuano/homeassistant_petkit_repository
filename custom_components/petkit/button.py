@@ -99,6 +99,7 @@ BUTTON_MAPPING: dict[type[PetkitDevices], list[PetKitButtonDesc]] = {
                 {DeviceAction.START: LBCommand.CLEANING},
             ),
             only_for_types=DEVICES_LITTER_BOX,
+            is_available=lambda device: device.state.work_state is None,
         ),
         PetKitButtonDesc(
             key="Maintenance mode",
@@ -109,6 +110,7 @@ BUTTON_MAPPING: dict[type[PetkitDevices], list[PetKitButtonDesc]] = {
                 {DeviceAction.START: LBCommand.MAINTENANCE},
             ),
             only_for_types=[T4],
+            is_available=lambda device: device.state.work_state is None,
         ),
         PetKitButtonDesc(
             key="Exit maintenance mode",
@@ -119,6 +121,8 @@ BUTTON_MAPPING: dict[type[PetkitDevices], list[PetKitButtonDesc]] = {
                 {DeviceAction.END: LBCommand.MAINTENANCE},
             ),
             only_for_types=[T4],
+            is_available=lambda device: device.state.work_state is not None
+            and device.state.work_state.work_mode == 9,
         ),
         PetKitButtonDesc(
             key="Dump litter",
@@ -129,6 +133,7 @@ BUTTON_MAPPING: dict[type[PetkitDevices], list[PetKitButtonDesc]] = {
                 {DeviceAction.START: LBCommand.DUMPING},
             ),
             only_for_types=DEVICES_LITTER_BOX,
+            is_available=lambda device: device.state.work_state is None,
         ),
         PetKitButtonDesc(
             key="Pause",
