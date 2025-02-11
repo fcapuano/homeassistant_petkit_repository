@@ -2,6 +2,30 @@
 
 <!-- version list -->
 
+## v1.7.1 (2025-02-11)
+
+### :arrow_up:
+
+- :arrow_up: bump precommit dependencies
+  ([`5f62acb`](https://github.com/Jezza34000/homeassistant_petkit/commit/5f62acb722c1445da4022cb76063e1c685e000bb))
+
+### :wheelchair:
+
+- :wheelchair: add fastpolling for switch action
+  ([`9428959`](https://github.com/Jezza34000/homeassistant_petkit/commit/94289597346d1f279d2a5ff3509685e19eb98b0b))
+
+- :wheelchair: improvement of buttons by activation/deactivation depending on the possibility of the
+  action
+  ([`0d36590`](https://github.com/Jezza34000/homeassistant_petkit/commit/0d36590dc927052099f45bae9c52b3a0462c8721))
+
+### Other
+
+- Merge pull request #29 from Jezza34000/develop
+  ([`328dff6`](https://github.com/Jezza34000/homeassistant_petkit/commit/328dff6de8d0615e113db3fb350da428bba6be73))
+
+:wheelchair: add fastpolling for switch action
+
+
 ## v1.7.0 (2025-02-04)
 
 ### :arrow_up:
