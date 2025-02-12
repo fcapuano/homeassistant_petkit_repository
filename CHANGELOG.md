@@ -2,6 +2,19 @@
 
 <!-- version list -->
 
+## v1.7.2 (2025-02-12)
+
+### :arrow_up:
+
+- :arrow_up: bump precommit dependencies
+  ([`e08da85`](https://github.com/Jezza34000/homeassistant_petkit/commit/e08da8586db152c2e91605b729a13239711842d5))
+
+### :wrench:
+
+- :wrench: update semantic release ignore, increase minimal ruff version
+  ([`9c8320a`](https://github.com/Jezza34000/homeassistant_petkit/commit/9c8320aeee77d147deafed18ecc06e57b25946c3))
+
+
 ## v1.7.1 (2025-02-11)
 
 ### :arrow_up:
