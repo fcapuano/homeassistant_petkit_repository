@@ -284,12 +284,14 @@ ignore_files = [
     ".gitattributes",
     ".gitignore",
     ".github/*",
+    "CHANGELOG.md",
     "README.md",
     "CONTRIBUTING.md",
     "LICENSE",
     "images/*",
     ".pre-commit-config.yaml",
     "pyproject.toml",
+    "py.typed",
     "sonar-project.properties",
 ]
 
