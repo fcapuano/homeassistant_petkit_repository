@@ -38,7 +38,7 @@ from homeassistant.const import (
     UnitOfVolume,
 )
 
-from .const import BATTERY_LEVEL_MAP, DEVICE_STATUS_MAP, NO_ERROR
+from .const import BATTERY_LEVEL_MAP, DEVICE_STATUS_MAP, LOGGER, NO_ERROR
 from .entity import PetKitDescSensorBase, PetkitEntity
 from .utils import get_raw_feed_plan, map_litter_event, map_work_state
 
@@ -60,6 +60,7 @@ class PetKitSensorDesc(PetKitDescSensorBase, SensorEntityDescription):
     entity_picture: Callable[[PetkitDevices], str | None] | None = None
     restore_state: bool = False
     bluetooth_coordinator: bool = False
+    smart_poll_trigger: Callable[[PetkitDevices], bool] | None = None
 
 
 COMMON_ENTITIES = [
@@ -313,6 +314,8 @@ SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitSensorDesc]] = {
             key="State",
             translation_key="litter_state",
             value=lambda device: map_work_state(device.state.work_state),
+            smart_poll_trigger=lambda device: map_work_state(device.state.work_state)
+            != "idle",
         ),
         PetKitSensorDesc(
             key="Litter last event",
@@ -618,6 +621,10 @@ class PetkitSensor(PetkitEntity, SensorEntity):
     def entity_picture(self) -> str | None:
         """Grab associated pet picture."""
 
+        if self.check_smart_poll_trigger():
+            LOGGER.debug("Smart poll trigger detected for %s", self.device.id)
+            self.coordinator.enable_smart_polling(12)
+
         if self.entity_description.entity_picture:
             return self.entity_description.entity_picture(self.device)
         return None
@@ -631,6 +638,12 @@ class PetkitSensor(PetkitEntity, SensorEntity):
     def native_unit_of_measurement(self) -> str | None:
         """Return the unit of measurement."""
         return self.entity_description.native_unit_of_measurement
+
+    def check_smart_poll_trigger(self) -> bool:
+        """Check if fast poll trigger condition is met."""
+        if self.entity_description.smart_poll_trigger:
+            return self.entity_description.smart_poll_trigger(self.device)
+        return False
 
 
 class PetkitSensorBt(PetkitEntity, SensorEntity):
