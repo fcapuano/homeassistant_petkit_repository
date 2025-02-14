@@ -99,7 +99,6 @@ COMMON_ENTITIES = [
     ),
 ]
 
-
 SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitSensorDesc]] = {
     Feeder: [
         *COMMON_ENTITIES,
@@ -454,19 +453,6 @@ SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitSensorDesc]] = {
             native_unit_of_measurement=PERCENTAGE,
             value=lambda device: device.electricity.battery_percent,
         ),
-        PetKitSensorDesc(
-            key="Last connection",
-            translation_key="last_connection",
-            entity_category=EntityCategory.DIAGNOSTIC,
-            device_class=SensorDeviceClass.TIMESTAMP,
-            value=lambda device, coordinator_bluetooth: (
-                coordinator_bluetooth.last_update_timestamps.get(device.id)
-                if coordinator_bluetooth.last_update_timestamps.get(device.id)
-                else None
-            ),
-            bluetooth_coordinator=True,
-            force_add=[CTW3, W5],
-        ),
     ],
     Purifier: [
         *COMMON_ENTITIES,
@@ -549,6 +535,25 @@ SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitSensorDesc]] = {
     ],
 }
 
+SENSOR_BT_MAPPING: dict[type[PetkitDevices], list[PetKitSensorDesc]] = {
+    WaterFountain: [
+        PetKitSensorDesc(
+            key="Last connection",
+            translation_key="last_connection",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            device_class=SensorDeviceClass.TIMESTAMP,
+            value=lambda device: (
+                device.coordinator_bluetooth.last_update_timestamps.get(device.id)
+                if hasattr(device, "coordinator_bluetooth")
+                and device.coordinator_bluetooth.last_update_timestamps.get(device.id)
+                else None
+            ),
+            bluetooth_coordinator=True,
+            force_add=[CTW3, W5],
+        )
+    ]
+}
+
 
 async def async_setup_entry(
     hass: HomeAssistant,
@@ -560,7 +565,6 @@ async def async_setup_entry(
     entities = [
         PetkitSensor(
             coordinator=entry.runtime_data.coordinator,
-            coordinator_bluetooth=entry.runtime_data.coordinator_bluetooth,
             entity_description=entity_description,
             device=device,
         )
@@ -570,7 +574,19 @@ async def async_setup_entry(
         for entity_description in entity_descriptions
         if entity_description.is_supported(device)  # Check if the entity is supported
     ]
-    async_add_entities(entities)
+    entities_bt = [
+        PetkitSensorBt(
+            coordinator_bluetooth=entry.runtime_data.coordinator_bluetooth,
+            entity_description=entity_description,
+            device=device,
+        )
+        for device in devices
+        for device_type, entity_descriptions in SENSOR_BT_MAPPING.items()
+        if isinstance(device, device_type)
+        for entity_description in entity_descriptions
+        if entity_description.is_supported(device)  # Check if the entity is supported
+    ]
+    async_add_entities(entities + entities_bt)
 
 
 class PetkitSensor(PetkitEntity, SensorEntity):
@@ -581,24 +597,18 @@ class PetkitSensor(PetkitEntity, SensorEntity):
     def __init__(
         self,
         coordinator: PetkitDataUpdateCoordinator,
-        coordinator_bluetooth: PetkitBluetoothUpdateCoordinator,
         entity_description: PetKitSensorDesc,
         device: PetkitDevices,
     ) -> None:
         """Initialize the binary_sensor class."""
         super().__init__(coordinator, device)
         self.coordinator = coordinator
-        self.coordinator_bluetooth = coordinator_bluetooth
         self.entity_description = entity_description
         self.device = device
 
     @property
     def native_value(self) -> Any:
         """Return the state of the sensor."""
-        if self.entity_description.bluetooth_coordinator:
-            return self.entity_description.value(
-                self.device, self.coordinator_bluetooth
-            )
         device_data = self.coordinator.data.get(self.device.id)
         if device_data:
             return self.entity_description.value(device_data)
@@ -615,6 +625,42 @@ class PetkitSensor(PetkitEntity, SensorEntity):
     @property
     def unique_id(self) -> str:
         """Return a unique ID for the binary_sensor."""
+        return f"{self.device.device_nfo.device_type}_{self.device.sn}_{self.entity_description.key}"
+
+    @property
+    def native_unit_of_measurement(self) -> str | None:
+        """Return the unit of measurement."""
+        return self.entity_description.native_unit_of_measurement
+
+
+class PetkitSensorBt(PetkitEntity, SensorEntity):
+    """Petkit Smart Devices Bluetooth Sensor class."""
+
+    entity_description: PetKitSensorDesc
+
+    def __init__(
+        self,
+        coordinator_bluetooth: PetkitBluetoothUpdateCoordinator,
+        entity_description: PetKitSensorDesc,
+        device: PetkitDevices,
+    ) -> None:
+        """Initialize the Bluetooth sensor class."""
+        super().__init__(coordinator_bluetooth, device)
+        self.coordinator_bluetooth = coordinator_bluetooth
+        self.entity_description = entity_description
+        self.device = device
+
+    @property
+    def native_value(self) -> Any:
+        """Return the state of the Bluetooth sensor."""
+        device_data = self.coordinator_bluetooth.data.get(self.device.id)
+        if device_data:
+            return device_data
+        return None
+
+    @property
+    def unique_id(self) -> str:
+        """Return a unique ID for the Bluetooth sensor."""
         return f"{self.device.device_nfo.device_type}_{self.device.sn}_{self.entity_description.key}"
 
     @property

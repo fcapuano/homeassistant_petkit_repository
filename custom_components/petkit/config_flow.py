@@ -168,7 +168,7 @@ class PetkitOptionsFlowHandler(OptionsFlow):
                                         CONF_SCAN_INTERVAL_BLUETOOTH,
                                         DEFAULT_SCAN_INTERVAL_BLUETOOTH,
                                     ),
-                                ): vol.All(int, vol.Range(min=1, max=120)),
+                                ): vol.All(int, vol.Range(min=5, max=120)),
                             }
                         ),
                         {"collapsed": False},
