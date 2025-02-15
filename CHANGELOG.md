@@ -2,6 +2,19 @@
 
 <!-- version list -->
 
+## v1.8.0 (2025-02-15)
+
+### Other
+
+- Merge branch 'main' into develop
+  ([`2b4422a`](https://github.com/Jezza34000/homeassistant_petkit/commit/2b4422a48df699ffd27f3c2e609fbc9ab379f60d))
+
+- Merge pull request #30 from Jezza34000/develop
+  ([`e0a6ce7`](https://github.com/Jezza34000/homeassistant_petkit/commit/e0a6ce7e1b070067ad2e916a68141b37116713a0))
+
+feat: add smart poll on event, fix bluetooth relay
+
+
 ## v1.7.3 (2025-02-12)
 
 ### Other
