@@ -18,11 +18,11 @@
 - **Bluetooth relay** : Automatically check your fountain over bluetooth relay.
 - **Media** : Access all your media from Petkit devices directly in Home Assistant.
 
-### 🎞️ Video clips :
+#### 🎞️ Video clips :
 
 <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/media_video.png" width="550"/></a>
 
-### 🖼️ Picture gallery :
+#### 🖼️ Picture gallery :
 
 <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/media_image.png" width="550"/></a>
 
@@ -58,7 +58,7 @@
 | **🧴 Purifiers** | ✅ Air Magicube           | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/k2.png" width="40"/></a>         |
 |                  | ✅ Air Smart Spray        | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/k3.png" width="40"/></a>         |
 
-## Feeders special features
+### Feeders special features
 
 Add feeding Schedule card for feeders :
 
