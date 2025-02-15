@@ -34,6 +34,33 @@
 > - 🎞️ Video feature is supported for all devices with camera, **REQUIRE** an active subscription to Care+
 > - 📹 Real-time video stream is **not supported** yet.
 
+#### 🗓️ Feeders schedule :
+
+<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/feed_plan.png"></a>
+
+<details>
+  <summary> <b>How to add & configure the schedule card ?</b> (<i>click to get full detail</i>)</summary>
+  <!---->
+<br/>
+Add this card to your HA with HACS : https://github.com/cristianchelu/dispenser-schedule-card (thanks to @cristianchelu)
+<br/>
+On config card paste this :
+
+```yaml
+type: custom:dispenser-schedule-card
+entity: sensor.MY_FEEDER_NAME_raw_distribution_data
+editable: never
+alternate_unit:
+  unit_of_measurement: g
+  conversion_factor: 10
+  approximate: true
+```
+
+> [!NOTE]
+> Not all feeders support this feature, if you don't have the sensor `raw_distribution_data`, your feeder is not supported. |
+
+</details>
+
 ## ✅ Supported Devices
 
 | **Category**     | **Name**                  | **Device**                                                                                                                                             |
@@ -57,29 +84,6 @@
 |                  | ✅ Eversweet Max          | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/ctw3.png" width="40"/></a>       |
 | **🧴 Purifiers** | ✅ Air Magicube           | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/k2.png" width="40"/></a>         |
 |                  | ✅ Air Smart Spray        | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/k3.png" width="40"/></a>         |
-
-### Feeders special features
-
-Add feeding Schedule card for feeders :
-
-<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/feed_plan.png"></a>
-
-Add this card to your HA with HACS : https://github.com/cristianchelu/dispenser-schedule-card (thanks to @cristianchelu)
-
-On config card paste this :
-
-```yaml
-type: custom:dispenser-schedule-card
-entity: sensor.MY_FEEDER_NAME_raw_distribution_data
-editable: never
-alternate_unit:
-  unit_of_measurement: g
-  conversion_factor: 10
-  approximate: true
-```
-
-> [!NOTE]
-> Not all feeders support this feature, if you don't have the sensor `raw_distribution_data`, your feeder is not supported.
 
 ## 📦 Installation
 
