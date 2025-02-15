@@ -1,6 +1,5 @@
 <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/banner.png"></a>
 
-
 [![GitHub Release][releases-shield]][releases] [![HACS Custom](https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge&color=41BDF5)](https://hacs.xyz/docs/faq/custom_repositories)
 
 ### Need help ? Join us :
@@ -9,11 +8,10 @@
 [![Community Forum][forum-shield]][forum]
 
 ### Enjoying this integration?
+
 [![Sponsor Jezza34000](https://img.shields.io/badge/sponsor-Jezza34000-blue.svg?style=for-the-badge&logo=githubsponsors&color=EA4AAA)](https://github.com/sponsors/Jezza34000) [![Static Badge](https://img.shields.io/badge/Donate-buy_me_a_coffee-yellow.svg?style=for-the-badge&logo=buy-me-a-coffee)](https://buymeacoffee.com/jezza)
 
 ## 🚀 Features
-
----
 
 - **Control** : Control your Petkit devices directly from Home Assistant.
 - **Monitor** : Monitor your devices status, monitor your pet's activity, feeding, drinking, and litter usage.
@@ -36,10 +34,7 @@
 > - 🎞️ Video feature is supported for all devices with camera, **REQUIRE** an active subscription to Care+
 > - 📹 Real-time video stream is **not supported** yet.
 
-
 ## ✅ Supported Devices
-
----
 
 | **Category**     | **Name**                  | **Device**                                                                                                                                             |
 | ---------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -88,8 +83,6 @@ alternate_unit:
 
 ## 📦 Installation
 
----
-
 Via HACS (recommended), click here :
 
 [![Open your Home Assistant instance and open the repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg?style=flat-square)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Jezza34000&repository=homeassistant_petkit&category=integration)
@@ -109,8 +102,6 @@ Or follow these steps:
 11. Follow the instructions to configure the integration
 
 ## 🔧 Basic Setup
-
----
 
 Basic setup is simple, just follow the instructions in the integration setup. \
 You juste need to enter your Petkit account credentials.
@@ -132,7 +123,7 @@ You juste need to enter your Petkit account credentials.
 > 4. Add your secondary Petkit account.
 > 5. Finally, log into the Home Assistant integration using your secondary account.
 
-## ⚙️ Advanced Configuration 
+## ⚙️ Advanced Configuration
 
 **Configuration :**
 
@@ -165,8 +156,6 @@ You juste need to enter your Petkit account credentials.
 
 ## 🌐 Available languages
 
----
-
 This integration is available in the following languages:
 
 - English
@@ -181,13 +170,9 @@ This integration is available in the following languages:
 
 ## 👨‍💻 Contributions are welcome!
 
----
-
 If you want to contribute to this please read the [Contribution guidelines](CONTRIBUTING.md)
 
 ## 🏅 Code quality
-
----
 
 [![GitHub Activity][commits-shield]][commits] ![Project Maintenance][maintenance-shield] [![License][license-shield]](LICENSE)
 
