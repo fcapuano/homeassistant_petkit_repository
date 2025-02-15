@@ -8,7 +8,7 @@ keep = []
 
 
 [tool.ruff]
-required-version = ">=0.6.8"
+required-version = ">=0.9.0"
 
 [tool.ruff.lint]
 select = [
@@ -284,12 +284,14 @@ ignore_files = [
     ".gitattributes",
     ".gitignore",
     ".github/*",
+    "CHANGELOG.md",
     "README.md",
     "CONTRIBUTING.md",
     "LICENSE",
     "images/*",
-    "pre-commit-config.yaml",
+    ".pre-commit-config.yaml",
     "pyproject.toml",
+    "py.typed",
     "sonar-project.properties",
 ]
 

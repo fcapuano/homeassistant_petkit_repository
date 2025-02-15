@@ -2,6 +2,74 @@
 
 <!-- version list -->
 
+## v1.7.3 (2025-02-12)
+
+### Other
+
+- Merge remote-tracking branch 'origin/main'
+  ([`8838368`](https://github.com/Jezza34000/homeassistant_petkit/commit/8838368e1cc50c29288d0dd5b20551c7faa2e025))
+
+
+## v1.7.2 (2025-02-12)
+
+### :arrow_up:
+
+- :arrow_up: bump precommit dependencies
+  ([`e08da85`](https://github.com/Jezza34000/homeassistant_petkit/commit/e08da8586db152c2e91605b729a13239711842d5))
+
+### :wrench:
+
+- :wrench: update semantic release ignore, increase minimal ruff version
+  ([`9c8320a`](https://github.com/Jezza34000/homeassistant_petkit/commit/9c8320aeee77d147deafed18ecc06e57b25946c3))
+
+
+## v1.7.1 (2025-02-11)
+
+### :arrow_up:
+
+- :arrow_up: bump precommit dependencies
+  ([`5f62acb`](https://github.com/Jezza34000/homeassistant_petkit/commit/5f62acb722c1445da4022cb76063e1c685e000bb))
+
+### :wheelchair:
+
+- :wheelchair: add fastpolling for switch action
+  ([`9428959`](https://github.com/Jezza34000/homeassistant_petkit/commit/94289597346d1f279d2a5ff3509685e19eb98b0b))
+
+- :wheelchair: improvement of buttons by activation/deactivation depending on the possibility of the
+  action
+  ([`0d36590`](https://github.com/Jezza34000/homeassistant_petkit/commit/0d36590dc927052099f45bae9c52b3a0462c8721))
+
+### Other
+
+- Merge pull request #29 from Jezza34000/develop
+  ([`328dff6`](https://github.com/Jezza34000/homeassistant_petkit/commit/328dff6de8d0615e113db3fb350da428bba6be73))
+
+:wheelchair: add fastpolling for switch action
+
+
+## v1.7.0 (2025-02-04)
+
+### :arrow_up:
+
+- :arrow_up: bump precommit dependencies
+  ([`f67e8ab`](https://github.com/Jezza34000/homeassistant_petkit/commit/f67e8ab308b5ee24dc1fedfd937f909e8c2cdaaa))
+
+### :memo:
+
+- :memo: add docstring information
+  ([`c199cd0`](https://github.com/Jezza34000/homeassistant_petkit/commit/c199cd009728a9e09d0799a83e309ba464e8b5e2))
+
+### :sparkles:
+
+- :sparkles: add new sensors for litter box
+  ([`5c73fa5`](https://github.com/Jezza34000/homeassistant_petkit/commit/5c73fa519cf00c31a008c8b540fe8cf5651f9701))
+
+### :wrench:
+
+- :wrench: exclude prettier for CHANGELOG.md
+  ([`528f834`](https://github.com/Jezza34000/homeassistant_petkit/commit/528f834859686624284005dab829144862a02faa))
+
+
 ## v1.6.8 (2025-01-28)
 
 ### Other
