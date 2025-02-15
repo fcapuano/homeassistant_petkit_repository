@@ -259,7 +259,7 @@
         "name": "Food left"
       },
       "last_connection": {
-        "name": "Last ble relay connection"
+        "name": "Last BLE connection"
       },
       "last_update": {
         "name": "Last update"

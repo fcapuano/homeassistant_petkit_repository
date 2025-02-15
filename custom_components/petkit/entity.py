@@ -8,12 +8,6 @@ from typing import Any, Generic, TypeVar
 
 from pypetkitapi import Feeder, Litter, Pet, Purifier, WaterFountain
 
-from homeassistant.const import (
-    ATTR_CONNECTIONS,
-    ATTR_HW_VERSION,
-    ATTR_SERIAL_NUMBER,
-    ATTR_SW_VERSION,
-)
 from homeassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, DeviceInfo
 from homeassistant.helpers.entity import EntityDescription
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
@@ -161,17 +155,15 @@ class PetkitEntity(
 
         if not isinstance(self.device, Pet):
             if self.device.mac is not None:
-                device_info[ATTR_CONNECTIONS] = {
-                    (CONNECTION_NETWORK_MAC, self.device.mac)
-                }
+                device_info["connections"] = {(CONNECTION_NETWORK_MAC, self.device.mac)}
 
             if self.device.firmware is not None:
-                device_info[ATTR_SW_VERSION] = str(self.device.firmware)
+                device_info["sw_version"] = str(self.device.firmware)
 
             if self.device.hardware is not None:
-                device_info[ATTR_HW_VERSION] = str(self.device.hardware)
+                device_info["hw_version"] = str(self.device.hardware)
 
             if self.device.sn is not None:
-                device_info[ATTR_SERIAL_NUMBER] = str(self.device.sn)
+                device_info["serial_number"] = str(self.device.sn)
 
         return device_info

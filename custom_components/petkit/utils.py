@@ -8,7 +8,7 @@ from .const import EVENT_MAPPING, LOGGER
 def map_work_state(work_state: WorkState | None) -> str:
     """Get the state of the litter box.
 
-    Use the 'litter_state' translation table to map the state to a human readable string.
+    Use the 'litter_state' translation table to map the state to a human-readable string.
     """
 
     LOGGER.debug(f"Litter map work_state: {work_state}")
@@ -107,7 +107,7 @@ def get_raw_feed_plan(feeder_records_data) -> str | None:
 def map_litter_event(litter_event: list[LitterRecord | None]) -> str | None:
     """Return a description of the last event
 
-    Use the 'litter_last_event' translation table to map the state to a human readable string.
+    Use the 'litter_last_event' translation table to map the state to a human-readable string.
     """
 
     if not isinstance(litter_event, list) or not litter_event:

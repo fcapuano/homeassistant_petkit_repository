@@ -1,8 +1,4 @@
-<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/petkit_logo.png" width="512" height="101"></a>
-
-# Petkit integration for Home Assistant
-
----
+<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/banner.png"></a>
 
 [![GitHub Release][releases-shield]][releases] [![HACS Custom](https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge&color=41BDF5)](https://hacs.xyz/docs/faq/custom_repositories)
 
@@ -11,23 +7,22 @@
 [![Discord][discord-shield]][discord]
 [![Community Forum][forum-shield]][forum]
 
-## Enjoying this integration?
+### Enjoying this integration?
 
 [![Sponsor Jezza34000](https://img.shields.io/badge/sponsor-Jezza34000-blue.svg?style=for-the-badge&logo=githubsponsors&color=EA4AAA)](https://github.com/sponsors/Jezza34000) [![Static Badge](https://img.shields.io/badge/Donate-buy_me_a_coffee-yellow.svg?style=for-the-badge&logo=buy-me-a-coffee)](https://buymeacoffee.com/jezza)
 
----
+## 🚀 Features
 
-## 📣 Video & Image support is Here!
+- **Control** : Control your Petkit devices directly from Home Assistant.
+- **Monitor** : Monitor your devices status, monitor your pet's activity, feeding, drinking, and litter usage.
+- **Bluetooth relay** : Automatically check your fountain over bluetooth relay.
+- **Media** : Access all your media from Petkit devices directly in Home Assistant.
 
-### Access all your media from Petkit devices directly in Home Assistant!
-
-Easily view and manage all your videos and images of your beloved pets right from the Media tab in Home Assistant.
-
-### 🎞️ Video clips :
+#### 🎞️ Video clips :
 
 <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/media_video.png" width="550"/></a>
 
-### 🖼️ Picture gallery :
+#### 🖼️ Picture gallery :
 
 <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/media_image.png" width="550"/></a>
 
@@ -39,9 +34,34 @@ Easily view and manage all your videos and images of your beloved pets right fro
 > - 🎞️ Video feature is supported for all devices with camera, **REQUIRE** an active subscription to Care+
 > - 📹 Real-time video stream is **not supported** yet.
 
----
+#### 🗓️ Feeders schedule :
 
-## Supported Devices
+<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/feed_plan.png"></a>
+
+<details>
+  <summary> <b>How to add & configure the schedule card ?</b> (<i>click to get full detail</i>)</summary>
+  <!---->
+<br/>
+Add this card to your HA with HACS : https://github.com/cristianchelu/dispenser-schedule-card (thanks to @cristianchelu)
+<br/>
+On config card paste this :
+
+```yaml
+type: custom:dispenser-schedule-card
+entity: sensor.MY_FEEDER_NAME_raw_distribution_data
+editable: never
+alternate_unit:
+  unit_of_measurement: g
+  conversion_factor: 10
+  approximate: true
+```
+
+> [!NOTE]
+> Not all feeders support this feature, if you don't have the sensor `raw_distribution_data`, your feeder is not supported. |
+
+</details>
+
+## ✅ Supported Devices
 
 | **Category**     | **Name**                  | **Device**                                                                                                                                             |
 | ---------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -65,30 +85,7 @@ Easily view and manage all your videos and images of your beloved pets right fro
 | **🧴 Purifiers** | ✅ Air Magicube           | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/k2.png" width="40"/></a>         |
 |                  | ✅ Air Smart Spray        | <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/devices/k3.png" width="40"/></a>         |
 
-## Feeders special features
-
-Add feeding Schedule card for feeders :
-
-<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/feed_plan.png"></a>
-
-Add this card to your HA with HACS : https://github.com/cristianchelu/dispenser-schedule-card (thanks to @cristianchelu)
-
-On config card paste this :
-
-```yaml
-type: custom:dispenser-schedule-card
-entity: sensor.MY_FEEDER_NAME_raw_distribution_data
-editable: never
-alternate_unit:
-  unit_of_measurement: g
-  conversion_factor: 10
-  approximate: true
-```
-
-> [!NOTE]
-> Not all feeders support this feature, if you don't have the sensor `raw_distribution_data`, your feeder is not supported.
-
-## Installation
+## 📦 Installation
 
 Via HACS (recommended), click here :
 
@@ -108,7 +105,10 @@ Or follow these steps:
 10. Go to `settings` -> `integrations` -> `add integration` -> search for `Petkit Smart Devices`
 11. Follow the instructions to configure the integration
 
-## Configuration is done in the UI
+## 🔧 Basic Setup
+
+Basic setup is simple, just follow the instructions in the integration setup. \
+You juste need to enter your Petkit account credentials.
 
 > [!IMPORTANT]
 >
@@ -127,9 +127,9 @@ Or follow these steps:
 > 4. Add your secondary Petkit account.
 > 5. Finally, log into the Home Assistant integration using your secondary account.
 
-## Configuration options
+## ⚙️ Advanced Configuration
 
-**Basic configuration :**
+**Configuration :**
 
 - Polling interval : The interval in seconds to poll the Petkit API. (default: 60)
 - Smart poll : Enable adaptative scan to reduce polling interval when device is active or an event is detected. (default: true)
@@ -158,7 +158,7 @@ Or follow these steps:
 
 <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/bt_options.png"/></a>
 
-## Available languages
+## 🌐 Available languages
 
 This integration is available in the following languages:
 
@@ -172,11 +172,11 @@ This integration is available in the following languages:
 
 > Some translations was generated by IA and may not be accurate, if you see any mistake, open a pull request with the correction.
 
-## Contributions are welcome!
+## 👨‍💻 Contributions are welcome!
 
 If you want to contribute to this please read the [Contribution guidelines](CONTRIBUTING.md)
 
-## Code quality
+## 🏅 Code quality
 
 [![GitHub Activity][commits-shield]][commits] ![Project Maintenance][maintenance-shield] [![License][license-shield]](LICENSE)
 
@@ -192,13 +192,11 @@ If you want to contribute to this please read the [Contribution guidelines](CONT
 
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Jezza34000_homeassistant_petkit&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=Jezza34000_homeassistant_petkit) _**KISS : Keep It Simple, Stupid. Less is More**_
 
-## Petkit API client
+### Petkit API client
 
-This repository is based on the client library for the Petkit API, which can be found here : [Jezza34000/py-petkit-api](https://github.com/Jezza34000/py-petkit-api)
+This repository is based on my client library for the Petkit API, which can be found here : [Jezza34000/py-petkit-api](https://github.com/Jezza34000/py-petkit-api)
 
-## Credits
-
-Thanks to :
+### Credits (thanks to)
 
 - @ludeeus for the [integration_blueprint](https://github.com/ludeeus/integration_blueprint) template.
 - @RobertD502 for the great reverse engineering done in this repository which helped a lot [home-assistant-petkit](https://github.com/RobertD502/home-assistant-petkit)
