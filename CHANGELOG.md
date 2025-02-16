@@ -2,6 +2,16 @@
 
 <!-- version list -->
 
+## v1.8.1 (2025-02-16)
+
+### Other
+
+- Update README.md
+  ([`c1593e4`](https://github.com/Jezza34000/homeassistant_petkit/commit/c1593e469388908c7c6cdf100d8ffe3cd03824ec))
+
+reduce image height
+
+
 ## v1.8.0 (2025-02-15)
 
 ### Other
