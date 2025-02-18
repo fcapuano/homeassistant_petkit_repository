@@ -532,6 +532,13 @@
           "on": "mdi:bell-check"
         }
       },
+      "light": {
+        "default": "mdi:lightbulb-outline",
+        "state": {
+          "off": "mdi:lightbulb-off",
+          "on": "mdi:lightbulb-on"
+        }
+      },
       "light_weight": {
         "default": "mdi:feather"
       },
