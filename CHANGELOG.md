@@ -2,6 +2,30 @@
 
 <!-- version list -->
 
+## v1.8.2 (2025-02-18)
+
+### :arrow_up:
+
+- :arrow_up: Bump pypetkitapi from 1.11.3 to 1.11.5
+  ([`ffceea2`](https://github.com/Jezza34000/homeassistant_petkit/commit/ffceea2f0368cad782b3d87e47b65714037f8465))
+
+Bumps [pypetkitapi](https://github.com/Jezza34000/pypetkit) from 1.11.3 to 1.11.5. -
+  [Commits](https://github.com/Jezza34000/pypetkit/commits)
+
+--- updated-dependencies: - dependency-name: pypetkitapi dependency-type: direct:production
+
+update-type: version-update:semver-patch ...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+### Other
+
+- Merge pull request #32 from Jezza34000/dependabot/pip/pypetkitapi-1.11.5
+  ([`ccd0cae`](https://github.com/Jezza34000/homeassistant_petkit/commit/ccd0cae569646d19bed09a314c52cdfc8704833c))
+
+⬆️ Bump pypetkitapi from 1.11.3 to 1.11.5
+
+
 ## v1.8.1 (2025-02-16)
 
 ### Other
