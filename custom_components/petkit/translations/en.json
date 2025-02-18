@@ -281,6 +281,7 @@
           "clean_over": "Clean",
           "deodorant_finished": "Deodorant finished",
           "deodorant_finished_liquid_lack": "Deodorant finished: liquid lack",
+          "light_over": "Light",
           "litter_empty_completed": "Litter empty completed",
           "litter_empty_failed_full": "Litter empty failed: full",
           "litter_empty_failed_hall_l": "Litter empty failed: hall L",
@@ -311,7 +312,8 @@
           "reset_terminated": "Reset terminated",
           "scheduled_cleaning_failed_full": "Scheduled cleaning failed: full",
           "scheduled_cleaning_failed_hall_l": "Scheduled cleaning failed: hall L",
-          "scheduled_cleaning_failed_hall_t": "Scheduled cleaning failed: hall T"
+          "scheduled_cleaning_failed_hall_t": "Scheduled cleaning failed: hall T",
+          "spray_over": "Deodorize"
         }
       },
       "litter_level": {
@@ -503,6 +505,9 @@
       },
       "lack_sand_notify": {
         "name": "Notif on litter shortage"
+      },
+      "light": {
+        "name": "Light"
       },
       "light_weight": {
         "name": "Light Weight"
