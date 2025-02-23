@@ -531,7 +531,7 @@ SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitSensorDesc]] = {
             value=lambda pet: (
                 datetime.fromtimestamp(pet.last_litter_usage)
                 if pet.last_litter_usage != 0
-                else None
+                else "Unknown"
             ),
             restore_state=True,
         ),
