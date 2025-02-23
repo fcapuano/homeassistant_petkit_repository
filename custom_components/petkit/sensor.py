@@ -9,7 +9,9 @@ from typing import TYPE_CHECKING, Any, Callable
 from pypetkitapi import (
     CTW3,
     D4S,
+    DEVICES_LITTER_BOX,
     K2,
+    T3,
     T4,
     T5,
     T6,
@@ -321,6 +323,7 @@ SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitSensorDesc]] = {
             key="Litter last event",
             translation_key="litter_last_event",
             value=lambda device: map_litter_event(device.device_records),
+            force_add=DEVICES_LITTER_BOX,
         ),
         PetKitSensorDesc(
             key="Deodorant left days",
@@ -371,7 +374,7 @@ SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitSensorDesc]] = {
                 if device.device_stats.statistic_info
                 else None
             ),
-            only_for_types=[T4],
+            force_add=[T3, T4],
             restore_state=True,
         ),
         PetKitSensorDesc(
@@ -382,7 +385,7 @@ SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitSensorDesc]] = {
                 if device.device_pet_graph_out
                 else None
             ),
-            only_for_types=[T5, T6],
+            force_add=[T5, T6],
             restore_state=True,
         ),
         PetKitSensorDesc(
