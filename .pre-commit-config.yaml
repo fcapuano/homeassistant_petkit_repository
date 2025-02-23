@@ -39,7 +39,7 @@ repos:
       - id: black
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.9.6
+    rev: v0.9.7
     hooks:
       - id: ruff
         args:
@@ -47,7 +47,7 @@ repos:
     #      - id: ruff-format # Run `ruff-format` conflict with `black`
 
   - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.23.3
+    rev: v8.24.0
     hooks:
       - id: gitleaks
 
