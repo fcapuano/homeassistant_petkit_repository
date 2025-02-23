@@ -338,8 +338,9 @@ SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitSensorDesc]] = {
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=PERCENTAGE,
             value=lambda device: (
-                device.state.liquid
-                if device.state.liquid is not None and 0 <= device.state.liquid <= 100
+                device.k3_device.liquid
+                if device.k3_device.liquid is not None
+                and 0 <= device.k3_device.liquid <= 100
                 else None
             ),
         ),

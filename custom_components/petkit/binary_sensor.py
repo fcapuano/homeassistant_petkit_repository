@@ -52,13 +52,17 @@ COMMON_ENTITIES = [
         key="Liquid empty",
         translation_key="liquid_empty",
         device_class=BinarySensorDeviceClass.PROBLEM,
-        value=lambda device: device.state.liquid_empty,
+        value=lambda device: (
+            device.state.liquid_empty if device.k3_device is not None else None
+        ),
     ),
     PetKitBinarySensorDesc(
         key="Liquid lack",
         translation_key="liquid_lack",
         device_class=BinarySensorDeviceClass.PROBLEM,
-        value=lambda device: device.state.liquid_lack,
+        value=lambda device: (
+            device.state.liquid_lack if device.k3_device is not None else None
+        ),
     ),
 ]
 
