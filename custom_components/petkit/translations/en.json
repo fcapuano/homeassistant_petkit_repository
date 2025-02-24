@@ -303,6 +303,7 @@
           "periodic_odor_completed": "Periodic odor completed",
           "periodic_odor_completed_liquid_lack": "Periodic odor completed: liquid lack",
           "periodic_odor_failed": "Periodic odor failed",
+          "pet_detect": "Pet detected",
           "pet_out": "Pet out",
           "reset_completed": "Reset completed",
           "reset_failed_full": "Reset failed: full",
