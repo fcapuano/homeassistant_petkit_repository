@@ -56,8 +56,7 @@ alternate_unit:
   approximate: true
 ```
 
-> [!NOTE]
-> Not all feeders support this feature, if you don't have the sensor `raw_distribution_data`, your feeder is not supported. |
+> Not all feeders support this feature, if you don't have the sensor `raw_distribution_data`, your feeder is not supported.
 
 </details>
 
