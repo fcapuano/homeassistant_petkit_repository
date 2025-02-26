@@ -1,29 +1,29 @@
-#name: "Semantic Release"
-#
-#on:
-#  push:
-#    branches:
-#      - "main"
-#
-#permissions:
-#  actions: write
-#  contents: write
-#
-#jobs:
-#  changelog:
-#    name: "Python ${{ matrix.python-version }}"
-#    runs-on: "ubuntu-latest"
-#
-#    strategy:
-#      matrix:
-#        python-version: ["3.13"]
-#
-#    steps:
-#      - uses: "actions/checkout@v4"
-#        with:
-#          fetch-depth: 0
-#
-#      - name: Bump version using semantic-release
-#        uses: python-semantic-release/python-semantic-release@master
-#        with:
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
+name: "Semantic Release"
+
+on:
+  push:
+    branches:
+      - "main"
+
+permissions:
+  actions: write
+  contents: write
+
+jobs:
+  changelog:
+    name: "Python ${{ matrix.python-version }}"
+    runs-on: "ubuntu-latest"
+
+    strategy:
+      matrix:
+        python-version: ["3.13"]
+
+    steps:
+      - uses: "actions/checkout@v4"
+        with:
+          fetch-depth: 0
+
+      - name: Bump version using semantic-release
+        uses: python-semantic-release/python-semantic-release@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
