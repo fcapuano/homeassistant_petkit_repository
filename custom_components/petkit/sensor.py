@@ -8,7 +8,9 @@ from typing import TYPE_CHECKING, Any, Callable
 
 from pypetkitapi import (
     CTW3,
+    D4H,
     D4S,
+    D4SH,
     DEVICES_LITTER_BOX,
     K2,
     T3,
@@ -284,6 +286,7 @@ SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitSensorDesc]] = {
             translation_key="raw_distribution_data",
             entity_category=EntityCategory.DIAGNOSTIC,
             value=lambda device: get_raw_feed_plan(device.device_records),
+            force_add=[D4H, D4SH],
         ),
     ],
     Litter: [
@@ -538,7 +541,7 @@ SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitSensorDesc]] = {
             entity_picture=lambda pet: pet.avatar,
             value=lambda pet: (
                 datetime.fromtimestamp(pet.last_litter_usage)
-                if pet.last_litter_usage != 0
+                if pet.last_litter_usage is not None and pet.last_litter_usage != 0
                 else "Unknown"
             ),
             restore_state=True,
@@ -585,6 +588,11 @@ async def async_setup_entry(
         for entity_description in entity_descriptions
         if entity_description.is_supported(device)  # Check if the entity is supported
     ]
+    LOGGER.debug(
+        "SENSOR : Adding %s (on %s available)",
+        len(entities),
+        len(SENSOR_MAPPING.items()),
+    )
     entities_bt = [
         PetkitSensorBt(
             coordinator_bluetooth=entry.runtime_data.coordinator_bluetooth,
@@ -597,6 +605,11 @@ async def async_setup_entry(
         for entity_description in entity_descriptions
         if entity_description.is_supported(device)  # Check if the entity is supported
     ]
+    LOGGER.debug(
+        "SENSOR BT : Adding %s (on %s available)",
+        len(entities_bt),
+        sum(len(descriptors) for descriptors in SENSOR_MAPPING.values()),
+    )
     async_add_entities(entities + entities_bt)
 
 
