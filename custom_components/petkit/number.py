@@ -67,6 +67,7 @@ COMMON_ENTITIES = [
     ),
 ]
 
+
 NUMBER_MAPPING: dict[type[PetkitDevices], list[PetKitNumberDesc]] = {
     Feeder: [
         *COMMON_ENTITIES,
@@ -133,7 +134,24 @@ NUMBER_MAPPING: dict[type[PetkitDevices], list[PetKitNumberDesc]] = {
     ],
     WaterFountain: [*COMMON_ENTITIES],
     Purifier: [*COMMON_ENTITIES],
-    Pet: [*COMMON_ENTITIES],
+    Pet: [
+        *COMMON_ENTITIES,
+        # PetKitNumberDesc(
+        #     key="Pet weight",
+        #     translation_key="pet_weight",
+        #     entity_category=EntityCategory.CONFIG,
+        #     native_min_value=1,
+        #     native_max_value=100,
+        #     native_step=0.1,
+        #     native_unit_of_measurement=UnitOfMass.KILOGRAMS,
+        #     mode=NumberMode.SLIDER,
+        #     native_value=lambda device: device.settings.shortest, # TODO : à recupérer !!!
+        #     action=lambda api, device, value: api.send_api_request(
+        #         device, PetCommand.PET_UPDATE_SETTING, {"weight": int(value)}
+        #     ),
+        #     only_for_types=[PET],
+        # ),
+    ],
 }
 
 

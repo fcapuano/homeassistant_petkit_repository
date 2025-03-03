@@ -119,6 +119,11 @@ async def async_setup_entry(
         for entity_description in entity_descriptions
         if entity_description.is_supported(device)  # Check if the entity is supported
     ]
+    LOGGER.debug(
+        "TEXT : Adding %s (on %s available)",
+        len(entities),
+        sum(len(descriptors) for descriptors in TEXT_MAPPING.values()),
+    )
     async_add_entities(entities)
 
 

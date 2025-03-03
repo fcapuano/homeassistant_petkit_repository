@@ -688,6 +688,11 @@ async def async_setup_entry(
         for entity_description in entity_descriptions
         if entity_description.is_supported(device)  # Check if the entity is supported
     ]
+    LOGGER.debug(
+        "SWITCH : Adding %s (on %s available)",
+        len(entities),
+        sum(len(descriptors) for descriptors in SWITCH_MAPPING.values()),
+    )
     async_add_entities(entities)
 
 
