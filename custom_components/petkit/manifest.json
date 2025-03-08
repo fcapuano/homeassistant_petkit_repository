@@ -1,5 +1,5 @@
 {
-  "domain": "petkit_smart_devices",
+  "domain": "petkit",
   "name": "Petkit Smart Devices",
   "codeowners": ["@Jezza34000"],
   "config_flow": true,
