@@ -3,7 +3,7 @@
 from logging import Logger, getLogger
 
 LOGGER: Logger = getLogger(__package__)
-DOMAIN = "petkit"
+DOMAIN = "petkit_smart_devices"
 COORDINATOR = "coordinator"
 
 # Configuration
