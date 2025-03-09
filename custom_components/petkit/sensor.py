@@ -35,6 +35,7 @@ from homeassistant.const import (
     PERCENTAGE,
     SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
     EntityCategory,
+    UnitOfElectricPotential,
     UnitOfEnergy,
     UnitOfMass,
     UnitOfTemperature,
@@ -441,8 +442,19 @@ SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitSensorDesc]] = {
             entity_category=EntityCategory.DIAGNOSTIC,
             state_class=SensorStateClass.MEASUREMENT,
             value=lambda device: int(
+                ((1.5 * int(device.today_pump_run_time)) / 60) / 3.0
+            ),
+            only_for_types=[CTW3],
+        ),
+        PetKitSensorDesc(
+            key="Purified water",
+            translation_key="purified_water",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            state_class=SensorStateClass.MEASUREMENT,
+            value=lambda device: int(
                 ((1.5 * int(device.today_pump_run_time)) / 60) / 2.0
             ),
+            ignore_types=[CTW3],
         ),
         PetKitSensorDesc(
             key="Drink times",
@@ -462,6 +474,32 @@ SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitSensorDesc]] = {
             device_class=SensorDeviceClass.BATTERY,
             native_unit_of_measurement=PERCENTAGE,
             value=lambda device: device.electricity.battery_percent,
+        ),
+        PetKitSensorDesc(
+            key="Battery voltage",
+            translation_key="battery_voltage",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            device_class=SensorDeviceClass.VOLTAGE,
+            native_unit_of_measurement=UnitOfElectricPotential.VOLT,
+            value=lambda device: (
+                round(device.electricity.battery_voltage / 1000, 1)
+                if isinstance(device.electricity.battery_voltage, (int, float))
+                and device.electricity.battery_voltage > 0
+                else None
+            ),
+        ),
+        PetKitSensorDesc(
+            key="Supply voltage",
+            translation_key="supply_voltage",
+            entity_category=EntityCategory.DIAGNOSTIC,
+            device_class=SensorDeviceClass.VOLTAGE,
+            native_unit_of_measurement=UnitOfElectricPotential.VOLT,
+            value=lambda device: (
+                round(device.electricity.supply_voltage / 1000, 1)
+                if isinstance(device.electricity.supply_voltage, (int, float))
+                and device.electricity.supply_voltage > 0
+                else None
+            ),
         ),
     ],
     Purifier: [
