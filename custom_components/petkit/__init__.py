@@ -24,6 +24,8 @@ from .const import (
     CONF_SCAN_INTERVAL_BLUETOOTH,
     CONF_SCAN_INTERVAL_MEDIA,
     COORDINATOR,
+    COORDINATOR_BLUETOOTH,
+    COORDINATOR_MEDIA,
     DOMAIN,
     LOGGER,
     MEDIA_SECTION,
@@ -113,7 +115,9 @@ async def async_setup_entry(
     if DOMAIN not in hass.data:
         hass.data[DOMAIN] = {}
 
-    hass.data[DOMAIN][COORDINATOR] = coordinator_media
+    hass.data[DOMAIN][COORDINATOR] = coordinator
+    hass.data[DOMAIN][COORDINATOR_MEDIA] = coordinator
+    hass.data[DOMAIN][COORDINATOR_BLUETOOTH] = coordinator
 
     return True
 
