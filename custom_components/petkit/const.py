@@ -5,6 +5,8 @@ from logging import Logger, getLogger
 LOGGER: Logger = getLogger(__package__)
 DOMAIN = "petkit"
 COORDINATOR = "coordinator"
+COORDINATOR_MEDIA = "coordinator_media"
+COORDINATOR_BLUETOOTH = "coordinator_bluetooth"
 
 # Configuration
 CONF_SCAN_INTERVAL_MEDIA = "scan_interval_media"
@@ -113,6 +115,23 @@ MANUAL_FEED_OPT = {
     40: "40g",
     45: "45g",
     50: "50g",
+}
+
+FOUNTAIN_WORKING_MODE_CTW3 = {
+    1: "Standard",
+    2: "Intermittent",
+    3: "Battery",
+}
+
+FOUNTAIN_WORKING_MODE = {
+    1: "Normal",
+    2: "Smart",
+}
+
+LED_BRIGHTNESS = {
+    1: "Low",
+    2: "Normal",
+    3: "High",
 }
 
 # Fan mode
