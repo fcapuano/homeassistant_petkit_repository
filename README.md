@@ -34,12 +34,17 @@
 > - 🎞️ Video feature is supported for all devices with camera, **REQUIRE** an active subscription to Care+
 > - 📹 Real-time video stream is **not supported** yet.
 
-#### 🗓️ Feeders schedule :
+## 💫 Must-have cards to elevate your Petkit dashboard
 
-<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/feed_plan.png"></a>
+- **Schedule card for feeders**
+
+<a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/feed_plan.png" width="400"></a>
+
+➡️ Get it here : [schedule-card] \
+_Thanks to @cristianchelu for this card._
 
 <details>
-  <summary> <b>How to add & configure the schedule card ?</b> (<i>click to get full detail</i>)</summary>
+  <summary> How to configure the schedule card ? (<i>click to get full detail</i>)</summary>
   <!---->
 <br/>
 Add this card to your HA with HACS : https://github.com/cristianchelu/dispenser-schedule-card (thanks to @cristianchelu)
@@ -59,6 +64,13 @@ alternate_unit:
 > Not all feeders support this feature, if you don't have the sensor `raw_distribution_data`, your feeder is not supported.
 
 </details>
+
+- **Petkit devices card**
+
+<a href=""><img src="https://github.com/homeassistant-extras/petkit-device-cards/raw/main/assets/cards.png" width="400"></a>
+
+➡️ Get it here : [petkit-device-cards] \
+_Thanks to @warmfire540 for this card._
 
 ## ✅ Supported Devices
 
@@ -216,3 +228,5 @@ This repository is based on my client library for the Petkit API, which can be f
 [maintenance-shield]: https://img.shields.io/badge/maintainer-Jezza34000-blue.svg?style=flat
 [releases-shield]: https://img.shields.io/github/release/Jezza34000/homeassistant_petkit.svg?style=for-the-badge&color=41BDF5
 [releases]: https://github.com/Jezza34000/homeassistant_petkit/releases
+[petkit-device-cards]: https://github.com/homeassistant-extras/petkit-device-cards
+[schedule-card]: https://github.com/cristianchelu/dispenser-schedule-card
