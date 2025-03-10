@@ -187,7 +187,11 @@ BINARY_SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitBinarySensorDesc]] =
             translation_key="on_ac_power",
             device_class=BinarySensorDeviceClass.POWER,
             entity_category=EntityCategory.DIAGNOSTIC,
-            value=lambda device: None if device.status.electric_status is None else device.status.electric_status > 0,
+            value=lambda device: (
+                None
+                if device.status.electric_status is None
+                else device.status.electric_status > 0
+            ),
         ),
         PetKitBinarySensorDesc(
             key="Do not disturb state",
@@ -198,13 +202,21 @@ BINARY_SENSOR_MAPPING: dict[type[PetkitDevices], list[PetKitBinarySensorDesc]] =
             key="Pet detected",
             translation_key="pet_detected",
             device_class=BinarySensorDeviceClass.OCCUPANCY,
-            value=lambda device: None if device.status.detect_status is None else device.status.detect_status > 0,
+            value=lambda device: (
+                None
+                if device.status.detect_status is None
+                else device.status.detect_status > 0
+            ),
         ),
         PetKitBinarySensorDesc(
             key="Pump running",
             translation_key="pump_running",
             device_class=BinarySensorDeviceClass.RUNNING,
-            value=lambda device: None if device.status.run_status is None else device.status.run_status > 0,
+            value=lambda device: (
+                None
+                if device.status.run_status is None
+                else device.status.run_status > 0
+            ),
         ),
     ],
     Purifier: [*COMMON_ENTITIES],
