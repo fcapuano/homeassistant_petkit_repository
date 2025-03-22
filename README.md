@@ -38,39 +38,39 @@
 
 - **Schedule card for feeders**
 
+  ➡️ Get it here : [schedule-card] \
+   _Thanks to @cristianchelu for this card._
+
+    <details>
+      <summary> How to configure the schedule card ? (<i>click to get full detail</i>)</summary>
+      <!---->
+    <br/>
+    Add this card to your HA with HACS : https://github.com/cristianchelu/dispenser-schedule-card (thanks to @cristianchelu)
+    <br/>
+    On config card paste this :
+    
+    ```yaml
+    type: custom:dispenser-schedule-card
+    entity: sensor.MY_FEEDER_NAME_raw_distribution_data
+    editable: never
+    alternate_unit:
+      unit_of_measurement: g
+      conversion_factor: 10
+      approximate: true
+    ```
+    
+    > Not all feeders support this feature, if you don't have the sensor `raw_distribution_data`, your feeder is not supported.
+    
+    </details>
+
 <a href=""><img src="https://raw.githubusercontent.com/Jezza34000/homeassistant_petkit/refs/heads/main/images/feed_plan.png" width="400"></a>
-
-➡️ Get it here : [schedule-card] \
-_Thanks to @cristianchelu for this card._
-
-<details>
-  <summary> How to configure the schedule card ? (<i>click to get full detail</i>)</summary>
-  <!---->
-<br/>
-Add this card to your HA with HACS : https://github.com/cristianchelu/dispenser-schedule-card (thanks to @cristianchelu)
-<br/>
-On config card paste this :
-
-```yaml
-type: custom:dispenser-schedule-card
-entity: sensor.MY_FEEDER_NAME_raw_distribution_data
-editable: never
-alternate_unit:
-  unit_of_measurement: g
-  conversion_factor: 10
-  approximate: true
-```
-
-> Not all feeders support this feature, if you don't have the sensor `raw_distribution_data`, your feeder is not supported.
-
-</details>
 
 - **Petkit devices card**
 
-<a href=""><img src="https://github.com/homeassistant-extras/petkit-device-cards/raw/main/assets/cards.png" width="400"></a>
+  ➡️ Get it here : [petkit-device-cards] \
+   _Thanks to @warmfire540 for this card._
 
-➡️ Get it here : [petkit-device-cards] \
-_Thanks to @warmfire540 for this card._
+<a href=""><img src="https://github.com/homeassistant-extras/petkit-device-cards/raw/main/assets/cards.png" width="400"></a>
 
 ## ✅ Supported Devices
 
